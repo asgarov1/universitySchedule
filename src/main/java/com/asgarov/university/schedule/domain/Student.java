@@ -1,10 +1,26 @@
 package com.asgarov.university.schedule.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
+@Entity
 public class Student extends Person {
 
+    @Enumerated(EnumType.STRING)
     private Degree degree;
 
     public Student() {
+    }
+
+    public Student(final String firstName, final String lastName, final String email, final String password, Degree degree){
+        super(firstName, lastName, email, password);
+        this.degree=degree;
+    }
+
+    public Student(final String firstName, final String lastName, Degree degree){
+        super(firstName, lastName, lastName.toLowerCase()+"@mail.ru", "pass");
+        this.degree=degree;
     }
 
     @Override
