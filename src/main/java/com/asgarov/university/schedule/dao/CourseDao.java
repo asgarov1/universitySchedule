@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CourseDao extends AbstractDao<Long, Course> {
 
-    private StudentCourseDao studentCourseDao;
     private CourseLectureDao courseLectureDao;
+    private CourseStudentDao courseStudentDao;
 
     @Override protected String getUpdateQuery() {
         return "UPDATE " + tableName() + " SET name = ?, professor_id = ? WHERE id = ?;";
@@ -51,8 +51,8 @@ public class CourseDao extends AbstractDao<Long, Course> {
     }
 
     @Override public void deleteById(final Long id) throws DaoException {
-        CourseLectureDao.deleteByCourseId(id);
-        CourseStudentDao.deleteByCourseId(id);
+        courseLectureDao.deleteByCourseId(id);
+        courseStudentDao.deleteByCourseId(id);
         super.deleteById(id);
     }
 }

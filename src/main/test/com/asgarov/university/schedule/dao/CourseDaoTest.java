@@ -29,7 +29,7 @@ public class CourseDaoTest {
     CourseDao courseDao;
 
     @Test
-    void createCourseShouldWork() throws DaoException {
+    void createShouldWork() throws DaoException {
         Course course = new Course("Biology");
         course.setProfessor(new Professor("Michael", "Michaelson"));
         course.setRegisteredStudents(Arrays.asList(new Student("Johnny", "Depp", Student.Degree.DOCTORATE), new Student("Angelina", "Jolia", Student.Degree.MASTER)));
@@ -42,7 +42,7 @@ public class CourseDaoTest {
     }
 
     @Test
-    void updateCourseShouldWork() throws DaoException {
+    void updateShouldWork() throws DaoException {
         List<Course> courses = courseDao.findAll();
         Course course = courses.get(0);
         course.setName("Docker 101");

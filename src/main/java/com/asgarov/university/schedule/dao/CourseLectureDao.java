@@ -4,21 +4,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
+import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.CourseLecture;
 
 import org.springframework.stereotype.Component;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 @Component
-public class CourseLectureDao extends AbstractDao<Long, CourseLecture> {
-    public static void deleteByCourseId(final Long id) {
-        throw new NotImplementedException();
-    }
-
-    public Long save(final CourseLecture courseLecture) {
-        throw new NotImplementedException();
-    }
+public class CourseLectureDao extends AbstractWithDeleteByCourseDao<Long, CourseLecture> {
 
     @Override protected String getUpdateQuery() {
         return "UPDATE " + tableName() + " SET course_id = ?, lecture_id = ? WHERE id = ?;";
@@ -46,4 +38,13 @@ public class CourseLectureDao extends AbstractDao<Long, CourseLecture> {
         return "Course_Lectures";
     }
 
+    public void deleteByLectureId(final Long id) throws DaoException {
+        if (getJdbcTemplate().update(getDeleteByLectureQuery(), id) == 0) {
+            throw new DaoException("Problem deleting entity");
+        }
+    }
+
+    private String getDeleteByLectureQuery() {
+        return "delete from " + tableName() + " where lecture_id = ?;";
+    }
 }

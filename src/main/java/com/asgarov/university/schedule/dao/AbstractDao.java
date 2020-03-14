@@ -15,9 +15,10 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public abstract class AbstractDao<K extends Number, T> {
+public abstract class AbstractDao<K, T> {
 
     private DataSource dataSource;
+
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -39,7 +40,6 @@ public abstract class AbstractDao<K extends Number, T> {
     protected abstract Object[] updateParameters(T object);
 
     protected abstract String tableName();
-
 
     protected String getFindByIdQuery(K id) {
         return "select * from " + tableName() + " where id = " + id + ";";
@@ -84,4 +84,7 @@ public abstract class AbstractDao<K extends Number, T> {
         return dataSource;
     }
 
+    public JdbcTemplate getJdbcTemplate() {
+        return jdbcTemplate;
+    }
 }
