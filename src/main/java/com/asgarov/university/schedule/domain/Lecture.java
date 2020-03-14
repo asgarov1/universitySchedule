@@ -11,29 +11,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-@Entity
 public class Lecture {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Basic
     private LocalDateTime dateTime;
 
-    @ManyToOne
     private Room location;
-
-    @ManyToOne
-    private Course course;
 
     public Lecture() {
     }
 
-    public Lecture(LocalDateTime dateTime, Room location, Course course) {
+    public Lecture(LocalDateTime dateTime, Room location) {
         this.dateTime = dateTime;
         this.location = location;
-        this.course = course;
     }
 
     public LocalDateTime getDateTime() {
@@ -52,40 +43,33 @@ public class Lecture {
         this.location = location;
     }
 
-    public Course getCourse() {
-        return course;
+    @Override public boolean equals(final Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        final Lecture lecture = (Lecture) o;
+
+        if (!Objects.equals(id, lecture.id))
+            return false;
+        if (!Objects.equals(dateTime, lecture.dateTime))
+            return false;
+        return Objects.equals(location, lecture.location);
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Lecture lecture = (Lecture) o;
-
-        if (!Objects.equals(dateTime, lecture.dateTime)) return false;
-        if (!Objects.equals(location, lecture.location)) return false;
-        return Objects.equals(course, lecture.course);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = dateTime != null ? dateTime.hashCode() : 0;
+    @Override public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (dateTime != null ? dateTime.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
-        result = 31 * result + (course != null ? course.hashCode() : 0);
         return result;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return "Lecture{" +
-                "dateTime=" + dateTime +
+                "id=" + id +
+                ", dateTime=" + dateTime +
                 ", location=" + location +
-                ", course=" + course +
                 '}';
     }
 }

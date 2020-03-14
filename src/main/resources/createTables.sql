@@ -29,13 +29,10 @@ CREATE TABLE `Room` (
 CREATE TABLE `Lecture` (
                            `id` bigint(20) NOT NULL AUTO_INCREMENT,
                            `dateTime` datetime(6) DEFAULT NULL,
-                           `course_id` bigint(20) DEFAULT NULL,
                            `location_id` bigint(20) DEFAULT NULL,
                            PRIMARY KEY (`id`),
-                           KEY `FKw1ikdnmjjv6vo1tx2xgo3sdo` (`course_id`),
                            KEY `FKafvwiqfiveub6cfhouykw9qjp` (`location_id`),
-                           CONSTRAINT `FKafvwiqfiveub6cfhouykw9qjp` FOREIGN KEY (`location_id`) REFERENCES `Room` (`id`),
-                           CONSTRAINT `FKw1ikdnmjjv6vo1tx2xgo3sdo` FOREIGN KEY (`course_id`) REFERENCES `Course` (`id`)
+                           CONSTRAINT `FKafvwiqfiveub6cfhouykw9qjp` FOREIGN KEY (`location_id`) REFERENCES `Room` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `Course_Lectures` (

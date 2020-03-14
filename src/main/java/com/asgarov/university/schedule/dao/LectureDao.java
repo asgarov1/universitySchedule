@@ -4,8 +4,11 @@ import java.util.List;
 
 import com.asgarov.university.schedule.domain.Lecture;
 
+import org.springframework.stereotype.Component;
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+@Component
 public class LectureDao {
     public List<Lecture> findAllByCourseId(final Long id) {
         throw new NotImplementedException();

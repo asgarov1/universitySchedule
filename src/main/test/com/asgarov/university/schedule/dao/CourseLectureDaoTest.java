@@ -8,6 +8,7 @@ import java.util.List;
 import com.asgarov.university.schedule.config.JDBCConfig;
 import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Course;
+import com.asgarov.university.schedule.domain.CourseLecture;
 import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Professor;
 import com.asgarov.university.schedule.domain.Room;
@@ -29,29 +30,35 @@ public class CourseLectureDaoTest {
     @Autowired
     CourseLectureDao courseLectureDao;
 
-//    @Test
-//    void createCourseShouldWork() throws DaoException {
-//        Course course = new Course("Biology");
-//        course.setProfessor(new Professor("Michael", "Michaelson"));
-//        course.setRegisteredStudents(Arrays.asList(new Student("Johnny", "Depp", Student.Degree.DOCTORATE), new Student("Angelina", "Jolia", Student.Degree.MASTER)));
-//        course.setLectures(Collections.singletonList(new Lecture(LocalDateTime.now(), new Room("A322"), course)));
-//
-//        Long courseId = courseDao.create(course);
-//
-//        Course actual = courseDao.findById(courseId);
-//        assertEquals(course.getName(), actual.getName());
-//    }
+    @Autowired
+    CourseDao courseDao;
+
+    @Autowired
+    LectureDao lectureDao;
 
     @Test
-    void updateCourseShouldWork() throws DaoException {
-//        List<Course> courses = courseDao.findAll();
-//        Course course = courses.get(0);
-//        course.setName("Docker 101");
-//
-//        courseDao.update(course);
-//
-//        Course actualCourse = courseDao.findById(course.getId());
-//        assertEquals(course, actualCourse);
+    void createShouldWork() throws DaoException {
+        int size = courseLectureDao.findAll().size();
+
+        Course course = new Course("Biology");
+        course.setProfessor(new Professor("Michael", "Michaelson"));
+        course.setRegisteredStudents(Arrays.asList(new Student("Johnny", "Depp", Student.Degree.DOCTORATE),
+                new Student("Angelina", "Jolia", Student.Degree.MASTER)));
+        course.setLectures(Collections.singletonList(new Lecture(LocalDateTime.now(), new Room("A322"))));
+        Long courseId = courseDao.create(course);
+
+        assertEquals(size+1, courseLectureDao.findAll().size());
+    }
+
+    @Test
+    void updateShouldWork() throws DaoException {
+        CourseLecture courseLecture = courseLectureDao.findAll().get(0);
+        courseLecture.setCourseId(courseLecture.getCourseId() + 1);
+
+        courseLectureDao.update(courseLecture);
+
+        CourseLecture actualCourseLecture = courseLectureDao.findById(courseLecture.getId());
+        assertEquals(courseLecture, actualCourseLecture);
     }
 
     @Test
@@ -61,19 +68,18 @@ public class CourseLectureDaoTest {
 
     @Test
     void findAllShouldWork() {
-//        List<Course> courses = courseDao.findAll();
-//        assertNotNull(courses);
-//        courses.forEach(System.out::println);
+        List<CourseLecture> courses = courseLectureDao.findAll();
+        assertNotNull(courses);
     }
 
     @Test
     void deleteByIdShouldWork() throws DaoException {
-//        List<Course> courses = courseDao.findAll();
-//
-//        Long courseId = courses.get(0).getId();
-//        courseDao.deleteById(courseId);
-//
-//        int expectedSize = courses.size()-1;
-//        assertEquals(expectedSize, courseDao.findAll().size());
+        List<CourseLecture> courses = courseLectureDao.findAll();
+
+        Long id = courses.get(0).getId();
+        courseLectureDao.deleteById(id);
+
+        int expectedSize = courses.size() - 1;
+        assertEquals(expectedSize, courseLectureDao.findAll().size());
     }
 }

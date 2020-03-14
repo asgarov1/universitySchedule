@@ -4,34 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
-import static javax.persistence.CascadeType.ALL;
-
-@Entity
 public class Course {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
     private String name;
 
-    @ManyToMany(cascade = ALL)
     private List<Student> registeredStudents;
 
-    @OneToOne(cascade = ALL)
     private Professor professor;
 
-    @OneToMany(cascade = ALL)
     private List<Lecture> lectures;
 
     public Course() {

@@ -5,14 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 public class DaySchedule {
 
     List<Lecture> lectures = new ArrayList<>();
@@ -51,9 +43,9 @@ public class DaySchedule {
 
         final DaySchedule that = (DaySchedule) o;
 
-        if (lectures != null ? !lectures.equals(that.lectures) : that.lectures != null)
+        if (!Objects.equals(lectures, that.lectures))
             return false;
-        return localDate != null ? localDate.equals(that.localDate) : that.localDate == null;
+        return Objects.equals(localDate, that.localDate);
     }
 
     @Override public int hashCode() {

@@ -33,7 +33,7 @@ public class CourseDaoTest {
         Course course = new Course("Biology");
         course.setProfessor(new Professor("Michael", "Michaelson"));
         course.setRegisteredStudents(Arrays.asList(new Student("Johnny", "Depp", Student.Degree.DOCTORATE), new Student("Angelina", "Jolia", Student.Degree.MASTER)));
-        course.setLectures(Collections.singletonList(new Lecture(LocalDateTime.now(), new Room("A322"), course)));
+        course.setLectures(Collections.singletonList(new Lecture(LocalDateTime.now(), new Room("A322"))));
 
         Long courseId = courseDao.create(course);
 
@@ -62,7 +62,6 @@ public class CourseDaoTest {
     void findAllShouldWork() {
         List<Course> courses = courseDao.findAll();
         assertNotNull(courses);
-        courses.forEach(System.out::println);
     }
 
     @Test

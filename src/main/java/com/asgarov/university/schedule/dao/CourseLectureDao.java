@@ -4,48 +4,46 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
-import com.asgarov.university.schedule.domain.CourseLectures;
+import com.asgarov.university.schedule.domain.CourseLecture;
 
 import org.springframework.stereotype.Component;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @Component
-public class CourseLectureDao extends AbstractDao<Long, CourseLectures> {
+public class CourseLectureDao extends AbstractDao<Long, CourseLecture> {
     public static void deleteByCourseId(final Long id) {
         throw new NotImplementedException();
     }
 
-    public Long save(final CourseLectures courseLecture) {
+    public Long save(final CourseLecture courseLecture) {
         throw new NotImplementedException();
     }
 
     @Override protected String getUpdateQuery() {
-        return null;
+        return "UPDATE " + tableName() + " SET course_id = ?, lecture_id = ? WHERE id = ?;";
     }
 
-    @Override protected String getDeleteQuery() {
-        return null;
-    }
-
-    @Override protected CourseLectures rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
-        CourseLectures courseLecture = new CourseLectures();
+    @Override protected CourseLecture rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
+        CourseLecture courseLecture = new CourseLecture();
         courseLecture.setId(resultSet.getLong("id"));
         courseLecture.setCourseId(resultSet.getLong("course_id"));
         courseLecture.setLectureId(resultSet.getLong("lecture_id"));
         return courseLecture;
     }
 
-    @Override protected Map<String, ?> parameters(final CourseLectures object) {
+    @Override protected Map<String, ?> parameters(final CourseLecture object) {
         return null;
     }
 
-    @Override protected Object[] updateParameters(final CourseLectures object) {
-        return new Object[0];
+    @Override protected Object[] updateParameters(final CourseLecture courseLecture) {
+        return new Object[] {
+                courseLecture.getCourseId(), courseLecture.getLectureId(), courseLecture.getId()
+        };
     }
 
     @Override protected String tableName() {
-        return null;
+        return "Course_Lectures";
     }
 
 }

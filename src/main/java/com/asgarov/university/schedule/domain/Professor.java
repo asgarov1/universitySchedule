@@ -1,8 +1,5 @@
 package com.asgarov.university.schedule.domain;
 
-import javax.persistence.Entity;
-
-@Entity
 public class Professor extends Person {
 
     public Professor() {

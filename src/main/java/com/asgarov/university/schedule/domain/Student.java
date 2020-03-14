@@ -1,13 +1,7 @@
 package com.asgarov.university.schedule.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
-@Entity
 public class Student extends Person {
 
-    @Enumerated(EnumType.STRING)
     private Degree degree;
 
     public Student() {
