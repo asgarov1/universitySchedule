@@ -11,6 +11,10 @@ import org.springframework.jdbc.core.RowMapper;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class CourseLectureDao extends AbstractDao<Long, CourseLecture> {
+    public static void deleteByCourseId(final Long id) {
+        throw new NotImplementedException();
+    }
+
     public Long save(final CourseLecture courseLecture) {
         throw new NotImplementedException();
     }

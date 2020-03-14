@@ -75,7 +75,4 @@ public class CourseDaoTest {
         int expectedSize = courses.size()-1;
         assertEquals(expectedSize, courseDao.findAll().size());
     }
-
-
-
 }

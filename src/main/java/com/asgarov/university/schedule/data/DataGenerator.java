@@ -1,5 +1,6 @@
 package com.asgarov.university.schedule.data;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +8,6 @@ import java.util.Random;
 
 import javax.annotation.PostConstruct;
 
-import com.asgarov.university.schedule.dao.CourseDao;
 import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Course;
 import com.asgarov.university.schedule.domain.Lecture;
@@ -15,38 +15,46 @@ import com.asgarov.university.schedule.domain.Professor;
 import com.asgarov.university.schedule.domain.Room;
 import com.asgarov.university.schedule.domain.Student;
 import com.asgarov.university.schedule.util.HibernateUtil;
+import com.asgarov.university.schedule.util.SQLRunner;
 
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DataGenerator {
 
+    public static final String CREATE_TABLES_SQL = "createTables.sql";
+    private SQLRunner sqlRunner;
+
+    public DataGenerator(final SQLRunner sqlRunner) {
+        this.sqlRunner = sqlRunner;
+    }
+
     @PostConstruct
-    private void init() throws DaoException {
+    private void init() throws IOException {
         //        HibernateUtil.generateTables();
+        sqlRunner.runSQL(CREATE_TABLES_SQL);
 
         try (Session session = HibernateUtil.getHibernateSession()) {
             session.beginTransaction();
 
-            List<Room> rooms = generateRooms("Room A1", "Room A2", "Room A3", "Room A4", "Room B1", "Room B2",
-                    "Room B3", "Room B4");
-            rooms.forEach(session::save);
-
-            List<Student> students = generateStudents("Mark Zukerberg", "Joshua Bloch", "Bill Gates",
-                    "Elon Musk", "Nikola Tesla");
-            students.forEach(session::save);
-
-            List<Professor> professors = generateProfessors("Vasya Pupkin", "Petya Pushkin", "Sema Sirkin",
-                    "Professor Xavier", "Linus Torvalds", "Albus Dumbledore");
-            professors.forEach(session::save);
-
-            generatesCourses(students, rooms, professors, "Informatics 101", "Algorithmic Thinking", "JavaEE",
-                    "C++ in Robotics", "Data Science", "Hacking with Python", "Architecture of Networks",
-                    "Game Development with C#", "Ethical Hacking", "Non-ethical Hacking",
-                    "Programming Architectural Solutions",
-                    "Agile Methodologies").forEach(session::save);
+//            List<Room> rooms = generateRooms("Room A1", "Room A2", "Room A3", "Room A4", "Room B1", "Room B2",
+//                    "Room B3", "Room B4");
+//            rooms.forEach(session::save);
+//
+//            List<Student> students = generateStudents("Mark Zukerberg", "Joshua Bloch", "Bill Gates",
+//                    "Elon Musk", "Nikola Tesla");
+//            students.forEach(session::save);
+//
+//            List<Professor> professors = generateProfessors("Vasya Pupkin", "Petya Pushkin", "Sema Sirkin",
+//                    "Professor Xavier", "Linus Torvalds", "Albus Dumbledore");
+//            professors.forEach(session::save);
+//
+//            generatesCourses(students, rooms, professors, "Informatics 101", "Algorithmic Thinking", "JavaEE",
+//                    "C++ in Robotics", "Data Science", "Hacking with Python", "Architecture of Networks",
+//                    "Game Development with C#", "Ethical Hacking", "Non-ethical Hacking",
+//                    "Programming Architectural Solutions",
+//                    "Agile Methodologies").forEach(session::save);
 
             session.getTransaction().commit();
         }

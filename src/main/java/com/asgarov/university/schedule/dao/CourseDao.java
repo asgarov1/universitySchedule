@@ -52,8 +52,8 @@ public class CourseDao extends AbstractDao<Long, Course> {
     }
 
     @Override public void deleteById(final Long id) throws DaoException {
-//        CourseLectureDao.deleteByCourseId(id);  TODO implement
-//        CourseStudentDao.deleteByCourseId(id);
+        CourseLectureDao.deleteByCourseId(id);
+        CourseStudentDao.deleteByCourseId(id);
         super.deleteById(id);
     }
 }

@@ -13,6 +13,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
 import static javax.persistence.CascadeType.ALL;
 
 @Entity
@@ -26,12 +30,21 @@ public class Course {
     private String name;
 
     @ManyToMany(cascade = ALL)
+//    @GenericGenerator(name="myGenerator",strategy="sequence")
+//    @CollectionId(
+//            columns = @Column(name = "id"),
+//            type = @Type(type = "long"),
+//            generator = "myGenerator")
     private List<Student> registeredStudents;
 
     @OneToOne(cascade = ALL)
     private Professor professor;
 
     @OneToMany(cascade = ALL)
+//    @CollectionId(
+//            columns = @Column(name = "id"),
+//            type = @Type(type = "long"),
+//            generator = "myGenerator")
     private List<Lecture> lectures;
 
     public Course() {
