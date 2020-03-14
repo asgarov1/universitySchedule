@@ -32,9 +32,9 @@ public class Professor extends Person {
         return super.hashCode();
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return "Professor{" +
+                "id=" + id +
                 ", role=" + role +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

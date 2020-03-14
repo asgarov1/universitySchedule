@@ -43,8 +43,7 @@ public class CourseDaoTest {
 
     @Test
     void updateShouldWork() throws DaoException {
-        List<Course> courses = courseDao.findAll();
-        Course course = courses.get(0);
+        Course course = courseDao.findAll().get(0);
         course.setName("Docker 101");
 
         courseDao.update(course);

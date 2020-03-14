@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public abstract class Person {
 
-    private Long id;
+    Long id;
 
     Role role;
 

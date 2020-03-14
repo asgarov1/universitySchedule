@@ -2,44 +2,52 @@ package com.asgarov.university.schedule.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
+import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Professor;
+import com.asgarov.university.schedule.domain.Role;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+@Component
 public class ProfessorDao extends AbstractDao<Long, Professor> {
-    public Professor findById() {
-        throw new NotImplementedException();
-    }
 
     @Override protected String getUpdateQuery() {
-        return null;
-    }
-
-    @Override protected String getDeleteQuery() {
-        return null;
+        return "UPDATE " + tableName() + " SET email = ?, firstName = ?, lastName = ?, password = ?, role = ? WHERE id = ?;";
     }
 
     @Override protected Professor rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
-        return null;
+        Professor professor = new Professor();
+        professor.setId(resultSet.getLong("id"));
+        professor.setEmail(resultSet.getString("email"));
+        professor.setFirstName(resultSet.getString("firstName"));
+        professor.setLastName(resultSet.getString("lastName"));
+        professor.setPassword(resultSet.getString("password"));
+        professor.setRole(Role.valueOf(resultSet.getString("role")));
+        return professor;
     }
 
-    @Override protected Map<String, ?> parameters(final Professor object) {
-        return null;
+    @Override protected Map<String, ?> parameters(final Professor professor) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("id", professor.getId());
+        parameters.put("email", professor.getEmail());
+        parameters.put("firstName", professor.getFirstName());
+        parameters.put("lastName", professor.getLastName());
+        parameters.put("role", professor.getRole().toString());
+        return parameters;
     }
 
-    @Override protected Object[] updateParameters(final Professor object) {
-        return new Object[0];
+    @Override protected Object[] updateParameters(final Professor professor) {
+        return new Object[] { professor.getEmail(), professor.getFirstName(), professor.getLastName(),
+                professor.getPassword(), professor.getRole().toString(), professor.getId() };
     }
 
     @Override protected String tableName() {
-        return null;
-    }
-
-    public Long create(final Professor professor) {
-        throw new NotImplementedException();
+        return "Professor";
     }
 }

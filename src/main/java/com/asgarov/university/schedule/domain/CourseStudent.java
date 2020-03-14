@@ -1,4 +1,4 @@
-package com.asgarov.university.schedule.dao;
+package com.asgarov.university.schedule.domain;
 
 public class CourseStudent {
 
