@@ -1,26 +1,25 @@
 package com.asgarov.university.schedule.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+public class CourseLectures {
 
-@Entity
-public class CourseLecture {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long courseId;
     private Long lectureId;
 
-    public CourseLecture() {
+    public CourseLectures() {
     }
 
-    public CourseLecture(final Long courseId, final Long lectureId) {
+    public CourseLectures(final Long courseId, final Long lectureId) {
         this.courseId = courseId;
         this.lectureId = lectureId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
     }
 
     public Long getCourseId() {
