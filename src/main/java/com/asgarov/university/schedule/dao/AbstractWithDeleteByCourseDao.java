@@ -4,9 +4,7 @@ import com.asgarov.university.schedule.dao.exception.DaoException;
 
 public abstract class AbstractWithDeleteByCourseDao<K, T> extends AbstractDao<K, T> {
     public void deleteByCourseId(final K id) throws DaoException {
-        if (getJdbcTemplate().update(getDeleteByCourseQuery(), id) == 0) {
-            throw new DaoException("Problem deleting entity");
-        }
+        getJdbcTemplate().update(getDeleteByCourseQuery(), id);
     }
 
     private String getDeleteByCourseQuery() {

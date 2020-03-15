@@ -5,11 +5,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import com.asgarov.university.schedule.dao.exception.DaoException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -17,8 +17,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public abstract class AbstractDao<K, T> {
 
+    @Resource(name = "myDataSource")
     private DataSource dataSource;
 
+    @Resource
     private JdbcTemplate jdbcTemplate;
 
     protected abstract String getUpdateQuery();
@@ -62,31 +64,14 @@ public abstract class AbstractDao<K, T> {
     }
 
     public void deleteById(K id) throws DaoException {
-        try {
-            if (jdbcTemplate.update(getDeleteQuery(), id) == 0) {
-                throw new DaoException("Problem deleting entity");
-            }
-        } catch (DaoException e) {
-            // no entity found to delete
-        }
+        jdbcTemplate.update(getDeleteQuery(), id);
     }
 
     public List<T> findAll() {
         return jdbcTemplate.query(getFindAllQuery(), this::rowMapper);
     }
 
-    @Autowired
-    public void setDataSource(final DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
     public JdbcTemplate getJdbcTemplate() {
         return jdbcTemplate;
     }
-
-    @Autowired
-    public void setJdbcTemplate(final JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
 }

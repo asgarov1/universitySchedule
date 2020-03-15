@@ -47,7 +47,7 @@ public class CourseLectureDao extends AbstractWithDeleteByCourseDao<Long, Course
         return "Course_Lectures";
     }
 
-    public void deleteByLectureId(final Long lectureId){
+    public void deleteByLectureId(final Long lectureId) {
         getJdbcTemplate().update(getDeleteByLectureQuery(), lectureId);
     }
 
