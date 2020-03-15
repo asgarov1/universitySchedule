@@ -35,6 +35,7 @@ public class ProfessorDao extends AbstractDao<Long, Professor> {
         parameters.put("email", professor.getEmail());
         parameters.put("firstName", professor.getFirstName());
         parameters.put("lastName", professor.getLastName());
+        parameters.put("password", professor.getPassword());
         parameters.put("role", professor.getRole().toString());
         return parameters;
     }
