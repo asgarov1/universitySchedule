@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.asgarov.university.schedule.config.JDBCConfig;
 import com.asgarov.university.schedule.dao.exception.DaoException;
+import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Professor;
 
 import org.junit.jupiter.api.Test;
@@ -23,14 +24,14 @@ public class ProfessorDaoTest {
     ProfessorDao professorDao;
 
     @Test
-    void createShouldWork() throws DaoException {
+    void createShouldWork() {
         Professor professor = new Professor("John", "Maximilianov");
         Long professorId = professorDao.create(professor);
+        professor.setId(professorId);
 
+        Professor expected = professor;
         Professor actual = professorDao.findById(professorId);
-        assertEquals(professor.getEmail(), actual.getEmail());
-        assertEquals(professor.getFirstName(), actual.getFirstName());
-        assertEquals(professor.getLastName(), actual.getLastName());
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -46,14 +47,17 @@ public class ProfessorDaoTest {
     }
 
     @Test
-    void findByIdShouldWork() {
-        assertNotNull(professorDao.findById(1L));
-    }
-
-    @Test
     void findAllShouldWork() {
         List<Professor> professors = professorDao.findAll();
         assertNotNull(professors);
+    }
+
+    @Test
+    void findByIdShouldWork() {
+        List<Professor> professors = professorDao.findAll();
+        Professor expected = professors.get(0);
+        Professor actual = professorDao.findById(expected.getId());
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -65,7 +69,7 @@ public class ProfessorDaoTest {
 
         professorDao.deleteById(professorId);
 
-        int expectedSize = sizeBeforeDelete-1;
+        int expectedSize = sizeBeforeDelete - 1;
         assertEquals(expectedSize, professorDao.findAll().size());
     }
 }

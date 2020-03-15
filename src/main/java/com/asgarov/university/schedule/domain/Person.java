@@ -5,21 +5,11 @@ import java.util.Objects;
 public abstract class Person {
 
     Long id;
-
     Role role;
-
     String firstName;
-
     String lastName;
-
     String email;
-
     String password;
-
-    {
-        setRole();
-        password = "pass";
-    }
 
     public Person() {
     }
@@ -38,8 +28,6 @@ public abstract class Person {
     public void setId(final Long id) {
         this.id = id;
     }
-
-    abstract void setRole();
 
     public Role getRole() {
         return role;

@@ -2,10 +2,13 @@ package com.asgarov.university.schedule.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import com.asgarov.university.schedule.domain.Professor;
+import com.asgarov.university.schedule.dao.exception.DaoException;
+import com.asgarov.university.schedule.domain.CourseStudent;
 import com.asgarov.university.schedule.domain.Role;
 import com.asgarov.university.schedule.domain.Student;
 
@@ -14,12 +17,19 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class StudentDao extends AbstractDao<Long, Student> {
 
+    private CourseStudentDao courseStudentDao;
+
+    public StudentDao(final CourseStudentDao courseStudentDao) {
+        this.courseStudentDao = courseStudentDao;
+    }
+
     @Override protected String tableName() {
         return "Student";
     }
 
     @Override protected String getUpdateQuery() {
-        return "UPDATE " + tableName() + " SET email = ?, firstName = ?, lastName = ?, password = ?, role = ?, degree = ? WHERE id = ?;";
+        return "UPDATE " + tableName()
+                + " SET email = ?, firstName = ?, lastName = ?, password = ?, role = ?, degree = ? WHERE id = ?;";
     }
 
     @Override protected Student rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
@@ -34,12 +44,13 @@ public class StudentDao extends AbstractDao<Long, Student> {
         return student;
     }
 
-    @Override protected Map<String, ?> parameters(final Student student) {
+    @Override protected Map<String, ?> createParameters(final Student student) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", student.getId());
         parameters.put("email", student.getEmail());
         parameters.put("firstName", student.getFirstName());
         parameters.put("lastName", student.getLastName());
+        parameters.put("password", student.getPassword());
         parameters.put("role", student.getRole().toString());
         parameters.put("degree", student.getDegree().toString());
         return parameters;
@@ -47,6 +58,18 @@ public class StudentDao extends AbstractDao<Long, Student> {
 
     @Override protected Object[] updateParameters(final Student student) {
         return new Object[] { student.getEmail(), student.getFirstName(), student.getLastName(),
-                student.getPassword(), student.getRole().toString(), student.getDegree().toString(), student.getId()};
+                student.getPassword(), student.getRole().toString(), student.getDegree().toString(), student.getId() };
+    }
+
+    @Override public void deleteById(final Long id) throws DaoException {
+        courseStudentDao.deleteByStudentId(id);
+        super.deleteById(id);
+    }
+
+    public List<Student> findAllStudentsByCourseId(final Long courseId) {
+        List<CourseStudent> courseStudentList = courseStudentDao.findAllByCourseId(courseId);
+        List<Student> requestedStudents = new ArrayList<>();
+        courseStudentList.forEach(cs -> requestedStudents.add(findById(cs.getStudentId())));
+        return requestedStudents;
     }
 }

@@ -13,6 +13,7 @@ import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Professor;
 import com.asgarov.university.schedule.domain.Room;
 import com.asgarov.university.schedule.domain.Student;
+import com.asgarov.university.schedule.service.CourseService;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,18 +37,28 @@ public class CourseLectureDaoTest {
     @Autowired
     LectureDao lectureDao;
 
+    @Autowired
+    StudentDao studentDao;
+
+    @Autowired
+    RoomDao roomDao;
+
+    @Autowired CourseService courseService;
+
     @Test
-    void createShouldWork() throws DaoException {
+    void createShouldWork() {
         int size = courseLectureDao.findAll().size();
 
         Course course = new Course("Biology");
         course.setProfessor(new Professor("Michael", "Michaelson"));
-        course.setRegisteredStudents(Arrays.asList(new Student("Johnny", "Depp", Student.Degree.DOCTORATE),
-                new Student("Angelina", "Jolia", Student.Degree.MASTER)));
-        course.setLectures(Collections.singletonList(new Lecture(LocalDateTime.now(), new Room("A322"))));
         Long courseId = courseDao.create(course);
+        course.setId(courseId);
 
-        assertEquals(size+1, courseLectureDao.findAll().size());
+        courseService.registerStudents(course, studentDao.findAll().subList(0, 3));
+        Long lectureId = lectureDao.create(new Lecture(LocalDateTime.now(), roomDao.findAll().get(0)));
+        courseService.scheduleLectures(course, Collections.singletonList(lectureDao.findById(lectureId)));
+
+        assertEquals(size + 1, courseLectureDao.findAll().size());
     }
 
     @Test
@@ -63,23 +74,26 @@ public class CourseLectureDaoTest {
 
     @Test
     void findByIdShouldWork() {
-        assertNotNull(courseLectureDao.findById(1L));
+        List<CourseLecture> courseLectureList = courseLectureDao.findAll();
+        CourseLecture expected = courseLectureList.get(0);
+        CourseLecture actual = courseLectureDao.findById(expected.getId());
+        assertEquals(expected, actual);
     }
 
     @Test
     void findAllShouldWork() {
-        List<CourseLecture> courses = courseLectureDao.findAll();
-        assertNotNull(courses);
+        List<CourseLecture> courseLectureList = courseLectureDao.findAll();
+        assertNotNull(courseLectureList);
     }
 
     @Test
     void deleteByIdShouldWork() throws DaoException {
-        List<CourseLecture> courses = courseLectureDao.findAll();
+        List<CourseLecture> courseLectureList = courseLectureDao.findAll();
 
-        Long id = courses.get(0).getId();
+        Long id = courseLectureList.get(0).getId();
         courseLectureDao.deleteById(id);
 
-        int expectedSize = courses.size() - 1;
+        int expectedSize = courseLectureList.size() - 1;
         assertEquals(expectedSize, courseLectureDao.findAll().size());
     }
 }

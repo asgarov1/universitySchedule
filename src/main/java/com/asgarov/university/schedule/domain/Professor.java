@@ -13,10 +13,7 @@ public class Professor extends Person {
         super(firstName, lastName, lastName.toLowerCase()+"@mail.ru", "pass");
     }
 
-    @Override
-    void setRole() {
-        role = Role.PROFESSOR;
-    }
+    { role = Role.PROFESSOR; }
 
     @Override
     public boolean equals(Object o) {

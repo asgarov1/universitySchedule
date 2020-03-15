@@ -5,20 +5,17 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Professor;
 import com.asgarov.university.schedule.domain.Role;
 
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-@Component
+@Repository
 public class ProfessorDao extends AbstractDao<Long, Professor> {
 
     @Override protected String getUpdateQuery() {
-        return "UPDATE " + tableName() + " SET email = ?, firstName = ?, lastName = ?, password = ?, role = ? WHERE id = ?;";
+        return "UPDATE " + tableName()
+                + " SET email = ?, firstName = ?, lastName = ?, password = ?, role = ? WHERE id = ?;";
     }
 
     @Override protected Professor rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
@@ -32,7 +29,7 @@ public class ProfessorDao extends AbstractDao<Long, Professor> {
         return professor;
     }
 
-    @Override protected Map<String, ?> parameters(final Professor professor) {
+    @Override protected Map<String, ?> createParameters(final Professor professor) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", professor.getId());
         parameters.put("email", professor.getEmail());

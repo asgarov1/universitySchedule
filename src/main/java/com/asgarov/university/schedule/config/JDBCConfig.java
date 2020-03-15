@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,7 +29,6 @@ public class JDBCConfig {
     @Value("${password}")
     private String password;
 
-
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
@@ -49,11 +47,11 @@ public class JDBCConfig {
     }
 
     @Bean
-    public SQLErrorCodeSQLExceptionTranslator SQLExceptionTranslator(){
+    public SQLErrorCodeSQLExceptionTranslator SQLExceptionTranslator() {
         return new SQLErrorCodeSQLExceptionTranslator();
     }
 
-    @Bean public JdbcTemplate jdbcTemplate(){
+    @Bean public JdbcTemplate jdbcTemplate() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
         jdbcTemplate.setDataSource(myDataSource());
         jdbcTemplate.setExceptionTranslator(SQLExceptionTranslator());

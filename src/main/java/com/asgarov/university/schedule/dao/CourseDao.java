@@ -13,8 +13,24 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CourseDao extends AbstractDao<Long, Course> {
 
-    private CourseLectureDao courseLectureDao;
+    private LectureDao lectureDao;
     private CourseStudentDao courseStudentDao;
+    private CourseLectureDao courseLectureDao;
+    private ProfessorDao professorDao;
+    private StudentDao studentDao;
+
+    public CourseDao(
+            final LectureDao lectureDao,
+            final CourseStudentDao courseStudentDao,
+            final CourseLectureDao courseLectureDao,
+            final ProfessorDao professorDao,
+            final StudentDao studentDao) {
+        this.lectureDao = lectureDao;
+        this.courseStudentDao = courseStudentDao;
+        this.courseLectureDao = courseLectureDao;
+        this.professorDao = professorDao;
+        this.studentDao = studentDao;
+    }
 
     @Override protected String getUpdateQuery() {
         return "UPDATE " + tableName() + " SET name = ?, professor_id = ? WHERE id = ?;";
@@ -25,19 +41,19 @@ public class CourseDao extends AbstractDao<Long, Course> {
         course.setId(resultSet.getLong("id"));
         course.setName(resultSet.getString("name"));
 
-        String professorId = resultSet.getString("professor_id");
-        //        course.setProfessor(professorDao.findById());
-        //        course.setLectures(lectureDao.findAllByCourseId(course.getId()));
-        //        course.setRegisteredStudents(studentCourseDao.findAllStudentsByCourseId());
+        Long professorId = resultSet.getLong("professor_id");
+        course.setProfessor(professorDao.findById(professorId));
+        course.setLectures(lectureDao.findAllByCourseId(course.getId()));
+        course.setRegisteredStudents(studentDao.findAllStudentsByCourseId(course.getId()));
 
         return course;
     }
 
     @Override
-    protected Map<String, ?> parameters(Course course) {
+    protected Map<String, ?> createParameters(Course course) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", course.getName());
-        parameters.put("professor_id", 1L); //course.getProfessor().getId()
+        parameters.put("professor_id", course.getProfessor().getId());
         parameters.put("id", course.getId());
         return parameters;
     }
@@ -47,7 +63,7 @@ public class CourseDao extends AbstractDao<Long, Course> {
     }
 
     @Override protected Object[] updateParameters(final Course course) {
-        return new Object[] { course.getName(), course.getProfessor() == null ? 1L : course.getProfessor().getId(), course.getId() };
+        return new Object[] { course.getName(), course.getProfessor().getId(), course.getId() };
     }
 
     @Override public void deleteById(final Long id) throws DaoException {

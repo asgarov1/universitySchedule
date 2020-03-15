@@ -21,21 +21,11 @@ public abstract class AbstractDao<K, T> {
 
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    public void setJdbcTemplate(final JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    @Autowired
-    public void setDataSource(final DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
     protected abstract String getUpdateQuery();
 
     protected abstract T rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException;
 
-    protected abstract Map<String, ?> parameters(T object);
+    protected abstract Map<String, ?> createParameters(T object);
 
     protected abstract Object[] updateParameters(T object);
 
@@ -45,19 +35,20 @@ public abstract class AbstractDao<K, T> {
         return "select * from " + tableName() + " where id = " + id + ";";
     }
 
-    protected String getDeleteQuery() { return "delete from " + tableName() + " where id = ?;"; }
+    protected String getDeleteQuery() {
+        return "delete from " + tableName() + " where id = ?;";
+    }
 
     protected String getFindAllQuery() {
         return "select * from " + tableName() + ";";
     }
 
-
-    public Long create(T object) throws DaoException {
+    public Long create(T object) {
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName(tableName())
                 .usingGeneratedKeyColumns("id");
 
-        return simpleJdbcInsert.executeAndReturnKey(parameters(object)).longValue();
+        return simpleJdbcInsert.executeAndReturnKey(createParameters(object)).longValue();
     }
 
     public T findById(K id) {
@@ -71,8 +62,12 @@ public abstract class AbstractDao<K, T> {
     }
 
     public void deleteById(K id) throws DaoException {
-        if (jdbcTemplate.update(getDeleteQuery(), id) == 0) {
-            throw new DaoException("Problem deleting entity");
+        try {
+            if (jdbcTemplate.update(getDeleteQuery(), id) == 0) {
+                throw new DaoException("Problem deleting entity");
+            }
+        } catch (DaoException e) {
+            // no entity found to delete
         }
     }
 
@@ -80,11 +75,18 @@ public abstract class AbstractDao<K, T> {
         return jdbcTemplate.query(getFindAllQuery(), this::rowMapper);
     }
 
-    public DataSource getDataSource() {
-        return dataSource;
+    @Autowired
+    public void setDataSource(final DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public JdbcTemplate getJdbcTemplate() {
         return jdbcTemplate;
     }
+
+    @Autowired
+    public void setJdbcTemplate(final JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
 }

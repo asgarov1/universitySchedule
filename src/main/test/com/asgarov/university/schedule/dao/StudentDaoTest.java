@@ -24,14 +24,15 @@ public class StudentDaoTest {
     StudentDao studentDao;
 
     @Test
-    void createShouldWork() throws DaoException {
+    void createShouldWork() {
         Student student = new Student("John", "Maximilianov", Student.Degree.MASTER);
         Long studentId = studentDao.create(student);
+        student.setId(studentId);
 
+        Student expected = student;
         Student actual = studentDao.findById(studentId);
-        assertEquals(student.getEmail(), actual.getEmail());
-        assertEquals(student.getFirstName(), actual.getFirstName());
-        assertEquals(student.getLastName(), actual.getLastName());
+
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -47,14 +48,17 @@ public class StudentDaoTest {
     }
 
     @Test
-    void findByIdShouldWork() {
-        assertNotNull(studentDao.findById(1L));
-    }
-
-    @Test
     void findAllShouldWork() {
         List<Student> students = studentDao.findAll();
         assertNotNull(students);
+    }
+
+    @Test
+    void findByIdShouldWork() {
+        List<Student> students = studentDao.findAll();
+        Student expected = students.get(0);
+        Student actual = studentDao.findById(expected.getId());
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -66,7 +70,7 @@ public class StudentDaoTest {
 
         studentDao.deleteById(studentId);
 
-        int expectedSize = sizeBeforeDelete-1;
+        int expectedSize = sizeBeforeDelete - 1;
         assertEquals(expectedSize, studentDao.findAll().size());
     }
 }

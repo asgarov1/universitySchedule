@@ -7,8 +7,7 @@ import java.util.Objects;
 
 public class DaySchedule {
 
-    List<Lecture> lectures = new ArrayList<>();
-
+    private List<Lecture> lectures = new ArrayList<>();
     private LocalDate localDate;
 
     public DaySchedule() {

@@ -7,26 +7,18 @@ import java.util.Objects;
 public class Course {
 
     private Long id;
-
     private String name;
-
-    private List<Student> registeredStudents;
-
+    private List<Student> registeredStudents = new ArrayList<>();;
     private Professor professor;
+    private List<Lecture> lectures = new ArrayList<>();
 
-    private List<Lecture> lectures;
-
-    public Course() {
-    }
+    public Course() {}
 
     public Course(final String name) {
         this.name = name;
     }
 
-    public void registerStudent(Student student) {
-        if (registeredStudents == null) {
-            registeredStudents = new ArrayList<>();
-        }
+    public void addStudent(Student student) {
         registeredStudents.add(student);
     }
 
@@ -68,6 +60,10 @@ public class Course {
 
     public void setLectures(List<Lecture> lectures) {
         this.lectures = lectures;
+    }
+
+    public void addLecture(final Lecture lecture) {
+        lectures.add(lecture);
     }
 
     @Override public boolean equals(final Object o) {

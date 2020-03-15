@@ -1,7 +1,6 @@
 package com.asgarov.university.schedule.dao;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,9 +8,7 @@ import com.asgarov.university.schedule.config.JDBCConfig;
 import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Course;
 import com.asgarov.university.schedule.domain.Lecture;
-import com.asgarov.university.schedule.domain.Professor;
-import com.asgarov.university.schedule.domain.Room;
-import com.asgarov.university.schedule.domain.Student;
+import com.asgarov.university.schedule.service.CourseService;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { JDBCConfig.class })
@@ -28,17 +26,36 @@ public class CourseDaoTest {
     @Autowired
     CourseDao courseDao;
 
-    @Test
-    void createShouldWork() throws DaoException {
-        Course course = new Course("Biology");
-        course.setProfessor(new Professor("Michael", "Michaelson"));
-        course.setRegisteredStudents(Arrays.asList(new Student("Johnny", "Depp", Student.Degree.DOCTORATE), new Student("Angelina", "Jolia", Student.Degree.MASTER)));
-        course.setLectures(Collections.singletonList(new Lecture(LocalDateTime.now(), new Room("A322"))));
+    @Autowired
+    ProfessorDao professorDao;
 
+    @Autowired
+    StudentDao studentDao;
+
+    @Autowired
+    LectureDao lectureDao;
+
+    @Autowired
+    RoomDao roomDao;
+
+    @Autowired CourseService courseService;
+
+    @Test
+    void createShouldWork() {
+        Course course = new Course("Biology");
+        course.setProfessor(professorDao.findAll().get(0));
         Long courseId = courseDao.create(course);
+        course.setId(courseId);
+
+        courseService.registerStudents(course, studentDao.findAll().subList(0, 3));
+        Long lectureId = lectureDao.create(new Lecture(LocalDateTime.now(), roomDao.findAll().get(0)));
+        courseService.scheduleLectures(course, Collections.singletonList(lectureDao.findById(lectureId)));
 
         Course actual = courseDao.findById(courseId);
-        assertEquals(course.getName(), actual.getName());
+
+
+        Course expected = course;
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -54,7 +71,14 @@ public class CourseDaoTest {
 
     @Test
     void findByIdShouldWork() {
-        assertNotNull(courseDao.findById(20L));
+        List<Course> courses = courseDao.findAll();
+        Long courseId = courses.get(0).getId();
+
+        Course expected = courses.get(0);
+        Course actual = courseDao.findById(courseId);
+
+        assertNotNull(actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -70,7 +94,7 @@ public class CourseDaoTest {
         Long courseId = courses.get(0).getId();
         courseDao.deleteById(courseId);
 
-        int expectedSize = courses.size()-1;
+        int expectedSize = courses.size() - 1;
         assertEquals(expectedSize, courseDao.findAll().size());
     }
 }

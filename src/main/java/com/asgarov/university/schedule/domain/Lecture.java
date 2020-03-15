@@ -3,20 +3,10 @@ package com.asgarov.university.schedule.domain;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
 public class Lecture {
 
     private Long id;
-
     private LocalDateTime dateTime;
-
     private Room location;
 
     public Lecture() {

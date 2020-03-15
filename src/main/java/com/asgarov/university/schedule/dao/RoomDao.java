@@ -7,9 +7,9 @@ import java.util.Map;
 
 import com.asgarov.university.schedule.domain.Room;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
+@Repository
 public class RoomDao extends AbstractDao<Long, Room> {
     @Override protected String getUpdateQuery() {
         return "UPDATE " + tableName() + " SET name = ? WHERE id = ?;";
@@ -22,7 +22,7 @@ public class RoomDao extends AbstractDao<Long, Room> {
         return room;
     }
 
-    @Override protected Map<String, ?> parameters(final Room room) {
+    @Override protected Map<String, ?> createParameters(final Room room) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", room.getId());
         parameters.put("name", room.getName());
@@ -30,7 +30,7 @@ public class RoomDao extends AbstractDao<Long, Room> {
     }
 
     @Override protected Object[] updateParameters(final Room room) {
-        return new Object[]{ room.getName(), room.getId() };
+        return new Object[] { room.getName(), room.getId() };
     }
 
     @Override protected String tableName() {

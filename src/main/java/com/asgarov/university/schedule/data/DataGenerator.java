@@ -22,5 +22,4 @@ public class DataGenerator {
         sqlRunner.runSQL(CREATE_TABLES_SQL);
         sqlRunner.runSQL(POPULATE_TABLES_SQL);
     }
-
 }

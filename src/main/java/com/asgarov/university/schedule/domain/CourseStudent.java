@@ -9,15 +9,12 @@ public class CourseStudent {
     public CourseStudent() {
     }
 
-    public CourseStudent(final long id, final long course_id, final long student_id) {
-        this.id = id;
+    public CourseStudent(final long course_id, final long student_id) {
         this.courseId = course_id;
         this.studentId = student_id;
     }
 
-    public long getId() {
-        return id;
-    }
+    public long getId() { return id; }
 
     public void setId(final long id) {
         this.id = id;

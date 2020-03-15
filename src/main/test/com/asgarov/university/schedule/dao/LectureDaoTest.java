@@ -1,17 +1,13 @@
 package com.asgarov.university.schedule.dao;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import com.asgarov.university.schedule.config.JDBCConfig;
 import com.asgarov.university.schedule.dao.exception.DaoException;
-import com.asgarov.university.schedule.domain.Course;
+import com.asgarov.university.schedule.domain.CourseStudent;
 import com.asgarov.university.schedule.domain.Lecture;
-import com.asgarov.university.schedule.domain.Professor;
 import com.asgarov.university.schedule.domain.Room;
-import com.asgarov.university.schedule.domain.Student;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,14 +25,17 @@ public class LectureDaoTest {
     @Autowired
     LectureDao lectureDao;
 
+    @Autowired
+    RoomDao roomDao;
+
     @Test
-    void createShouldWork() throws DaoException {
-        Lecture lecture = new Lecture(LocalDateTime.now().plusDays(2), new Room("A333"));
+    void createShouldWork() {
+        Lecture lecture = new Lecture(LocalDateTime.now().plusDays(2), roomDao.findAll().get(0));
         Long lectureId = lectureDao.create(lecture);
+        lecture.setId(lectureId);
 
         Lecture actual = lectureDao.findById(lectureId);
-        assertEquals(lecture.getDateTime(), actual.getDateTime());
-//        assertEquals(lecture.getLocation(), actual.getLocation());
+        assertEquals(lecture, actual);
     }
 
     @Test
@@ -53,7 +52,10 @@ public class LectureDaoTest {
 
     @Test
     void findByIdShouldWork() {
-        assertNotNull(lectureDao.findById(20L));
+        List<Lecture> lectures = lectureDao.findAll();
+        Lecture expected = lectures.get(0);
+        Lecture actual = lectureDao.findById(expected.getId());
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -69,7 +71,7 @@ public class LectureDaoTest {
         Long lectureId = lectures.get(0).getId();
         lectureDao.deleteById(lectureId);
 
-        int expectedSize = lectures.size()-1;
+        int expectedSize = lectures.size() - 1;
         assertEquals(expectedSize, lectureDao.findAll().size());
     }
 }

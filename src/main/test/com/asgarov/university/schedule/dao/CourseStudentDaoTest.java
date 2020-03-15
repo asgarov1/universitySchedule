@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.asgarov.university.schedule.config.JDBCConfig;
 import com.asgarov.university.schedule.dao.exception.DaoException;
+import com.asgarov.university.schedule.domain.CourseLecture;
 import com.asgarov.university.schedule.domain.CourseStudent;
 import com.asgarov.university.schedule.domain.Student;
 
@@ -26,12 +27,11 @@ public class CourseStudentDaoTest {
     @Autowired
     CourseDao courseDao;
 
-
     @Autowired
     StudentDao studentDao;
 
     @Test
-    void createShouldWork() throws DaoException {
+    void createShouldWork() {
         Long courseId = courseDao.findAll().get(0).getId();
 
         CourseStudent courseStudent = new CourseStudent();
@@ -48,7 +48,7 @@ public class CourseStudentDaoTest {
     @Test
     void updateShouldWork() throws DaoException {
         CourseStudent courseStudent = courseStudentDao.findAll().get(0);
-        courseStudent.setCourseId(courseStudent.getCourseId()+1);
+        courseStudent.setCourseId(courseStudent.getCourseId() + 1);
 
         courseStudentDao.update(courseStudent);
 
@@ -58,7 +58,10 @@ public class CourseStudentDaoTest {
 
     @Test
     void findByIdShouldWork() {
-        assertNotNull(courseStudentDao.findById(13L));
+        List<CourseStudent> courseStudentList = courseStudentDao.findAll();
+        CourseStudent expected = courseStudentList.get(0);
+        CourseStudent actual = courseStudentDao.findById(expected.getId());
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -74,7 +77,8 @@ public class CourseStudentDaoTest {
         Long courseId = courseStudentList.get(0).getId();
         courseStudentDao.deleteById(courseId);
 
-        int expectedSize = courseStudentList.size()-1;
-        assertEquals(expectedSize, courseStudentDao.findAll().size());
+        int expectedSize = courseStudentList.size() - 1;
+        int actual = courseStudentDao.findAll().size();
+        assertEquals(expectedSize, actual);
     }
 }

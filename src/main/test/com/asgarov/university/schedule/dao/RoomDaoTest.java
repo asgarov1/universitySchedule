@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.asgarov.university.schedule.config.JDBCConfig;
 import com.asgarov.university.schedule.dao.exception.DaoException;
+import com.asgarov.university.schedule.domain.Professor;
 import com.asgarov.university.schedule.domain.Room;
 
 import org.junit.jupiter.api.Test;
@@ -23,12 +24,14 @@ public class RoomDaoTest {
     RoomDao roomDao;
 
     @Test
-    void createShouldWork() throws DaoException {
+    void createShouldWork() {
         Room room = new Room("A111");
         Long roomId = roomDao.create(room);
+        room.setId(roomId);
 
+        Room expected = room;
         Room actual = roomDao.findById(roomId);
-        assertEquals(room.getName(), actual.getName());
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -43,14 +46,17 @@ public class RoomDaoTest {
     }
 
     @Test
-    void findByIdShouldWork() {
-        assertNotNull(roomDao.findById(1L));
-    }
-
-    @Test
     void findAllShouldWork() {
         List<Room> rooms = roomDao.findAll();
         assertNotNull(rooms);
+    }
+
+    @Test
+    void findByIdShouldWork() {
+        List<Room> rooms = roomDao.findAll();
+        Room expected = rooms.get(0);
+        Room actual = roomDao.findById(expected.getId());
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -62,7 +68,7 @@ public class RoomDaoTest {
 
         roomDao.deleteById(professorId);
 
-        int expectedSize = sizeBeforeDelete-1;
+        int expectedSize = sizeBeforeDelete - 1;
         assertEquals(expectedSize, roomDao.findAll().size());
     }
 }
