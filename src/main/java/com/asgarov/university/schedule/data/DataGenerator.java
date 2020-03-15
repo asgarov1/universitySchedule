@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class DataGenerator {
 
-    public static final String CREATE_TABLES_SQL = "createTables.sql";
-    public static final String POPULATE_TABLES_SQL = "populateTables.sql";
+    public static final String CREATE_TABLES_SQL = "sql/createTables.sql";
+    public static final String POPULATE_TABLES_SQL = "sql/populateTables.sql";
     private SQLRunner sqlRunner;
 
     public DataGenerator(final SQLRunner sqlRunner) {
