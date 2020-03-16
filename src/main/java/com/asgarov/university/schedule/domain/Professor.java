@@ -2,6 +2,10 @@ package com.asgarov.university.schedule.domain;
 
 public class Professor extends Person {
 
+    {
+        role = Role.PROFESSOR;
+    }
+
     public Professor() {
     }
 
@@ -10,10 +14,8 @@ public class Professor extends Person {
     }
 
     public Professor(final String firstName, final String lastName) {
-        super(firstName, lastName, lastName.toLowerCase()+"@mail.ru", "pass");
+        super(firstName, lastName, lastName.toLowerCase() + "@mail.ru", "pass");
     }
-
-    { role = Role.PROFESSOR; }
 
     @Override
     public boolean equals(Object o) {
@@ -29,7 +31,8 @@ public class Professor extends Person {
         return super.hashCode();
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "Professor{" +
                 "id=" + id +
                 ", role=" + role +

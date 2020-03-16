@@ -17,11 +17,13 @@ public class CourseLectureDao extends AbstractWithDeleteByCourseDao<Long, Course
         return "select * from " + tableName() + " where course_id = " + courseId + ";";
     }
 
-    @Override protected String getUpdateQuery() {
+    @Override
+    protected String getUpdateQuery() {
         return "UPDATE " + tableName() + " SET course_id = ?, lecture_id = ? WHERE id = ?;";
     }
 
-    @Override protected CourseLecture rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
+    @Override
+    protected CourseLecture rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
         CourseLecture courseLecture = new CourseLecture();
         courseLecture.setId(resultSet.getLong("id"));
         courseLecture.setCourseId(resultSet.getLong("course_id"));
@@ -29,7 +31,8 @@ public class CourseLectureDao extends AbstractWithDeleteByCourseDao<Long, Course
         return courseLecture;
     }
 
-    @Override protected Map<String, ?> createParameters(final CourseLecture courseLecture) {
+    @Override
+    protected Map<String, ?> createParameters(final CourseLecture courseLecture) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", courseLecture.getId());
         parameters.put("course_id", courseLecture.getCourseId());
@@ -37,14 +40,16 @@ public class CourseLectureDao extends AbstractWithDeleteByCourseDao<Long, Course
         return parameters;
     }
 
-    @Override protected Object[] updateParameters(final CourseLecture courseLecture) {
+    @Override
+    protected Object[] updateParameters(final CourseLecture courseLecture) {
         return new Object[] {
                 courseLecture.getCourseId(), courseLecture.getLectureId(), courseLecture.getId()
         };
     }
 
-    @Override protected String tableName() {
-        return "Course_Lectures";
+    @Override
+    protected String tableName() {
+        return "course_lectures";
     }
 
     public void deleteByLectureId(final Long lectureId) {

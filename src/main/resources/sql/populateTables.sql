@@ -1,25 +1,25 @@
-LOCK TABLES `Professor` WRITE;
-/*!40000 ALTER TABLE `Professor` DISABLE KEYS */;
-INSERT INTO `Professor` VALUES (1,'pupkin@mail.ru','Vasya','Pupkin','pass','PROFESSOR'),(2,'pushkin@mail.ru','Petya','Pushkin','pass','PROFESSOR'),(3,'sirkin@mail.ru','Sema','Sirkin','pass','PROFESSOR'),(4,'xavier@mail.ru','Professor','Xavier','pass','PROFESSOR'),(5,'torvalds@mail.ru','Linus','Torvalds','pass','PROFESSOR'),(6,'dumbledore@mail.ru','Albus','Dumbledore','pass','PROFESSOR');
-/*!40000 ALTER TABLE `Professor` ENABLE KEYS */;
+LOCK TABLES `professor` WRITE;
+/*!40000 ALTER TABLE `professor` DISABLE KEYS */;
+INSERT INTO `professor` VALUES (1,'pupkin@mail.ru','Vasya','Pupkin','pass','PROFESSOR'),(2,'pushkin@mail.ru','Petya','Pushkin','pass','PROFESSOR'),(3,'sirkin@mail.ru','Sema','Sirkin','pass','PROFESSOR'),(4,'xavier@mail.ru','Professor','Xavier','pass','PROFESSOR'),(5,'torvalds@mail.ru','Linus','Torvalds','pass','PROFESSOR'),(6,'dumbledore@mail.ru','Albus','Dumbledore','pass','PROFESSOR');
+/*!40000 ALTER TABLE `professor` ENABLE KEYS */;
 UNLOCK TABLES;
 
-LOCK TABLES `Course` WRITE;
-/*!40000 ALTER TABLE `Course` DISABLE KEYS */;
-INSERT INTO `Course` VALUES (1,'Informatics 101',1),(2,'Algorithmic Thinking',2),(3,'JavaEE',1),(4,'C++ in Robotics',3),(5,'Data Science',1),(6,'Hacking with Python',2),(7,'Architecture of Networks',1),(8,'Game Development with C#',4),(9,'Ethical Hacking',2),(10,'Non-ethical Hacking',3),(11,'Programming Architectural Solutions',3),(12,'Agile Methodologies',5),(13,'Biology',1);
-/*!40000 ALTER TABLE `Course` ENABLE KEYS */;
+LOCK TABLES `course` WRITE;
+/*!40000 ALTER TABLE `course` DISABLE KEYS */;
+INSERT INTO `course` VALUES (1,'Informatics 101',1),(2,'Algorithmic Thinking',2),(3,'JavaEE',1),(4,'C++ in Robotics',3),(5,'Data Science',1),(6,'Hacking with Python',2),(7,'Architecture of Networks',1),(8,'Game Development with C#',4),(9,'Ethical Hacking',2),(10,'Non-ethical Hacking',3),(11,'Programming Architectural Solutions',3),(12,'Agile Methodologies',5),(13,'Biology',1);
+/*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-LOCK TABLES `Room` WRITE;
-/*!40000 ALTER TABLE `Room` DISABLE KEYS */;
-INSERT INTO `Room` VALUES (1,'Room A1'),(2,'Room A2'),(3,'Room A3'),(4,'Room A4'),(5,'Room B1'),(6,'Room B2'),(7,'Room B3'),(8,'Room B4');
-/*!40000 ALTER TABLE `Room` ENABLE KEYS */;
+LOCK TABLES `room` WRITE;
+/*!40000 ALTER TABLE `room` DISABLE KEYS */;
+INSERT INTO `room` VALUES (1,'Room A1'),(2,'Room A2'),(3,'Room A3'),(4,'Room A4'),(5,'Room B1'),(6,'Room B2'),(7,'Room B3'),(8,'Room B4');
+/*!40000 ALTER TABLE `room` ENABLE KEYS */;
 UNLOCK TABLES;
 
-LOCK TABLES `Lecture` WRITE;
-/*!40000 ALTER TABLE `Lecture` DISABLE KEYS */;
-INSERT INTO `Lecture` VALUES (1,'2020-04-01 11:22:50.701000', 2),
+LOCK TABLES `lecture` WRITE;
+/*!40000 ALTER TABLE `lecture` DISABLE KEYS */;
+INSERT INTO `lecture` VALUES (1,'2020-04-01 11:22:50.701000', 2),
                              (2,'2020-04-02 09:22:50.702000', 1),
                              (3,'2020-03-27 15:22:50.702000', 7),
                              (4,'2020-03-23 14:22:50.702000', 2),
@@ -162,13 +162,13 @@ INSERT INTO `Lecture` VALUES (1,'2020-04-01 11:22:50.701000', 2),
                              (141,'2020-04-06 09:22:50.704000',5),
                              (142,'2020-03-17 11:22:50.704000',1),
                              (143,'2020-03-24 13:22:50.704000',4),(144,'2020-04-11 11:22:50.704000',2);
-/*!40000 ALTER TABLE `Lecture` ENABLE KEYS */;
+/*!40000 ALTER TABLE `lecture` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-LOCK TABLES `Course_Lectures` WRITE;
-/*!40000 ALTER TABLE `Course_Lectures` DISABLE KEYS */;
-INSERT INTO `Course_Lectures` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,1,6),(7,1,7),(8,1,8),(9,1,9),(10,1,10),(11,1,11),(12,1,12),
+LOCK TABLES `course_lectures` WRITE;
+/*!40000 ALTER TABLE `course_lectures` DISABLE KEYS */;
+INSERT INTO `course_lectures` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,1,6),(7,1,7),(8,1,8),(9,1,9),(10,1,10),(11,1,11),(12,1,12),
                                      (14,2,13),(15,2,14),(16,2,15),(17,2,16),(18,2,17),(19,2,18),(20,2,19),(21,2,20),(22,2,21),(23,2,22),(24,2,23),
                                      (25,3,24),(27,3,25),(28,3,26),(29,3,27),(30,3,28),(31,3,29),(32,3,30),(33,3,31),(34,3,32),(35,3,33),(36,3,34),(37,3,35),(38,3,36),
                                      (41,4,37),(42,4,38),(43,4,39),(44,4,40),(45,4,41),(46,4,42),(47,4,43),(48,4,44),(49,4,45),(50,4,46),(51,4,47),(52,4,48),
@@ -180,20 +180,20 @@ INSERT INTO `Course_Lectures` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,
                                      (128,10,109),(129,10,110),(130,10,111),(131,10,112),(132,10,113),(133,10,114),(134,10,115),(135,10,116),(136,10,117),(137,10,118),(138,10,119),(139,10,120),
                                      (143,11,121),(144,11,122),(145,11,123),(146,11,124),(147,11,125),(148,11,126),(149,11,127),(150,11,128),(151,11,129),(152,11,130),(153,11,131),(154,11,132),
                                      (157,12,133),(158,12,134),(159,12,135),(160,12,136),(161,12,137),(162,12,138),(163,12,139),(164,12,140),(165,12,141),(166,12,142),(167,12,143),(168,12,144);
-/*!40000 ALTER TABLE `Course_Lectures` ENABLE KEYS */;
+/*!40000 ALTER TABLE `course_lectures` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-LOCK TABLES `Student` WRITE;
-/*!40000 ALTER TABLE `Student` DISABLE KEYS */;
-INSERT INTO `Student` VALUES (1,'zukerberg@mail.ru','Mark','Zukerberg','pass','STUDENT','DOCTORATE'),(2,'bloch@mail.ru','Joshua','Bloch','pass','STUDENT','DOCTORATE'),(3,'gates@mail.ru','Bill','Gates','pass','STUDENT','BACHELOR'),(4,'musk@mail.ru','Elon','Musk','pass','STUDENT','BACHELOR'),(5,'tesla@mail.ru','Nikola','Tesla','pass','STUDENT','BACHELOR');
-/*!40000 ALTER TABLE `Student` ENABLE KEYS */;
+LOCK TABLES `student` WRITE;
+/*!40000 ALTER TABLE `student` DISABLE KEYS */;
+INSERT INTO `student` VALUES (1,'zukerberg@mail.ru','Mark','Zukerberg','pass','STUDENT','DOCTORATE'),(2,'bloch@mail.ru','Joshua','Bloch','pass','STUDENT','DOCTORATE'),(3,'gates@mail.ru','Bill','Gates','pass','STUDENT','BACHELOR'),(4,'musk@mail.ru','Elon','Musk','pass','STUDENT','BACHELOR'),(5,'tesla@mail.ru','Nikola','Tesla','pass','STUDENT','BACHELOR');
+/*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-LOCK TABLES `Courses_Students` WRITE;
-/*!40000 ALTER TABLE `Courses_Students` DISABLE KEYS */;
-INSERT INTO `Courses_Students` VALUES (13,1,2),
+LOCK TABLES `courses_students` WRITE;
+/*!40000 ALTER TABLE `courses_students` DISABLE KEYS */;
+INSERT INTO `courses_students` VALUES (13,1,2),
                                       (26,2,4),
                                       (39,3,3),
                                       (40,3,4),
@@ -217,5 +217,5 @@ INSERT INTO `Courses_Students` VALUES (13,1,2),
                                       (142,10,5),
                                       (155,11,1),
                                       (156,11,5);
-/*!40000 ALTER TABLE `Courses_Students` ENABLE KEYS */;
+/*!40000 ALTER TABLE `courses_students` ENABLE KEYS */;
 UNLOCK TABLES;

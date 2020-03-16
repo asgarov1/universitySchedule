@@ -40,7 +40,8 @@ public class CourseLecture {
         this.lectureId = lectureId;
     }
 
-    @Override public boolean equals(final Object o) {
+    @Override
+    public boolean equals(final Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
@@ -55,14 +56,16 @@ public class CourseLecture {
         return Objects.equals(lectureId, that.lectureId);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (courseId != null ? courseId.hashCode() : 0);
         result = 31 * result + (lectureId != null ? lectureId.hashCode() : 0);
         return result;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "CourseLectures{" +
                 "id=" + id +
                 ", courseId=" + courseId +

@@ -34,7 +34,8 @@ public class DaySchedule {
         this.lectures = lectures;
     }
 
-    @Override public boolean equals(final Object o) {
+    @Override
+    public boolean equals(final Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
@@ -47,13 +48,15 @@ public class DaySchedule {
         return Objects.equals(localDate, that.localDate);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         int result = lectures != null ? lectures.hashCode() : 0;
         result = 31 * result + (localDate != null ? localDate.hashCode() : 0);
         return result;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "DaySchedule{" +
                 "lectures=" + lectures +
                 ", localDate=" + localDate +

@@ -38,7 +38,8 @@ public class CourseDaoTest {
     @Autowired
     RoomDao roomDao;
 
-    @Autowired CourseService courseService;
+    @Autowired
+    CourseService courseService;
 
     @Test
     void createShouldWork() {

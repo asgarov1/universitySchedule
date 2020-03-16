@@ -30,11 +30,13 @@ public class LectureDao extends AbstractDao<Long, Lecture> {
         this.courseLectureDao = courseLectureDao;
     }
 
-    @Override protected String getUpdateQuery() {
+    @Override
+    protected String getUpdateQuery() {
         return "UPDATE " + tableName() + " SET dateTime = ?, location_id = ? WHERE id = ?;";
     }
 
-    @Override protected Lecture rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
+    @Override
+    protected Lecture rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
         Lecture lecture = new Lecture();
         lecture.setId(resultSet.getLong("id"));
         lecture.setDateTime(resultSet.getTimestamp("dateTime").toLocalDateTime());
@@ -42,7 +44,8 @@ public class LectureDao extends AbstractDao<Long, Lecture> {
         return lecture;
     }
 
-    @Override protected Map<String, ?> createParameters(final Lecture lecture) {
+    @Override
+    protected Map<String, ?> createParameters(final Lecture lecture) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", lecture.getId());
         parameters.put("dateTime", lecture.getDateTime());
@@ -50,12 +53,14 @@ public class LectureDao extends AbstractDao<Long, Lecture> {
         return parameters;
     }
 
-    @Override protected Object[] updateParameters(final Lecture lecture) {
+    @Override
+    protected Object[] updateParameters(final Lecture lecture) {
         return new Object[] { lecture.getDateTime(), lecture.getLocation().getId(), lecture.getId() };
     }
 
-    @Override protected String tableName() {
-        return "Lecture";
+    @Override
+    protected String tableName() {
+        return "lecture";
     }
 
     public void deleteById(Long id) throws DaoException {

@@ -21,6 +21,5 @@ public class SQLRunner {
         ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator(resource);
         databasePopulator.execute(dataSource);
     }
-
 }
 

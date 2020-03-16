@@ -32,11 +32,13 @@ public class CourseDao extends AbstractDao<Long, Course> {
         this.studentDao = studentDao;
     }
 
-    @Override protected String getUpdateQuery() {
+    @Override
+    protected String getUpdateQuery() {
         return "UPDATE " + tableName() + " SET name = ?, professor_id = ? WHERE id = ?;";
     }
 
-    @Override protected Course rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
+    @Override
+    protected Course rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
         Course course = new Course();
         course.setId(resultSet.getLong("id"));
         course.setName(resultSet.getString("name"));
@@ -58,15 +60,18 @@ public class CourseDao extends AbstractDao<Long, Course> {
         return parameters;
     }
 
-    @Override protected String tableName() {
-        return "Course";
+    @Override
+    protected String tableName() {
+        return "course";
     }
 
-    @Override protected Object[] updateParameters(final Course course) {
+    @Override
+    protected Object[] updateParameters(final Course course) {
         return new Object[] { course.getName(), course.getProfessor().getId(), course.getId() };
     }
 
-    @Override public void deleteById(final Long id) throws DaoException {
+    @Override
+    public void deleteById(final Long id) throws DaoException {
         courseLectureDao.deleteByCourseId(id);
         courseStudentDao.deleteByCourseId(id);
         super.deleteById(id);

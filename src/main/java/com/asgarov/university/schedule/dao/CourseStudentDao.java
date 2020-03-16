@@ -13,11 +13,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CourseStudentDao extends AbstractWithDeleteByCourseDao<Long, CourseStudent> {
 
-    @Override protected String getUpdateQuery() {
+    @Override
+    protected String getUpdateQuery() {
         return "UPDATE " + tableName() + " SET course_id = ?, student_id = ? WHERE id = ?;";
     }
 
-    @Override protected CourseStudent rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
+    @Override
+    protected CourseStudent rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
         CourseStudent courseStudent = new CourseStudent();
         courseStudent.setId(resultSet.getLong("id"));
         courseStudent.setCourseId(resultSet.getLong("course_id"));
@@ -25,7 +27,8 @@ public class CourseStudentDao extends AbstractWithDeleteByCourseDao<Long, Course
         return courseStudent;
     }
 
-    @Override protected Map<String, ?> createParameters(final CourseStudent courseStudent) {
+    @Override
+    protected Map<String, ?> createParameters(final CourseStudent courseStudent) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", courseStudent.getId());
         parameters.put("course_id", courseStudent.getCourseId());
@@ -33,12 +36,14 @@ public class CourseStudentDao extends AbstractWithDeleteByCourseDao<Long, Course
         return parameters;
     }
 
-    @Override protected Object[] updateParameters(final CourseStudent courseStudent) {
+    @Override
+    protected Object[] updateParameters(final CourseStudent courseStudent) {
         return new Object[] { courseStudent.getCourseId(), courseStudent.getStudentId(), courseStudent.getId() };
     }
 
-    @Override protected String tableName() {
-        return "Courses_Students";
+    @Override
+    protected String tableName() {
+        return "courses_students";
     }
 
     public List<CourseStudent> findAllByCourseId(final Long courseId) {

@@ -41,7 +41,8 @@ public class Lecture {
         this.location = location;
     }
 
-    @Override public boolean equals(final Object o) {
+    @Override
+    public boolean equals(final Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
@@ -56,14 +57,16 @@ public class Lecture {
         return Objects.equals(location, lecture.location);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (dateTime != null ? dateTime.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
         return result;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "Lecture{" +
                 "id=" + id +
                 ", dateTime=" + dateTime +

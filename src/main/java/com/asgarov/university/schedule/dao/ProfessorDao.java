@@ -13,12 +13,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ProfessorDao extends AbstractDao<Long, Professor> {
 
-    @Override protected String getUpdateQuery() {
+    @Override
+    protected String getUpdateQuery() {
         return "UPDATE " + tableName()
                 + " SET email = ?, firstName = ?, lastName = ?, password = ?, role = ? WHERE id = ?;";
     }
 
-    @Override protected Professor rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
+    @Override
+    protected Professor rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
         Professor professor = new Professor();
         professor.setId(resultSet.getLong("id"));
         professor.setEmail(resultSet.getString("email"));
@@ -29,7 +31,8 @@ public class ProfessorDao extends AbstractDao<Long, Professor> {
         return professor;
     }
 
-    @Override protected Map<String, ?> createParameters(final Professor professor) {
+    @Override
+    protected Map<String, ?> createParameters(final Professor professor) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", professor.getId());
         parameters.put("email", professor.getEmail());
@@ -40,12 +43,14 @@ public class ProfessorDao extends AbstractDao<Long, Professor> {
         return parameters;
     }
 
-    @Override protected Object[] updateParameters(final Professor professor) {
+    @Override
+    protected Object[] updateParameters(final Professor professor) {
         return new Object[] { professor.getEmail(), professor.getFirstName(), professor.getLastName(),
                 professor.getPassword(), professor.getRole().toString(), professor.getId() };
     }
 
-    @Override protected String tableName() {
-        return "Professor";
+    @Override
+    protected String tableName() {
+        return "professor";
     }
 }

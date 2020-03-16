@@ -69,7 +69,8 @@ public abstract class Person {
         this.password = password;
     }
 
-    @Override public boolean equals(final Object o) {
+    @Override
+    public boolean equals(final Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
@@ -90,7 +91,8 @@ public abstract class Person {
         return Objects.equals(password, person.password);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (role != null ? role.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
@@ -100,7 +102,8 @@ public abstract class Person {
         return result;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "Person{" +
                 "id=" + id +
                 ", role=" + role +

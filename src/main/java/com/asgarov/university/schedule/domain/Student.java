@@ -4,6 +4,10 @@ public class Student extends Person {
 
     private Degree degree;
 
+    {
+        role = Role.STUDENT;
+    }
+
     public Student() {
     }
 
@@ -21,8 +25,6 @@ public class Student extends Person {
         super(firstName, lastName, lastName.toLowerCase() + "@mail.ru", "pass");
         this.degree = degree;
     }
-
-    { role = Role.STUDENT; }
 
     public Degree getDegree() {
         return degree;

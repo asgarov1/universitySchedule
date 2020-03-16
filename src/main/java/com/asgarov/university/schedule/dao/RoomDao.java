@@ -11,29 +11,34 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class RoomDao extends AbstractDao<Long, Room> {
-    @Override protected String getUpdateQuery() {
+    @Override
+    protected String getUpdateQuery() {
         return "UPDATE " + tableName() + " SET name = ? WHERE id = ?;";
     }
 
-    @Override protected Room rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
+    @Override
+    protected Room rowMapper(final ResultSet resultSet, final int rowNum) throws SQLException {
         Room room = new Room();
         room.setId(resultSet.getLong("id"));
         room.setName(resultSet.getString("name"));
         return room;
     }
 
-    @Override protected Map<String, ?> createParameters(final Room room) {
+    @Override
+    protected Map<String, ?> createParameters(final Room room) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", room.getId());
         parameters.put("name", room.getName());
         return parameters;
     }
 
-    @Override protected Object[] updateParameters(final Room room) {
+    @Override
+    protected Object[] updateParameters(final Room room) {
         return new Object[] { room.getName(), room.getId() };
     }
 
-    @Override protected String tableName() {
-        return "Room";
+    @Override
+    protected String tableName() {
+        return "room";
     }
 }

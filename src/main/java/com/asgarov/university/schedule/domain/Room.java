@@ -30,7 +30,8 @@ public class Room {
         this.name = name;
     }
 
-    @Override public boolean equals(final Object o) {
+    @Override
+    public boolean equals(final Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
@@ -43,13 +44,15 @@ public class Room {
         return Objects.equals(name, room.name);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "Room{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
