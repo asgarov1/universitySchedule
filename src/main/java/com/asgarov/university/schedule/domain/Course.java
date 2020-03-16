@@ -4,22 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
 public class Course {
 
+    private Long id;
     private String name;
-    private List<Student> registeredStudents;
+    private List<Student> registeredStudents = new ArrayList<>();;
     private Professor professor;
-    private List<Lecture> lectures;
+    private List<Lecture> lectures = new ArrayList<>();
 
-    public Course() {
+    public Course() {}
+
+    public Course(final String name) {
+        this.name = name;
     }
 
-    public void registerStudent(Student student) {
-        if (registeredStudents == null) {
-            registeredStudents = new ArrayList<>();
-        }
+    public void addStudent(Student student) {
         registeredStudents.add(student);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -54,23 +62,34 @@ public class Course {
         this.lectures = lectures;
     }
 
+    public void addLecture(final Lecture lecture) {
+        lectures.add(lecture);
+    }
+
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
-        Course course = (Course) o;
+        final Course course = (Course) o;
 
-        if (!Objects.equals(name, course.name)) return false;
+        if (!Objects.equals(id, course.id))
+            return false;
+        if (!Objects.equals(name, course.name))
+            return false;
         if (!Objects.equals(registeredStudents, course.registeredStudents))
             return false;
-        if (!Objects.equals(professor, course.professor)) return false;
+        if (!Objects.equals(professor, course.professor))
+            return false;
         return Objects.equals(lectures, course.lectures);
     }
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (registeredStudents != null ? registeredStudents.hashCode() : 0);
         result = 31 * result + (professor != null ? professor.hashCode() : 0);
         result = 31 * result + (lectures != null ? lectures.hashCode() : 0);
@@ -80,7 +99,8 @@ public class Course {
     @Override
     public String toString() {
         return "Course{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", registeredStudents=" + registeredStudents +
                 ", professor=" + professor +
                 ", lectures=" + lectures +

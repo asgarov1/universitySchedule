@@ -1,17 +1,15 @@
 package com.asgarov.university.schedule.domain;
 
-import java.util.List;
 import java.util.Objects;
 
 public abstract class Person {
 
+    Long id;
     Role role;
     String firstName;
     String lastName;
     String email;
     String password;
-
-    private List<Course> courses;
 
     public Person() {
     }
@@ -23,7 +21,13 @@ public abstract class Person {
         this.password = password;
     }
 
-    abstract void setRole();
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
 
     public Role getRole() {
         return role;
@@ -65,49 +69,48 @@ public abstract class Person {
         this.password = password;
     }
 
-    public List<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
-    }
-
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
-        Person person = (Person) o;
+        final Person person = (Person) o;
 
-        if (role != person.role) return false;
-        if (!Objects.equals(firstName, person.firstName)) return false;
-        if (!Objects.equals(lastName, person.lastName)) return false;
-        if (!Objects.equals(email, person.email)) return false;
-        if (!Objects.equals(password, person.password)) return false;
-        return Objects.equals(courses, person.courses);
+        if (!Objects.equals(id, person.id))
+            return false;
+        if (role != person.role)
+            return false;
+        if (!Objects.equals(firstName, person.firstName))
+            return false;
+        if (!Objects.equals(lastName, person.lastName))
+            return false;
+        if (!Objects.equals(email, person.email))
+            return false;
+        return Objects.equals(password, person.password);
     }
 
     @Override
     public int hashCode() {
-        int result = role != null ? role.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (role != null ? role.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (courses != null ? courses.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "Person{" +
-                "role=" + role +
+                "id=" + id +
+                ", role=" + role +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", courses=" + courses +
                 '}';
     }
 }

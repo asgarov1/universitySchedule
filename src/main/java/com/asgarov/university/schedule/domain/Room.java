@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class Room {
 
+    private Long id;
     private String name;
 
     public Room() {
@@ -11,6 +12,14 @@ public class Room {
 
     public Room(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -22,17 +31,31 @@ public class Room {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
-        Room room = (Room) o;
+        final Room room = (Room) o;
 
+        if (!Objects.equals(id, room.id))
+            return false;
         return Objects.equals(name, room.name);
     }
 
     @Override
     public int hashCode() {
-        return name != null ? name.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

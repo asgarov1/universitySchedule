@@ -4,12 +4,26 @@ public class Student extends Person {
 
     private Degree degree;
 
+    {
+        role = Role.STUDENT;
+    }
+
     public Student() {
     }
 
-    @Override
-    void setRole() {
-        role = Role.STUDENT;
+    public Student(
+            final String firstName,
+            final String lastName,
+            final String email,
+            final String password,
+            Degree degree) {
+        super(firstName, lastName, email, password);
+        this.degree = degree;
+    }
+
+    public Student(final String firstName, final String lastName, Degree degree) {
+        super(firstName, lastName, lastName.toLowerCase() + "@mail.ru", "pass");
+        this.degree = degree;
     }
 
     public Degree getDegree() {
@@ -20,17 +34,14 @@ public class Student extends Person {
         this.degree = degree;
     }
 
-    public enum Degree {
-        BACHELOR,
-        MASTER,
-        DOCTORATE;
-    }
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
 
         Student student = (Student) o;
 
@@ -54,5 +65,11 @@ public class Student extends Person {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    public enum Degree {
+        BACHELOR,
+        MASTER,
+        DOCTORATE;
     }
 }

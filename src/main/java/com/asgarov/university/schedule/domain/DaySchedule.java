@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class DaySchedule {
 
-    List<Lecture> lectures = new ArrayList<>();
+    private List<Lecture> lectures = new ArrayList<>();
     private LocalDate localDate;
 
     public DaySchedule() {
@@ -35,13 +35,16 @@ public class DaySchedule {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
-        DaySchedule that = (DaySchedule) o;
+        final DaySchedule that = (DaySchedule) o;
 
-        if (!Objects.equals(lectures, that.lectures)) return false;
+        if (!Objects.equals(lectures, that.lectures))
+            return false;
         return Objects.equals(localDate, that.localDate);
     }
 
