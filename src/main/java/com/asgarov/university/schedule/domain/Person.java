@@ -1,6 +1,9 @@
 package com.asgarov.university.schedule.domain;
 
+import java.util.List;
 import java.util.Objects;
+
+import com.asgarov.university.schedule.service.CourseService;
 
 public abstract class Person {
 
@@ -20,6 +23,8 @@ public abstract class Person {
         this.email = email;
         this.password = password;
     }
+
+    public abstract List<Course> getRegisteredCourses(CourseService courseService);
 
     public Long getId() {
         return id;

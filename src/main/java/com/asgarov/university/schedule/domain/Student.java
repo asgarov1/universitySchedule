@@ -1,5 +1,10 @@
 package com.asgarov.university.schedule.domain;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.asgarov.university.schedule.service.CourseService;
+
 public class Student extends Person {
 
     private Degree degree;
@@ -32,6 +37,12 @@ public class Student extends Person {
 
     public void setDegree(Degree degree) {
         this.degree = degree;
+    }
+
+    @Override public List<Course> getRegisteredCourses(CourseService courseService) {
+        return courseService.findAll().stream()
+                .filter(course -> course.hasStudent(this))
+                .collect(Collectors.toList());
     }
 
     @Override
