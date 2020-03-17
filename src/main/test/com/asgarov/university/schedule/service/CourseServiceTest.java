@@ -1,6 +1,7 @@
 package com.asgarov.university.schedule.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -45,16 +46,16 @@ class CourseServiceTest {
 
     @Test
     void registerStudents() {
-        Student johnny = new Student("Johnny", "Depp", DOCTORATE);
-        johnny.setId(studentService.create(johnny));
+        Student depp = new Student("Johnny", "Depp", DOCTORATE);
+        depp.setId(studentService.create(depp));
 
-        Student angelina = new Student("Angelina", "Jolie", MASTER);
-        angelina.setId(studentService.create(new Student("Angelina", "Jolie", MASTER)));
+        Student jolie = new Student("Angelina", "Jolie", MASTER);
+        jolie.setId(studentService.create(new Student("Angelina", "Jolie", MASTER)));
 
         Course course = courseService.findAll().get(0);
-        courseService.registerStudents(course, Arrays.asList(johnny, angelina));
+        courseService.registerStudents(course, Arrays.asList(depp, jolie));
 
-        List<Student> deppAndJolie = Arrays.asList(johnny, angelina);
+        List<Student> deppAndJolie = Arrays.asList(depp, jolie);
         List<Student> allStudentsInTheCourse = studentService.findAllStudentsByCourseId(course.getId());
         deppAndJolie.forEach(
                 student -> assertTrue(allStudentsInTheCourse.contains(student)));
@@ -80,10 +81,11 @@ class CourseServiceTest {
 
         courseService.registerStudents(course, studentService.findAll().subList(0, 3));
         Long lectureId = lectureDao.create(new Lecture(LocalDateTime.now(), roomService.findAll().get(0)));
-        courseService.scheduleLectures(course, Collections.singletonList(lectureDao.findById(lectureId)));
+        List<Lecture> lectures = new ArrayList<>();
+        lectures.add(lectureDao.findById(lectureId));
 
+        courseService.scheduleLectures(course, lectures);
         Course actual = courseService.findById(courseId);
-
         Course expected = course;
         assertEquals(expected, actual);
     }
