@@ -25,7 +25,7 @@ public class Lecture {
         this.id = id;
     }
 
-    public LocalDateTime getDateTime() {
+    public LocalDateTime getLectureTime() {
         return dateTime;
     }
 
@@ -33,7 +33,7 @@ public class Lecture {
         this.dateTime = dateTime;
     }
 
-    public Room getLocation() {
+    public Room getRoom() {
         return location;
     }
 

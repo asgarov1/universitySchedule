@@ -1,10 +1,5 @@
 package com.asgarov.university.schedule.domain;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.asgarov.university.schedule.service.CourseService;
-
 public class Professor extends Person {
 
     {
@@ -20,12 +15,6 @@ public class Professor extends Person {
 
     public Professor(final String firstName, final String lastName) {
         super(firstName, lastName, lastName.toLowerCase() + "@mail.ru", "pass");
-    }
-
-    @Override public List<Course> getRegisteredCourses(final CourseService courseService) {
-        return courseService.findAll().stream()
-                .filter(course -> course.getProfessor().equals(this))
-                .collect(Collectors.toList());
     }
 
     @Override

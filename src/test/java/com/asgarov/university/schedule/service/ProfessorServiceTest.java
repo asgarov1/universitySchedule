@@ -1,16 +1,16 @@
 package com.asgarov.university.schedule.service;
 
-import java.util.List;
-
 import com.asgarov.university.schedule.config.JDBCConfig;
 import com.asgarov.university.schedule.dao.exception.DaoException;
+import com.asgarov.university.schedule.domain.Course;
 import com.asgarov.university.schedule.domain.Professor;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -21,6 +21,9 @@ public class ProfessorServiceTest {
 
     @Autowired
     ProfessorService professorService;
+
+    @Autowired
+    CourseService courseService;
 
     @Test
     void createShouldWork() {
@@ -70,5 +73,11 @@ public class ProfessorServiceTest {
 
         int expectedSize = sizeBeforeDelete - 1;
         assertEquals(expectedSize, professorService.findAll().size());
+    }
+
+    @Test
+    void getAllStudentsForCourseShouldWork() {
+        Course course = courseService.findAll().get(0);
+        assertNotNull(professorService.getAllStudentsForCourse(course));
     }
 }

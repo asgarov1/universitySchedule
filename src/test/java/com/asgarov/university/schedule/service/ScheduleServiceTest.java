@@ -53,7 +53,7 @@ class ScheduleServiceTest {
     void getTodayScheduleForPerson() {
         Student student = studentService.findAll().get(0);
 
-        List<Course> courses = courseService.findCoursesForWhichStudentRegistered(student);
+        List<Course> courses = courseService.findStudentsCourses(student);
         Course course = courses.get(0);
         Professor professor = professorService.findById(course.getProfessor().getId());
 

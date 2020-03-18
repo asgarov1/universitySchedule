@@ -1,21 +1,17 @@
 package com.asgarov.university.schedule.service;
 
+import com.asgarov.university.schedule.dao.exception.DaoException;
+import com.asgarov.university.schedule.domain.Student;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.asgarov.university.schedule.dao.exception.DaoException;
-import com.asgarov.university.schedule.domain.Student;
-
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class StudentServiceTest {
 
@@ -28,17 +24,17 @@ public class StudentServiceTest {
         Long studentId = studentService.create(student);
         student.setId(studentId);
 
-        when(studentService.findById(studentId)).thenReturn(student);
+        when(studentService.findById(anyLong())).thenReturn(student);
         Student actual = studentService.findById(studentId);
         assertEquals(student, actual);
-        verify(studentService, times(1)).findById(studentId);
+        verify(studentService, times(1)).findById(anyLong());
     }
 
     @Test
     void updateShouldWork() throws DaoException {
         Student mockStudent = new Student("Mark", "Zukerberg", Student.Degree.DOCTORATE);
         mockStudent.setId(1L);
-        when(studentService.findById(1L)).thenReturn(mockStudent);
+        when(studentService.findById(anyLong())).thenReturn(mockStudent);
         Student student = studentService.findById(1L);
         student.setFirstName("Sergey");
         student.setLastName("Nemchinskiy");
@@ -47,6 +43,7 @@ public class StudentServiceTest {
 
         Student actualStudent = studentService.findById(student.getId());
         assertEquals(student, actualStudent);
+        verify(studentService, times(2)).findById(anyLong());
     }
 
     @Test
@@ -56,6 +53,7 @@ public class StudentServiceTest {
 
         List<Student> students = studentService.findAll();
         assertNotNull(students);
+        verify(studentService, times(1)).findAll();
     }
 
     @Test
@@ -67,9 +65,10 @@ public class StudentServiceTest {
         List<Student> students = studentService.findAll();
         Student expected = students.get(0);
 
-        when(studentService.findById(1L)).thenReturn(mockStudent);
+        when(studentService.findById(anyLong())).thenReturn(mockStudent);
         Student actual = studentService.findById(expected.getId());
         assertEquals(expected, actual);
+        verify(studentService, times(1)).findById(anyLong());
     }
 
     @Test
@@ -86,10 +85,11 @@ public class StudentServiceTest {
         when(studentService.findAll()).thenReturn(students);
         int sizeBeforeDelete = studentService.findAll().size();
 
-        doAnswer(iom -> students.remove(student)).when(studentService).deleteById(studentId);
+        doAnswer(iom -> students.remove(student)).when(studentService).deleteById(anyLong());
         studentService.deleteById(studentId);
 
         int expectedSize = sizeBeforeDelete - 1;
         assertEquals(expectedSize, studentService.findAll().size());
+        verify(studentService, times(1)).deleteById(anyLong());
     }
 }

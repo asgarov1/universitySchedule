@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.asgarov.university.schedule.service.CourseService;
-
 public class Course {
 
     private Long id;
@@ -109,7 +107,4 @@ public class Course {
                 '}';
     }
 
-    public boolean hasStudent(Student student) {
-        return registeredStudents.contains(student);
-    }
 }

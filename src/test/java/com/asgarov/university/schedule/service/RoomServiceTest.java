@@ -1,26 +1,30 @@
 package com.asgarov.university.schedule.service;
 
-import java.util.List;
-
 import com.asgarov.university.schedule.config.JDBCConfig;
 import com.asgarov.university.schedule.dao.exception.DaoException;
+import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Room;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { JDBCConfig.class })
+@ContextConfiguration(classes = {JDBCConfig.class})
 public class RoomServiceTest {
 
     @Autowired
     RoomService roomService;
+
+    @Autowired
+    LectureService lectureService;
 
     @Test
     void createShouldWork() {
@@ -69,5 +73,14 @@ public class RoomServiceTest {
 
         int expectedSize = sizeBeforeDelete - 1;
         assertEquals(expectedSize, roomService.findAll().size());
+    }
+
+    @Test
+    void isRoomAvailable() {
+        Room room = roomService.findAll().get(0);
+        assertTrue(roomService.isRoomAvailable(room, LocalDateTime.of(2025, Month.APRIL, 15, 11, 30)));
+
+        Lecture lecture = lectureService.findAll().get(0);
+        assertFalse(roomService.isRoomAvailable(lecture.getRoom(), lecture.getLectureTime()));
     }
 }
