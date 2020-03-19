@@ -4,7 +4,6 @@ import com.asgarov.university.schedule.dao.ProfessorDao;
 import com.asgarov.university.schedule.domain.Course;
 import com.asgarov.university.schedule.domain.Professor;
 import com.asgarov.university.schedule.domain.Student;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +13,6 @@ public class ProfessorService extends AbstractDaoService<Long, Professor> {
 
     private StudentService studentService;
 
-    @Autowired
     public ProfessorService(final ProfessorDao professorDao, final StudentService studentService) {
         super(professorDao);
         this.studentService = studentService;

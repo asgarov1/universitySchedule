@@ -7,14 +7,14 @@ public class Lecture {
 
     private Long id;
     private LocalDateTime dateTime;
-    private Room location;
+    private Room room;
 
     public Lecture() {
     }
 
-    public Lecture(LocalDateTime dateTime, Room location) {
+    public Lecture(LocalDateTime dateTime, Room room) {
         this.dateTime = dateTime;
-        this.location = location;
+        this.room = room;
     }
 
     public Long getId() {
@@ -34,11 +34,11 @@ public class Lecture {
     }
 
     public Room getRoom() {
-        return location;
+        return room;
     }
 
-    public void setLocation(Room location) {
-        this.location = location;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     @Override
@@ -54,14 +54,14 @@ public class Lecture {
             return false;
         if (!Objects.equals(dateTime, lecture.dateTime))
             return false;
-        return Objects.equals(location, lecture.location);
+        return Objects.equals(room, lecture.room);
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (dateTime != null ? dateTime.hashCode() : 0);
-        result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (room != null ? room.hashCode() : 0);
         return result;
     }
 
@@ -70,7 +70,7 @@ public class Lecture {
         return "Lecture{" +
                 "id=" + id +
                 ", dateTime=" + dateTime +
-                ", location=" + location +
+                ", room=" + room +
                 '}';
     }
 }
