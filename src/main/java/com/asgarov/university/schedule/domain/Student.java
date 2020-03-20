@@ -34,6 +34,7 @@ public class Student extends Person {
         this.degree = degree;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

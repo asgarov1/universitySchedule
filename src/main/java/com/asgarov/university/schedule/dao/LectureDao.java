@@ -1,18 +1,17 @@
 package com.asgarov.university.schedule.dao;
 
+import com.asgarov.university.schedule.dao.exception.DaoException;
+import com.asgarov.university.schedule.domain.CourseLecture;
+import com.asgarov.university.schedule.domain.Lecture;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.asgarov.university.schedule.dao.exception.DaoException;
-import com.asgarov.university.schedule.domain.CourseLecture;
-import com.asgarov.university.schedule.domain.Lecture;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 @Repository
 public class LectureDao extends AbstractDao<Long, Lecture> {
@@ -32,7 +31,7 @@ public class LectureDao extends AbstractDao<Long, Lecture> {
 
     @Override
     protected String getUpdateQuery() {
-        return "UPDATE " + tableName() + " SET dateTime = ?, location_id = ? WHERE id = ?;";
+        return "UPDATE " + tableName() + " SET dateTime = ?, room_id = ? WHERE id = ?;";
     }
 
     @Override
@@ -40,7 +39,7 @@ public class LectureDao extends AbstractDao<Long, Lecture> {
         Lecture lecture = new Lecture();
         lecture.setId(resultSet.getLong("id"));
         lecture.setDateTime(resultSet.getTimestamp("dateTime").toLocalDateTime());
-        lecture.setLocation(roomDao.findById(resultSet.getLong("location_id")));
+        lecture.setRoom(roomDao.findById(resultSet.getLong("room_id")));
         return lecture;
     }
 
@@ -48,14 +47,14 @@ public class LectureDao extends AbstractDao<Long, Lecture> {
     protected Map<String, ?> createParameters(final Lecture lecture) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", lecture.getId());
-        parameters.put("dateTime", lecture.getDateTime());
-        parameters.put("location_id", lecture.getLocation().getId());
+        parameters.put("dateTime", lecture.getLectureTime());
+        parameters.put("room_id", lecture.getRoom().getId());
         return parameters;
     }
 
     @Override
     protected Object[] updateParameters(final Lecture lecture) {
-        return new Object[] { lecture.getDateTime(), lecture.getLocation().getId(), lecture.getId() };
+        return new Object[] { lecture.getLectureTime(), lecture.getRoom().getId(), lecture.getId() };
     }
 
     @Override

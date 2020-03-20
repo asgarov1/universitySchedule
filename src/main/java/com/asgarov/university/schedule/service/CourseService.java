@@ -1,25 +1,23 @@
 package com.asgarov.university.schedule.service;
 
-import java.util.List;
-
+import com.asgarov.university.schedule.dao.CourseDao;
 import com.asgarov.university.schedule.dao.CourseLectureDao;
 import com.asgarov.university.schedule.dao.CourseStudentDao;
-import com.asgarov.university.schedule.domain.Course;
-import com.asgarov.university.schedule.domain.CourseLecture;
-import com.asgarov.university.schedule.domain.CourseStudent;
-import com.asgarov.university.schedule.domain.Lecture;
-import com.asgarov.university.schedule.domain.Student;
-
+import com.asgarov.university.schedule.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
-public class CourseService {
+public class CourseService extends AbstractDaoService<Long, Course> {
     private CourseLectureDao courseLectureDao;
     private CourseStudentDao courseStudentDao;
 
     public CourseService(
             final CourseLectureDao courseLectureDao,
-            final CourseStudentDao courseStudentDao) {
+            final CourseStudentDao courseStudentDao, final CourseDao courseDao) {
+        super(courseDao);
         this.courseLectureDao = courseLectureDao;
         this.courseStudentDao = courseStudentDao;
     }
@@ -37,4 +35,22 @@ public class CourseService {
             course.addLecture(lecture);
         });
     }
+
+    public List<Course> findStudentsCourses(final Student student) {
+        return findAll().stream()
+                .filter(course -> studentHasCourse(student, course))
+                .collect(Collectors.toList());
+    }
+
+
+    public List<Course> findProfessorsCourses(final Professor professor) {
+        return findAll().stream()
+                .filter(course -> course.getProfessor().equals(professor))
+                .collect(Collectors.toList());
+    }
+
+    public boolean studentHasCourse(Student student, Course course) {
+        return course.getRegisteredStudents().contains(student);
+    }
+
 }

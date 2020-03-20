@@ -1,10 +1,9 @@
 package com.asgarov.university.schedule.data;
 
-import javax.annotation.PostConstruct;
-
 import com.asgarov.university.schedule.util.SQLRunner;
-
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 @Component
 public class DataGenerator {
