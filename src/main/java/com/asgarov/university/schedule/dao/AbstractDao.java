@@ -1,21 +1,23 @@
 package com.asgarov.university.schedule.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-
-import javax.sql.DataSource;
-
 import com.asgarov.university.schedule.dao.exception.DaoException;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
 @Repository
 public abstract class AbstractDao<K, T> {
+
+    final static Logger log = LoggerFactory.getLogger(AbstractDao.class);
 
     private DataSource dataSource;
 

@@ -1,20 +1,18 @@
 package com.asgarov.university.schedule.config;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
 
+import javax.sql.DataSource;
+
 @PropertySource("classpath:db.properties")
 @Configuration
 @ComponentScan("com.asgarov.university.schedule")
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class JDBCConfig {
 
     @Value("${driverClassName}")
