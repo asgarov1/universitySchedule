@@ -1,0 +1,19 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="navigation">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="display: flex; align-items: baseline;">
+        <a class="navbar-brand" th:href="@{/}">@Business</a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!--            Collapsing Content-->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto list-unstyled">
+                <li class="nav-item"></li>
+            </ul>
+        </div>
+    </nav>
+</div>
