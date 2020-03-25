@@ -1,6 +1,6 @@
 package com.asgarov.university.schedule.service;
 
-import com.asgarov.university.schedule.config.springConfiguration.SpringConfig;
+import com.asgarov.university.schedule.config.WebConfig;
 import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Room;
@@ -17,7 +17,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { SpringConfig.class })
+@ContextConfiguration(classes = { WebConfig.class })
 public class RoomServiceTest {
 
     @Autowired
@@ -81,6 +81,6 @@ public class RoomServiceTest {
         assertTrue(roomService.isRoomAvailable(room, LocalDateTime.of(2025, Month.APRIL, 15, 11, 30)));
 
         Lecture lecture = lectureService.findAll().get(0);
-        assertFalse(roomService.isRoomAvailable(lecture.getRoom(), lecture.getLectureTime()));
+        assertFalse(roomService.isRoomAvailable(lecture.getRoom(), lecture.getDateTime()));
     }
 }

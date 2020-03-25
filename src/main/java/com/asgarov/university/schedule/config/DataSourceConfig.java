@@ -1,22 +1,19 @@
-package com.asgarov.university.schedule.config.springConfiguration;
+package com.asgarov.university.schedule.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.sql.DataSource;
 
-@PropertySource("classpath:db.properties")
 @Configuration
-@ComponentScan("com.asgarov.university.schedule")
-@EnableAspectJAutoProxy(proxyTargetClass = true)
-public class SpringConfig implements WebMvcConfigurer {
+@PropertySource("classpath:db.properties")
+public class DataSourceConfig {
 
     @Value("${driverClassName}")
     private String driverClassName;
@@ -58,16 +55,5 @@ public class SpringConfig implements WebMvcConfigurer {
         jdbcTemplate.setDataSource(myDataSource());
         jdbcTemplate.setExceptionTranslator(SQLExceptionTranslator());
         return jdbcTemplate;
-    }
-
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css");
     }
 }

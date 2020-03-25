@@ -47,14 +47,14 @@ public class LectureDao extends AbstractDao<Long, Lecture> {
     protected Map<String, ?> createParameters(final Lecture lecture) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", lecture.getId());
-        parameters.put("dateTime", lecture.getLectureTime());
+        parameters.put("dateTime", lecture.getDateTime());
         parameters.put("room_id", lecture.getRoom().getId());
         return parameters;
     }
 
     @Override
     protected Object[] updateParameters(final Lecture lecture) {
-        return new Object[] { lecture.getLectureTime(), lecture.getRoom().getId(), lecture.getId() };
+        return new Object[] { lecture.getDateTime(), lecture.getRoom().getId(), lecture.getId() };
     }
 
     @Override

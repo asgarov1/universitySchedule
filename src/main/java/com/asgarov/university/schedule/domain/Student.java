@@ -58,14 +58,7 @@ public class Student extends Person {
 
     @Override
     public String toString() {
-        return "Student{" +
-                "degree=" + degree +
-                ", role=" + role +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return firstName + " " + lastName;
     }
 
     public enum Degree {

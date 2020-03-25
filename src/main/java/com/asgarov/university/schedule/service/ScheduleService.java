@@ -29,8 +29,8 @@ public class ScheduleService {
         Map<LocalDate, List<Lecture>> schedules = courses.stream()
                 .map(Course::getLectures)
                 .flatMap(Collection::stream)
-                .sorted(Comparator.comparing(Lecture::getLectureTime))
-                .collect(Collectors.groupingBy(lecture -> lecture.getLectureTime().toLocalDate()));
+                .sorted(Comparator.comparing(Lecture::getDateTime))
+                .collect(Collectors.groupingBy(lecture -> lecture.getDateTime().toLocalDate()));
 
         List<DaySchedule> daySchedules = new ArrayList<>();
         schedules.forEach((date, lecture) -> {

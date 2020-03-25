@@ -30,6 +30,6 @@ public class RoomService extends AbstractDaoService<Long, Room> {
         if (!lecture.getRoom().equals(room)) {
             return false;
         }
-        return Duration.between(lecture.getLectureTime(), dateTime).toMinutes() < LESSON_TIME_IN_MINUTES;
+        return Duration.between(lecture.getDateTime(), dateTime).toMinutes() < LESSON_TIME_IN_MINUTES;
     }
 }

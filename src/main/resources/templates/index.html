@@ -1,3 +1,70 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:include="layouts/standardLayout :: page(title='@Business')">
 <div class="container" th:fragment="main">
+    <div class="jumbotron">
+        <h1>Take your pick:</h1>
+        <hr/>
+
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <a class="nav-link switchItem active" href="#">Courses</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link switchItem" href="#">Lectures</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link switchItem" href="#">Professors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link switchItem" href="#">Rooms</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link switchItem" href="#">Students</a>
+            </li>
+        </ul>
+
+        <div id="holder">
+            <div th:replace="fragments/courses :: courses"></div>
+            <div th:replace="fragments/lectures :: lectures"></div>
+            <div th:replace="fragments/professors :: professors"></div>
+            <div th:replace="fragments/rooms :: rooms"></div>
+            <div th:replace="fragments/students :: students"></div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = init;
+
+        function init() {
+            for (let item of document.getElementsByClassName("switchItem")) {
+                item.addEventListener("click", switchTab);
+            }
+        }
+
+        function findIndexOfTheActiveTab() {
+            let i=0;
+            for (let item of document.getElementsByClassName("switchItem")) {
+                if(item.classList.contains("active")) {
+                    break;
+                }
+                i++;
+            }
+            return i;
+        }
+
+        function switchTab() {
+            for (let item of document.getElementsByClassName("active")) {
+                item.classList.remove("active");
+            }
+            event.target.classList.add("active");
+
+            let index = findIndexOfTheActiveTab();
+            for (let child of document.getElementById("holder").children) {
+                if(!child.classList.contains("d-none")) {
+                    child.classList.add("d-none");
+                }
+            }
+            document.getElementById("holder").children[index].classList.remove("d-none");
+        }
+    </script>
+
 </div>
