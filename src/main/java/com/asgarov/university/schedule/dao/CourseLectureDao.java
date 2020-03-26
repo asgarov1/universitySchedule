@@ -1,20 +1,23 @@
 package com.asgarov.university.schedule.dao;
 
+import com.asgarov.university.schedule.domain.CourseLecture;
+import org.springframework.stereotype.Repository;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.asgarov.university.schedule.domain.CourseLecture;
-
-import org.springframework.stereotype.Repository;
-
 @Repository
 public class CourseLectureDao extends AbstractWithDeleteByCourseDao<Long, CourseLecture> {
 
     private String getFindByCourseIdQuery(Long courseId) {
         return "select * from " + tableName() + " where course_id = " + courseId + ";";
+    }
+
+    private String getFindByLectureIdQuery(Long lectureId) {
+        return "select * from " + tableName() + " where lecture_id = " + lectureId + ";";
     }
 
     @Override
@@ -62,5 +65,9 @@ public class CourseLectureDao extends AbstractWithDeleteByCourseDao<Long, Course
 
     public List<CourseLecture> findByCourseId(final Long courseId) {
         return getJdbcTemplate().query(getFindByCourseIdQuery(courseId), this::rowMapper);
+    }
+
+    public List<CourseLecture> findByLectureId(final Long courseId) {
+        return getJdbcTemplate().query(getFindByLectureIdQuery(courseId), this::rowMapper);
     }
 }

@@ -1,4 +1,4 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:include="layouts/standardLayout :: page(title='@Business')">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:include="layouts/standardLayout :: page(title='University Schedule')">
 <div class="container" th:fragment="main">
     <div class="jumbotron">
         <h1>Take your pick:</h1>
@@ -24,7 +24,7 @@
 
         <div id="holder">
             <div th:replace="fragments/courses :: courses"></div>
-            <div th:replace="fragments/lectures :: lectures"></div>
+            <div th:replace="fragments/lectures :: lecturesDiv"></div>
             <div th:replace="fragments/professors :: professors"></div>
             <div th:replace="fragments/rooms :: rooms"></div>
             <div th:replace="fragments/students :: students"></div>

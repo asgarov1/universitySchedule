@@ -15,8 +15,10 @@
                 <td th:text="${course.name}">Name</td>
                 <td th:text="${course.registeredStudents}">Registered Students</td>
                 <td th:text="${course.professor}">Professor</td>
-                <td th:text="${course.lectures}">Lectures</td>
+                <td><a target="_blank" th:unless="${#lists.isEmpty(course.lectures)}"
+                    th:href="@{/course/__${course.id}__/lectures}">Lectures</a></td>
             </tr>
+
         </table>
     </div>
 </div>
