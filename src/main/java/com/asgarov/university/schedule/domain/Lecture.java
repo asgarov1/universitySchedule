@@ -25,7 +25,7 @@ public class Lecture {
         this.id = id;
     }
 
-    public LocalDateTime getLectureTime() {
+    public LocalDateTime getDateTime() {
         return dateTime;
     }
 
@@ -67,10 +67,6 @@ public class Lecture {
 
     @Override
     public String toString() {
-        return "Lecture{" +
-                "id=" + id +
-                ", dateTime=" + dateTime +
-                ", room=" + room +
-                '}';
+        return "Lecture " + "at " + dateTime + " in " + room + "\n";
     }
 }

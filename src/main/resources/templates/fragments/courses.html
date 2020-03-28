@@ -1,0 +1,24 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="courses">
+    <div th:unless="${#lists.isEmpty(courses)}">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+            <th>id</th>
+            <th>Name</th>
+            <th>Registered Students</th>
+            <th>Professor</th>
+            <th>Lectures</th>
+            </thead>
+            <tr th:each="course: ${courses}">
+                <td th:text="${course.id}">id</td>
+                <td th:text="${course.name}">Name</td>
+                <td th:text="${course.registeredStudents}">Registered Students</td>
+                <td th:text="${course.professor}">Professor</td>
+                <td><a target="_blank" th:unless="${#lists.isEmpty(course.lectures)}"
+                    th:href="@{/course/__${course.id}__/lectures}">Lectures</a></td>
+            </tr>
+
+        </table>
+    </div>
+</div>

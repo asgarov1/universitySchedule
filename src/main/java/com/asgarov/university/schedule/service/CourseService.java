@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CourseService extends AbstractDaoService<Long, Course> {
+
     private CourseLectureDao courseLectureDao;
     private CourseStudentDao courseStudentDao;
 
@@ -53,4 +54,15 @@ public class CourseService extends AbstractDaoService<Long, Course> {
         return course.getRegisteredStudents().contains(student);
     }
 
+    public Course findCourseByLectureId(Long lectureId) {
+        return courseLectureDao.findByLectureId(lectureId)
+                .stream()
+                .map(cl -> findById(cl.getCourseId()))
+                .findFirst()
+                .orElseThrow(RuntimeException::new);
+    }
+
+    public Course findCourseByLectureId(Integer lectureId) {
+        return findCourseByLectureId((long) lectureId);
+    }
 }

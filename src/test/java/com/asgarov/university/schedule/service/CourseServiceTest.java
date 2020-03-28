@@ -1,6 +1,6 @@
 package com.asgarov.university.schedule.service;
 
-import com.asgarov.university.schedule.config.JDBCConfig;
+import com.asgarov.university.schedule.config.WebConfig;
 import com.asgarov.university.schedule.dao.LectureDao;
 import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Course;
@@ -22,8 +22,8 @@ import static com.asgarov.university.schedule.domain.Student.Degree.DOCTORATE;
 import static com.asgarov.university.schedule.domain.Student.Degree.MASTER;
 import static org.junit.jupiter.api.Assertions.*;
 
+@ContextConfiguration(classes = { WebConfig.class})
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { JDBCConfig.class })
 class CourseServiceTest {
 
     @Autowired
