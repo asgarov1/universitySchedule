@@ -1,0 +1,64 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="courseDeleteModal" class="modal" th:id="'confirm-delete-'+${course.id}" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>You are about to delete <span class="font-weight-bold" th:text="${course.name}">this row</span>,
+                    this
+                    procedure is
+                    irreversible.</p>
+                <p class="font-italic text-muted">(Ok, fine, you can easily reverse it by restarting tomcat.)</p>
+                <p>Do you want to proceed?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a th:href="@{/course/__${course.id}__/delete}">
+                    <button type="button" class="btn btn-danger btn-ok">Delete</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="courseEditModal" class="modal" style="overflow-y: auto;" th:id="'edit-'+${course.id}" tabindex="-1"
+     role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <form th:object="${newCourse}" class="d-flex">
+                    <input class="form-control m-2 w-25" type="text" th:placeholder="${course.id}" readonly>
+                    <input class="form-control m-2 w-50 mw-50" type="text" th:placeholder="${course.name}" th:field="*{name}">
+                     <p><a target="_blank" th:unless="${#lists.isEmpty(course.registeredStudents)}"
+                           th:href="@{/course/__${course.id}__/students}">Registered Students</a></p>
+                    <select class="form-control m-2 w-50 mw-50"
+                            th:field="*{professor}">
+                        <option th:value="${course.professor}" selected>Professor</option>
+                        <option th:each="professorFromList: ${professors}" th:text="${professorFromList}"
+                                th:value="${professorFromList}">
+                        </option>
+                    </select>
+                    <p class="m-2"><a target="_blank" th:unless="${#lists.isEmpty(course.lectures)}"
+                          th:href="@{/course/__${course.id}__/lectures}">Lectures</a></p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a th:href="@{/course/__${course.id}__/update}">
+                    <button type="button" class="btn btn-success btn-ok">Update</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<div class="d-none" th:fragment="rooms">
+<div th:fragment="rooms">
     <div th:unless="${#lists.isEmpty(rooms)}">
         <table class="table table-striped table-hover">
             <thead class="thead-dark">

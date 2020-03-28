@@ -1,8 +1,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:include="layouts/standardLayout :: page(title='Lectures')">
 <div class="container" th:fragment="main">
     <div class="jumbotron">
-        <h1 th:text="|${course.name} lectures:|"></h1>
+        <h1 th:text="|${course.name} students:|"></h1>
         <hr/>
-        <div th:replace="fragments/lecturesTable :: lectures"></div>
+        <div th:replace="fragments/studentsTable :: students"></div>
     </div>
 </div>
