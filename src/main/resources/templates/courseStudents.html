@@ -34,18 +34,27 @@
             <form th:action="@{/course/__${course.id}__/registerStudent/}" method="POST">
                 <div class="row form-inline d-flex justify-content-center">
                     <div class="input-group">
-                        <select class="form-control" name="studentId">
+                        <select required class="form-control" name="studentId" id="studentSelect" onchange="enableButton()">
                             <option selected>Available Students</option>
                             <option th:each="student: ${notRegisteredStudents}" th:text="${student}"
                                     th:value="${student.id}">
                             </option>
                         </select>
                     </div>
-                    <div class="input-group">
-                        <button type="submit" class="btn btn-success btn-ok">Register For Course</button>
+                    <div class="input-group m-3">
+                        <button id="addStudentBtn" type="submit" class="btn btn-success btn-ok"
+                                data-toggle="tooltip" data-placement="top" title="Select student to register">Register For Course</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+
+    <script>
+        function enableButton() {
+            let select = document.getElementById('studentSelect');
+            let btn = document.getElementById('addStudentBtn');
+            btn.disabled = select.value === "Available Students";
+        }
+    </script>
 </div>

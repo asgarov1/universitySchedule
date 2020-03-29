@@ -45,6 +45,10 @@ public class CourseService extends AbstractDaoService<Long, Course> {
         });
     }
 
+    public void scheduleLecture(Long id, Long lectureId) {
+        courseLectureDao.create(new CourseLecture(id, lectureId));
+    }
+
     public List<Course> findStudentsCourses(final Student student) {
         return findAll().stream()
                 .filter(course -> studentHasCourse(student, course))
@@ -88,5 +92,9 @@ public class CourseService extends AbstractDaoService<Long, Course> {
         List<Student> notRegisteredStudents = studentService.findAll();
         notRegisteredStudents.removeAll(course.getRegisteredStudents());
         return notRegisteredStudents;
+    }
+
+    public void removeLecture(Long lectureId) {
+        courseLectureDao.deleteByLectureId(lectureId);
     }
 }
