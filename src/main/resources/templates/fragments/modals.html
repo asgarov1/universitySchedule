@@ -1,5 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+        <!--        CourseCRUD Modals      -->
+
 <div th:fragment="courseDeleteModal" class="modal" th:id="'confirm-delete-'+${course.id}" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -129,7 +131,7 @@
     </div>
 </div>
 
-<!--LectureCRUD modals-->
+        <!--        LectureCRUD modals      -->
 <div th:fragment="deleteLectureModal" class="modal" th:id="'confirm-delete-'+${lecture.id}" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -202,7 +204,7 @@
 </div>
 
 
-<!--ProfessorCRUD modals-->
+        <!--        ProfessorCRUD modals        -->
 <div th:fragment="professorDeleteModal" class="modal" th:id="'confirm-delete-'+${professor.id}" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -270,7 +272,7 @@
     </div>
 </div>
 
-<!--RoomCRUD modals-->
+        <!--        RoomCRUD modals         -->
 <div th:fragment="roomDeleteModal" class="modal" th:id="'confirm-delete-'+${room.id}" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -314,6 +316,82 @@
                             </div>
                             <input type='text' class="form-control" name="firstName" th:field="*{name}"
                                    th:placeholder="${room.name}" aria-describedby="id-addon" required/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success btn-ok">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+        <!--        StudentCRUD modals      -->
+<div th:fragment="studentDeleteModal" class="modal" th:id="'confirm-delete-'+${student.id}" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm Delete</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>You are about to delete
+                    <span class="font-weight-bold" th:text="|Student ${student.firstName} ${student.lastName}|"></span>,
+                    this procedure is irreversible.
+                <p>Do you want to proceed?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a th:href="@{/student/deleteStudent/__${student.id}__}">
+                    <button type="button" class="btn btn-danger btn-ok">Delete</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="studentEditModal" class="modal" style="overflow-y: auto;" th:id="'edit-'+${student.id}" tabindex="-1"
+     role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form th:action="@{/student/__${student.id}__/update}" method="POST" th:object="${newStudent}">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row form-inline d-flex justify-content-center">
+                        <div class="input-group ml-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="id-addon" th:text="${student.id}">id</span>
+                            </div>
+                            <input type='text' class="form-control" name="firstName" th:field="*{firstName}"
+                                   th:placeholder="${student.firstName}" aria-describedby="id-addon" required/>
+                        </div>
+                        <div class='input-group m-3'>
+                            <input type='text' class="form-control" name="lastName" th:field="*{lastName}"
+                                   th:placeholder="${student.lastName}" required/>
+                        </div>
+                        <div class='input-group m-3'>
+                            <input type='text' class="form-control" name="email" th:field="*{email}"
+                                   th:placeholder="${student.email}" required/>
+                        </div>
+                        <div class="input-group m-3">
+                            <input type='text' class="form-control" name="password" th:field="*{password}"
+                                   th:placeholder="${student.password}" required/>
+                        </div>
+                        <div class="input-group m-3">
+                            <select class="form-control" name="degree" required>
+                                <option selected>Choose degree</option>
+                                <option th:each="degree: ${degrees}" th:text="${degree}"
+                                        th:value="${degree}">
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </div>

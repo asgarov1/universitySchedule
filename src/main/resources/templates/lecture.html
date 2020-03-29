@@ -3,15 +3,6 @@
     <div class="jumbotron">
         <h1>LectureCRUD Operations:</h1>
         <hr/>
-
-        <!--        First Row         -->
-        <div class="form-row">
-            <div class="form-group col-md-12">
-                <input class="form-control" type="text" placeholder="Search Lectures" readonly>
-            </div>
-        </div>
-
-        <!--        Second Row         -->
         <div class="form-row">
             <form method="post" th:action="@{/lecture/searchLecturesById/}">
                 <div class="form-group input-group col-sm-10">

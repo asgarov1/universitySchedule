@@ -7,10 +7,12 @@ import com.asgarov.university.schedule.domain.Room;
 import com.asgarov.university.schedule.service.CourseService;
 import com.asgarov.university.schedule.service.LectureService;
 import com.asgarov.university.schedule.service.RoomService;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +24,9 @@ public class LectureController {
     private LectureService lectureService;
     private RoomService roomService;
     private CourseService courseService;
+    private final static int INITIAL_AMOUNT_OF_RESULTS = 10;
+    private final static String INITIAL_MESSAGE = "For performance reasons only the first " + INITIAL_AMOUNT_OF_RESULTS + " are displayed. Press showAll to see all results";
+    private final static String CANT_FIND_BY_ID_MESSAGE = "Nothing found under this id";
 
     public LectureController(LectureService lectureService, RoomService roomService, CourseService courseService) {
         this.lectureService = lectureService;
@@ -31,13 +36,20 @@ public class LectureController {
 
     @GetMapping
     public String index(Model model) {
-        model.addAttribute("lectures", lectureService.findAll());
+        model.addAttribute("lectures", lectureService.findAmount(INITIAL_AMOUNT_OF_RESULTS));
+        model.addAttribute("message", INITIAL_MESSAGE);
         return "lecture";
     }
 
     @PostMapping("/searchLecturesById")
-    public String searchLecturesById(@RequestParam Long id, Model model) {
-        model.addAttribute("lectures", Collections.singletonList(lectureService.findById(id)));
+    public String searchLecturesById(@RequestParam Long id, HttpServletRequest request, Model model) {
+        try {
+            model.addAttribute("lectures", Collections.singletonList(lectureService.findById(id)));
+        } catch (EmptyResultDataAccessException e) {
+            model.addAttribute("message", CANT_FIND_BY_ID_MESSAGE);
+            return "lecture";
+        }
+
         return "lecture";
     }
 
@@ -58,7 +70,7 @@ public class LectureController {
     @GetMapping("deleteLecture/{id}")
     public String deleteLecture(@PathVariable Long id) throws DaoException {
         lectureService.deleteById(id);
-        return "redirect:/lecture/searchAll";
+        return "redirect:/lecture";
     }
 
     @PostMapping("/{id}/update")
@@ -67,7 +79,7 @@ public class LectureController {
         lecture.setDateTime(LocalDateTime.parse(dateTime));
         lecture.setRoom(roomService.findById(roomId));
         lectureService.update(lecture);
-        return "redirect:/lecture/searchAll";
+        return "redirect:/lecture";
     }
 
     @ModelAttribute("courseService")

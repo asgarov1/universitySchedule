@@ -1,17 +1,8 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:include="layouts/standardLayout :: page(title='LectureCRUD')">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:include="layouts/standardLayout :: page(title='ProfessorCRUD')">
 <div class="container" th:fragment="main">
     <div class="jumbotron">
         <h1>ProfessorCRUD Operations:</h1>
         <hr/>
-
-        <!--        First Row         -->
-        <div class="form-row">
-            <div class="form-group col-md-12">
-                <input class="form-control" type="text" placeholder="Search Professors" readonly>
-            </div>
-        </div>
-
-        <!--        Second Row         -->
         <div class="form-row">
             <form method="post" th:action="@{/professor/searchProfessorsById/}">
                 <div class="form-group input-group col-sm-10">

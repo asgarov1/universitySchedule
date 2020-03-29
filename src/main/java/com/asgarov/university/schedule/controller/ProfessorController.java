@@ -28,7 +28,7 @@ public class ProfessorController {
 
     @PostMapping("/searchProfessorsById")
     public String searchProfessorsById(@RequestParam Long id, Model model) {
-        model.addAttribute("lectures", Collections.singletonList(professorService.findById(id)));
+        model.addAttribute("professors", Collections.singletonList(professorService.findById(id)));
         return "professor";
     }
 

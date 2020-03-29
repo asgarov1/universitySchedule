@@ -27,50 +27,57 @@
         </tr>
     </table>
 
-    <form th:action="@{/lecture/addNew/}" method="POST">
-        <div class="row form-inline d-flex justify-content-center">
-            <div class="input-group">
-                <div class='input-group date'>
-                    <input type='text' class="form-control" name="dateTime" id="dateTime"
-                           placeholder="dddd-mm-ddThh:mm:ss" onchange="checkDate()"/>
+    <div th:if="${message}" class="alert alert-info" role="alert">
+        <p th:text="${message}"></p>
+    </div>
+
+    <div class="container border border-dark rounded text-center">
+        <h4 th:class="mt-3">Create new lecture</h4>
+        <form th:action="@{/lecture/addNew/}" method="POST">
+            <div class="row form-inline d-flex justify-content-center">
+                <div class="input-group">
+                    <div class='input-group date'>
+                        <input type='text' class="form-control" name="dateTime" id="dateTime"
+                               placeholder="dddd-mm-ddThh:mm:ss" onchange="checkDate()"/>
+                    </div>
+                </div>
+                <div class="input-group m-3">
+                    <select required class="form-control" name="roomId" id="roomSelect" onchange="checkDate()">
+                        <option selected>Available Rooms</option>
+                        <option th:each="room: ${rooms}" th:text="${room}"
+                                th:value="${room.id}">
+                        </option>
+                    </select>
+                </div>
+                <div class="input-group m-3">
+                    <select required class="form-control" name="courseId" id="courseSelect" onchange="checkDate()">
+                        <option selected>Available Courses</option>
+                        <option th:each="course: ${courses}" th:text="${course.name}"
+                                th:value="${course.id}">
+                        </option>
+                    </select>
+                </div>
+                <div class="input-group m-3">
+                    <button id="addLectureBtn" type="submit" disabled class="btn btn-success btn-ok"
+                            data-toggle="tooltip" data-placement="top" title="Enter date and time in the correct format
+                            and select a room">Add Lecture
+                    </button>
                 </div>
             </div>
-            <div class="input-group m-3">
-                <select required class="form-control" name="roomId" id="roomSelect" onchange="checkDate()">
-                    <option selected>Available Rooms</option>
-                    <option th:each="room: ${rooms}" th:text="${room}"
-                            th:value="${room.id}">
-                    </option>
-                </select>
-            </div>
-            <div class="input-group m-3">
-                <select required class="form-control" name="courseId" id="courseSelect" onchange="checkDate()">
-                    <option selected>Available Courses</option>
-                    <option th:each="course: ${courses}" th:text="${course.name}"
-                            th:value="${course.id}">
-                    </option>
-                </select>
-            </div>
-            <div class="input-group m-3">
-                <button id="addLectureBtn" type="submit" disabled class="btn btn-success btn-ok"
-                        data-toggle="tooltip" data-placement="top" title="Enter date and time in the correct format
-                            and select a room">Add Lecture
-                </button>
-            </div>
-        </div>
-    </form>
+        </form>
 
-    <script>
-        function checkDate() {
-            let input = document.getElementById("dateTime").value;
-            let roomSelect = document.getElementById('roomSelect');
-            let courseSelect = document.getElementById('courseSelect');
-            let regex = new RegExp("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$");
-            if (regex.test(input) && roomSelect.value !== "Available Rooms" && courseSelect.value !== "Available Courses") {
-                document.getElementById("addLectureBtn").disabled = false;
-            } else {
-                document.getElementById("addLectureBtn").disabled = true;
+        <script>
+            function checkDate() {
+                let input = document.getElementById("dateTime").value;
+                let roomSelect = document.getElementById('roomSelect');
+                let courseSelect = document.getElementById('courseSelect');
+                let regex = new RegExp("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$");
+                if (regex.test(input) && roomSelect.value !== "Available Rooms" && courseSelect.value !== "Available Courses") {
+                    document.getElementById("addLectureBtn").disabled = false;
+                } else {
+                    document.getElementById("addLectureBtn").disabled = true;
+                }
             }
-        }
-    </script>
+        </script>
+    </div>
 </div>
