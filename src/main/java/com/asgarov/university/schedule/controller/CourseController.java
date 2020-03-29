@@ -4,7 +4,6 @@ import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Course;
 import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Professor;
-import com.asgarov.university.schedule.domain.dto.CourseDTO;
 import com.asgarov.university.schedule.service.CourseService;
 import com.asgarov.university.schedule.service.LectureService;
 import com.asgarov.university.schedule.service.ProfessorService;
@@ -94,11 +93,12 @@ public class CourseController {
     }
 
     @RequestMapping("/{id}/update")
-    public String updateCourse(@PathVariable Long id, CourseDTO courseDTO, Model model) throws DaoException {
+    public String updateCourse(@PathVariable Long id, @RequestParam String courseName, @RequestParam Long professorId) throws DaoException {
         Course course = courseService.findById(id);
-        courseService.update(course, courseDTO);
-        model.addAttribute("courses", courseService.findAll());
-        return "course";
+        course.setName(courseName);
+        course.setProfessor(professorService.findById(professorId));
+        courseService.update(course);
+        return "redirect:/course/searchAll";
     }
 
 
@@ -124,11 +124,6 @@ public class CourseController {
     @ModelAttribute("courseService")
     public CourseService courseService() {
         return courseService;
-    }
-
-    @ModelAttribute("newCourse")
-    public CourseDTO newCourseDTO() {
-        return new CourseDTO();
     }
 
     @ModelAttribute("professors")

@@ -34,7 +34,7 @@
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <form th:action="@{/course/__${course.id}__/update}" method="POST" th:object="${newCourse}">
+            <form th:action="@{/course/__${course.id}__/update}" method="POST">
                 <div class="modal-header">
                     <h4 class="modal-title">Edit</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -45,8 +45,8 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="id-addon" th:text="${course.id}">id</span>
                             </div>
-                            <input type="text" class="form-control" th:placeholder="${course.name}"
-                                   aria-describedby="id-addon" th:field="*{name}">
+                            <input type="text" class="form-control" th:value="${course.name}"
+                                   aria-describedby="id-addon" name="courseName">
                         </div>
                         <div class="input-group">
                             <a target="_blank" class="btn btn-outline-primary m-2 d-block"
@@ -54,8 +54,7 @@
                                th:href="@{/course/__${course.id}__/students}">Registered Students</a>
                         </div>
                         <div class="input-group">
-                            <select class="form-control" style="width: 70%;"
-                                    th:field="*{professorId}">
+                            <select class="form-control" style="width: 70%;" name="professorId">
                                 <option th:value="${course.professor}" selected>Professor</option>
                                 <option th:each="professorFromList: ${professors}" th:text="${professorFromList}"
                                         th:value="${professorFromList.id}">

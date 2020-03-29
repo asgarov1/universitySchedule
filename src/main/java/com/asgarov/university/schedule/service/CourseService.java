@@ -3,9 +3,7 @@ package com.asgarov.university.schedule.service;
 import com.asgarov.university.schedule.dao.AbstractDao;
 import com.asgarov.university.schedule.dao.CourseLectureDao;
 import com.asgarov.university.schedule.dao.CourseStudentDao;
-import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.*;
-import com.asgarov.university.schedule.domain.dto.CourseDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -76,12 +74,6 @@ public class CourseService extends AbstractDaoService<Long, Course> {
 
     public Course findCourseByLectureId(Integer lectureId) {
         return findCourseByLectureId((long) lectureId);
-    }
-
-    public void update(Course course, CourseDTO courseDTO) throws DaoException {
-        course.setName(courseDTO.getName());
-        course.setProfessor(professorService.findById(courseDTO.getProfessorId()));
-        update(course);
     }
 
     public void unregisterStudent(Course course, Long studentId) {
