@@ -25,7 +25,7 @@ public class LectureController {
     private RoomService roomService;
     private CourseService courseService;
     private final static int INITIAL_AMOUNT_OF_RESULTS = 10;
-    private final static String INITIAL_MESSAGE = "For performance reasons only the first " + INITIAL_AMOUNT_OF_RESULTS + " are displayed. Press showAll to see all results";
+    private final static String INITIAL_MESSAGE = "For performance reasons only the first " + INITIAL_AMOUNT_OF_RESULTS + " entries are displayed. Press 'showAll' to see all results";
     private final static String CANT_FIND_BY_ID_MESSAGE = "Nothing found under this id";
 
     public LectureController(LectureService lectureService, RoomService roomService, CourseService courseService) {

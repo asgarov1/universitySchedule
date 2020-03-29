@@ -173,7 +173,7 @@
                                 <span class="input-group-text" id="id-addon" th:text="${lecture.id}">id</span>
                             </div>
                             <input type='text' class="form-control" name="dateTime"
-                                   th:placeholder="${lecture.dateTime}" aria-describedby="id-addon"
+                                   th:value="${lecture.dateTime}" aria-describedby="id-addon"
                                    onchange="checkDate()"/>
                         </div>
                         <div class="input-group m-3">
