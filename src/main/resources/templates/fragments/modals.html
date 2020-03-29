@@ -200,3 +200,128 @@
         </div>
     </div>
 </div>
+
+
+<!--ProfessorCRUD modals-->
+<div th:fragment="professorDeleteModal" class="modal" th:id="'confirm-delete-'+${professor.id}" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm Delete</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>You are about to delete
+                    <span class="font-weight-bold" th:text="|Professor ${professor.firstName} ${professor.lastName}|"></span>,
+                    this procedure is irreversible.
+                <p>Do you want to proceed?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a th:href="@{/professor/deleteProfessor/__${professor.id}__}">
+                    <button type="button" class="btn btn-danger btn-ok">Delete</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="professorEditModal" class="modal" style="overflow-y: auto;" th:id="'edit-'+${professor.id}" tabindex="-1"
+     role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form th:action="@{/professor/__${professor.id}__/update}" method="POST" th:object="${newProfessor}">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row form-inline d-flex justify-content-center">
+                        <div class="input-group ml-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="id-addon" th:text="${professor.id}">id</span>
+                            </div>
+                            <input type='text' class="form-control" name="firstName" th:field="*{firstName}"
+                                   th:placeholder="${professor.firstName}" aria-describedby="id-addon" required/>
+                        </div>
+                        <div class='input-group m-3'>
+                            <input type='text' class="form-control" name="lastName" th:field="*{lastName}"
+                                   th:placeholder="${professor.lastName}" required/>
+                        </div>
+                        <div class='input-group m-3'>
+                            <input type='text' class="form-control" name="email" th:field="*{email}"
+                                   th:placeholder="${professor.email}" required/>
+                        </div>
+                        <div class="input-group m-3">
+                            <input type='text' class="form-control" name="password" th:field="*{password}"
+                                   th:placeholder="${professor.password}" required/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success btn-ok">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--RoomCRUD modals-->
+<div th:fragment="roomDeleteModal" class="modal" th:id="'confirm-delete-'+${room.id}" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm Delete</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>You are about to delete
+                    <span class="font-weight-bold" th:text="|Room ${room.name}|"></span>,
+                    this procedure is irreversible.
+                <p>Do you want to proceed?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a th:href="@{/room/deleteRoom/__${room.id}__}">
+                    <button type="button" class="btn btn-danger btn-ok">Delete</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="roomEditModal" class="modal" style="overflow-y: auto;" th:id="'edit-'+${room.id}" tabindex="-1"
+     role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form th:action="@{/room/__${room.id}__/update}" method="POST" th:object="${newRoom}">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row form-inline d-flex justify-content-center">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="id-addon" th:text="${room.id}">id</span>
+                            </div>
+                            <input type='text' class="form-control" name="firstName" th:field="*{name}"
+                                   th:placeholder="${room.name}" aria-describedby="id-addon" required/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success btn-ok">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

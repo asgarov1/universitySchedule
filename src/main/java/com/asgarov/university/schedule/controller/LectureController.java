@@ -36,7 +36,7 @@ public class LectureController {
     }
 
     @PostMapping("/searchLecturesById")
-    public String searchUsersById(@RequestParam Long id, Model model) {
+    public String searchLecturesById(@RequestParam Long id, Model model) {
         model.addAttribute("lectures", Collections.singletonList(lectureService.findById(id)));
         return "lecture";
     }
@@ -48,7 +48,7 @@ public class LectureController {
     }
 
     @PostMapping("/addNew")
-    public String addNew(@RequestParam String dateTime, @RequestParam Long roomId, @RequestParam Long courseId, Model model) {
+    public String addNew(@RequestParam String dateTime, @RequestParam Long roomId, @RequestParam Long courseId) {
         LocalDateTime localDateTime = LocalDateTime.parse(dateTime);
         Long lectureId = lectureService.create(new Lecture(localDateTime, roomService.findById(roomId)));
         courseService.scheduleLecture(courseId, lectureId);
@@ -56,13 +56,13 @@ public class LectureController {
     }
 
     @GetMapping("deleteLecture/{id}")
-    public String removeLectureFromCourse(@PathVariable Long id) throws DaoException {
+    public String deleteLecture(@PathVariable Long id) throws DaoException {
         lectureService.deleteById(id);
         return "redirect:/lecture/searchAll";
     }
 
     @PostMapping("/{id}/update")
-    public String updateCourse(@PathVariable Long id, @RequestParam String dateTime, @RequestParam Long roomId) throws DaoException {
+    public String updateLecture(@PathVariable Long id, @RequestParam String dateTime, @RequestParam Long roomId) throws DaoException {
         Lecture lecture = lectureService.findById(id);
         lecture.setDateTime(LocalDateTime.parse(dateTime));
         lecture.setRoom(roomService.findById(roomId));
@@ -76,11 +76,12 @@ public class LectureController {
     }
 
     @ModelAttribute("rooms")
-    public List<Room> rooms() { return roomService.findAll(); }
+    public List<Room> rooms() {
+        return roomService.findAll();
+    }
 
     @ModelAttribute("courses")
     public List<Course> courses() {
         return courseService.findAll();
     }
-
 }

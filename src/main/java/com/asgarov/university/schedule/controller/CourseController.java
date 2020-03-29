@@ -39,19 +39,19 @@ public class CourseController {
     }
 
     @PostMapping("/searchCoursesById")
-    public String searchUsersById(@RequestParam Long id, Model model) {
+    public String searchCoursesById(@RequestParam Long id, Model model) {
         model.addAttribute("courses", Collections.singletonList(courseService.findById(id)));
         return "course";
     }
 
     @PostMapping("/{id}/registerStudent")
-    public String registerStudent(@PathVariable Long id, @RequestParam Long studentId, Model model) {
+    public String registerStudent(@PathVariable Long id, @RequestParam Long studentId) {
         courseService.registerStudent(id, studentId);
         return "redirect:/course/" + id + "/students";
     }
 
     @PostMapping("/{id}/addLecture")
-    public String addLecture(@PathVariable Long id, @RequestParam String dateTime, @RequestParam Long roomId, Model model) {
+    public String addLecture(@PathVariable Long id, @RequestParam String dateTime, @RequestParam Long roomId) {
         LocalDateTime localDateTime = LocalDateTime.parse(dateTime);
         Long lectureId = lectureService.create(new Lecture(localDateTime, roomService.findById(roomId)));
         courseService.scheduleLecture(id, lectureId);
@@ -74,14 +74,14 @@ public class CourseController {
     }
 
     @GetMapping("/{id}/delete")
-    public String deleteCourse(@PathVariable Long id, Course course, Model model) throws DaoException {
+    public String deleteCourse(@PathVariable Long id, Model model) throws DaoException {
         courseService.deleteById(id);
         model.addAttribute("courses", courseService.findAll());
         return "course";
     }
 
     @GetMapping("/{id}/removeStudent/{studentId}")
-    public String removeStudentFromCourse(@PathVariable Long id, @PathVariable Long studentId, Model model) {
+    public String removeStudentFromCourse(@PathVariable Long id, @PathVariable Long studentId) {
         Course course = courseService.findById(id);
         courseService.unregisterStudent(course, studentId);
         return "redirect:/course/" + id + "/students";
