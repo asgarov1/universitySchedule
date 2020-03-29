@@ -29,7 +29,38 @@
         </div>
 
         <div th:replace="fragments/coursesTable :: courses"></div>
+
+        <form th:action="@{/course/addNew/}" method="POST">
+            <div class="row form-inline d-flex justify-content-center">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="name" placeholder="Enter the name of the course"
+                           required>
+                </div>
+                <div class="input-group">
+                    <select class="form-control" name="professorId" id="professorSelect" required onchange="enableButton()">
+                        <option selected>Choose professor</option>
+                        <option th:each="professorFromList: ${professors}" th:text="${professorFromList}"
+                                th:value="${professorFromList.id}">
+                        </option>
+                    </select>
+                </div>
+                <div class="input-group m-3">
+                    <button type="submit" class="btn btn-success btn-ok" disabled
+                            id="addCourseBtn"
+                            data-toggle="tooltip" data-placement="top"
+                            title="You will be able to add students and lectures later">Add Course
+                    </button>
+                </div>
+            </div>
+
+            <script>
+                function enableButton() {
+                    let select = document.getElementById('professorSelect');
+                    let btn = document.getElementById('addCourseBtn');
+                    btn.disabled = select.value === "Choose professor";
+                }
+            </script>
+        </form>
     </div>
 
-</div>
 </div>

@@ -58,6 +58,15 @@ public class CourseController {
         return "redirect:/course/" + id + "/lectures";
     }
 
+    @PostMapping("/addNew")
+    public String addNew(@RequestParam String name, @RequestParam Long professorId) {
+        Course course = new Course();
+        course.setName(name);
+        course.setProfessor(professorService.findById(professorId));
+        courseService.create(course);
+        return "redirect:/course";
+    }
+
     @GetMapping("/searchAll")
     public String searchAll(Model model) {
         model.addAttribute("courses", courseService.findAll());
