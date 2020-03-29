@@ -45,8 +45,8 @@ public class CourseService extends AbstractDaoService<Long, Course> {
         });
     }
 
-    public void scheduleLecture(Long id, Long lectureId) {
-        courseLectureDao.create(new CourseLecture(id, lectureId));
+    public void scheduleLecture(Long courseId, Long lectureId) {
+        courseLectureDao.create(new CourseLecture(courseId, lectureId));
     }
 
     public List<Course> findStudentsCourses(final Student student) {

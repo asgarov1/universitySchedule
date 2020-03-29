@@ -88,7 +88,7 @@ public class CourseController {
     }
 
     @GetMapping("{id}/removeLecture/{lectureId}")
-    public String removeLectureFromCourse(@PathVariable Long id, @PathVariable Long lectureId, Model model) {
+    public String removeLectureFromCourse(@PathVariable Long id, @PathVariable Long lectureId) {
         courseService.removeLecture(lectureId);
         return "redirect:/course/" + id + "/lectures";
     }

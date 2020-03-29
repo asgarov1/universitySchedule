@@ -1,0 +1,33 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:include="layouts/standardLayout :: page(title='LectureCRUD')">
+<div class="container" th:fragment="main">
+    <div class="jumbotron">
+        <h1>LectureCRUD Operations:</h1>
+        <hr/>
+
+        <!--        First Row         -->
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <input class="form-control" type="text" placeholder="Search Lectures" readonly>
+            </div>
+        </div>
+
+        <!--        Second Row         -->
+        <div class="form-row">
+            <form method="post" th:action="@{/lecture/searchLecturesById/}">
+                <div class="form-group input-group col-sm-10">
+                    <input type="text" name="id" class="form-control" placeholder="enter the id" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Search By Id</button>
+                    </div>
+                </div>
+            </form>
+            <div class="form-group col-sm-2">
+                <a th:href="@{/lecture/searchAll/}" class="text-decoration-none">
+                    <button class="btn btn-outline-secondary btn-block" type="submit">Show All</button>
+                </a>
+            </div>
+        </div>
+
+        <div th:replace="fragments/lecturesTable :: lectures"></div>
+    </div>
+</div>

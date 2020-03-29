@@ -124,3 +124,28 @@
         </div>
     </div>
 </div>
+
+<!--LectureCRUD modals-->
+<div th:fragment="deleteLectureModal" class="modal" th:id="'confirm-delete-'+${lecture.id}" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm Delete</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>You are about to delete <span class="font-weight-bold" th:text="|lecture with id ${lecture.id}|"></span>,
+                this procedure is irreversible.
+                <p>Do you want to proceed?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a th:href="@{/lecture/deleteLecture/__${lecture.id}__}">
+                    <button type="button" class="btn btn-danger btn-ok">Delete</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
