@@ -15,6 +15,7 @@ import java.util.Collections;
 public class RoomController {
 
     private RoomService roomService;
+    private final static String CANT_DELETE_MESSAGE = "Can't delete, as this room is being used for lecture(s)!";
 
     public RoomController(RoomService roomService) {
         this.roomService = roomService;
@@ -49,7 +50,7 @@ public class RoomController {
         try {
             roomService.deleteById(id);
         } catch (DataIntegrityViolationException | DaoException e) {
-            model.addAttribute("error", "Can't delete, as this room is being used for lecture(s)!");
+            model.addAttribute("error", CANT_DELETE_MESSAGE);
             model.addAttribute("rooms", roomService.findAll());
             return "room";
         }

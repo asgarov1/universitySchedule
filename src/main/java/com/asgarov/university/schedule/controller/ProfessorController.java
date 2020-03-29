@@ -15,6 +15,8 @@ import java.util.Collections;
 public class ProfessorController {
 
     private ProfessorService professorService;
+    private final static String CANT_DELETE_MESSAGE = "Can't delete, as this Professor is still registered for course(s)!";
+
 
     public ProfessorController(ProfessorService professorService) {
         this.professorService = professorService;
@@ -49,7 +51,7 @@ public class ProfessorController {
         try {
             professorService.deleteById(id);
         } catch (DataIntegrityViolationException | DaoException e) {
-            model.addAttribute("error", "Can't delete, as this Professor is still registered for course(s)!");
+            model.addAttribute("error", CANT_DELETE_MESSAGE);
             model.addAttribute("professors", professorService.findAll());
             return "professor";
         }
