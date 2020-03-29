@@ -77,7 +77,8 @@
 </div>
 
 
-<div th:fragment="removeStudentFromCourseModal" class="modal" th:id="'confirm-delete-'+${student.id}" tabindex="-1" role="dialog"
+<div th:fragment="removeStudentFromCourseModal" class="modal" th:id="'confirm-delete-'+${student.id}" tabindex="-1"
+     role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -87,7 +88,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>You are about to remove <span class="font-weight-bold" th:text="|${student.firstName} ${student.lastName}|">this row</span>,
+                <p>You are about to remove <span class="font-weight-bold"
+                                                 th:text="|${student.firstName} ${student.lastName}|">this row</span>,
                     from the course <span class="font-weight-bold" th:text="${course.name}"></span>
                 <p>Do you want to proceed?</p>
             </div>
@@ -101,7 +103,8 @@
     </div>
 </div>
 
-<div th:fragment="removeLectureFromCourseModal" class="modal" th:id="'confirm-delete-'+${lecture.id}" tabindex="-1" role="dialog"
+<div th:fragment="removeLectureFromCourseModal" class="modal" th:id="'confirm-delete-'+${lecture.id}" tabindex="-1"
+     role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -111,7 +114,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>You are about to remove <span class="font-weight-bold" th:text="|lecture with id ${lecture.id}|"></span>,
+                <p>You are about to remove <span class="font-weight-bold"
+                                                 th:text="|lecture with id ${lecture.id}|"></span>,
                     from the course <span class="font-weight-bold" th:text="${courseName}"></span>
                 <p>Do you want to proceed?</p>
             </div>
@@ -136,8 +140,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>You are about to delete <span class="font-weight-bold" th:text="|lecture with id ${lecture.id}|"></span>,
-                this procedure is irreversible.
+                <p>You are about to delete <span class="font-weight-bold"
+                                                 th:text="|lecture with id ${lecture.id}|"></span>,
+                    this procedure is irreversible.
                 <p>Do you want to proceed?</p>
             </div>
             <div class="modal-footer">
@@ -146,6 +151,52 @@
                     <button type="button" class="btn btn-danger btn-ok">Delete</button>
                 </a>
             </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="lectureEditModal" class="modal" style="overflow-y: auto;" th:id="'edit-'+${lecture.id}" tabindex="-1"
+     role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form th:action="@{/lecture/__${lecture.id}__/update}" method="POST">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row form-inline d-flex justify-content-center">
+                        <div class="input-group ml-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="id-addon" th:text="${lecture.id}">id</span>
+                            </div>
+                            <input type='text' class="form-control" name="dateTime"
+                                   th:placeholder="${lecture.dateTime}" aria-describedby="id-addon"
+                                   onchange="checkDate()"/>
+                        </div>
+                        <div class="input-group m-3">
+                            <select required class="form-control" name="roomId" onchange="checkDate()">
+                                <option th:value="${lecture.room}" selected>Available Rooms</option>
+                                <option th:each="room: ${rooms}" th:text="${room}"
+                                        th:value="${room.id}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="input-group m-3">
+                            <input type="text" class="form-control" readonly
+                                   th:value="${courseService.findCourseByLectureId(__${lecture.id}__).name}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button id="saveChangesBtn" type="submit" class="btn btn-success btn-ok"
+                            data-toggle="tooltip" data-placement="top" title="Enter date and time in the correct format
+                            and select a room">Save Changes
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

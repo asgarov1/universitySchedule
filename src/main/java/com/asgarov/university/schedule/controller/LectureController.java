@@ -61,6 +61,15 @@ public class LectureController {
         return "redirect:/lecture/searchAll";
     }
 
+    @PostMapping("/{id}/update")
+    public String updateCourse(@PathVariable Long id, @RequestParam String dateTime, @RequestParam Long roomId) throws DaoException {
+        Lecture lecture = lectureService.findById(id);
+        lecture.setDateTime(LocalDateTime.parse(dateTime));
+        lecture.setRoom(roomService.findById(roomId));
+        lectureService.update(lecture);
+        return "redirect:/lecture/searchAll";
+    }
+
     @ModelAttribute("courseService")
     public CourseService courseService() {
         return courseService;
