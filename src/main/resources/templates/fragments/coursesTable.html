@@ -14,17 +14,17 @@
             <tr th:each="course: ${courses}">
                 <td th:text="${course.id}">id</td>
                 <td th:text="${course.name}">Name</td>
-                <td><a target="_blank" th:unless="${#lists.isEmpty(course.registeredStudents)}"
-                       th:href="@{/course/__${course.id}__/students}">Registered Students</a></td>
+                <td><a target="_blank" class="text-decoration-none"
+                       th:href="@{/course/__${course.id}__/students}" th:text="|Registered Students (${course.registeredStudents.size()})|">Students</a></td>
                 <td th:text="${course.professor}">Professor</td>
-                <td><a target="_blank" th:unless="${#lists.isEmpty(course.lectures)}"
-                       th:href="@{/course/__${course.id}__/lectures}">Lectures</a></td>
-                <td><a href="#"
+                <td><a target="_blank" class="text-decoration-none"
+                       th:href="@{/course/__${course.id}__/lectures}" th:text="|Lectures (${course.lectures.size()})|">Lectures</a></td>
+                <td><a href="#" class="text-decoration-none"
                        data-toggle="modal"
                        th:attr="data-target='#edit-'+${course.id}">Edit</a>
                     <div th:replace="fragments/modals :: courseEditModal"></div>
                     /
-                    <a href="#" class="text-danger"
+                    <a href="#" class="text-danger text-decoration-none"
                        data-toggle="modal"
                        th:attr="data-target='#confirm-delete-'+${course.id}">Delete</a>
                     <div th:replace="fragments/modals :: courseDeleteModal"></div>

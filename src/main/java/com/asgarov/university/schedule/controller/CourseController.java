@@ -3,6 +3,7 @@ package com.asgarov.university.schedule.controller;
 import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Course;
 import com.asgarov.university.schedule.domain.Professor;
+import com.asgarov.university.schedule.domain.dto.CourseDTO;
 import com.asgarov.university.schedule.service.CourseService;
 import com.asgarov.university.schedule.service.ProfessorService;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,12 @@ public class CourseController {
         return "course";
     }
 
+    @PostMapping("/{id}/registerStudent")
+    public String registerStudent(@PathVariable Long id, @RequestParam Long studentId, Model model) {
+        courseService.registerStudent(id, studentId);
+        return "redirect:/course/" + id + "/students";
+    }
+
     @GetMapping("/searchAll")
     public String searchAll(Model model) {
         model.addAttribute("courses", courseService.findAll());
@@ -42,8 +49,23 @@ public class CourseController {
     }
 
     @GetMapping("/{id}/delete")
-    public String deleteCourse(@PathVariable Long id, Model model) throws DaoException {
+    public String deleteCourse(@PathVariable Long id, Course course, Model model) throws DaoException {
         courseService.deleteById(id);
+        model.addAttribute("courses", courseService.findAll());
+        return "course";
+    }
+
+    @GetMapping("/{id}/removeStudent/{studentId}")
+    public String removeStudentFromCourse(@PathVariable Long id, @PathVariable Long studentId, Model model) throws DaoException {
+        Course course = courseService.findById(id);
+        courseService.unregisterStudent(course, studentId);
+        return "redirect:/course/" + id + "/students";
+    }
+
+    @RequestMapping("/{id}/update")
+    public String updateCourse(@PathVariable Long id, CourseDTO courseDTO, Model model) throws DaoException {
+        Course course = courseService.findById(id);
+        courseService.update(course, courseDTO);
         model.addAttribute("courses", courseService.findAll());
         return "course";
     }
@@ -62,6 +84,7 @@ public class CourseController {
         Course course = courseService.findById(id);
         model.addAttribute("course", course);
         model.addAttribute("students", course.getRegisteredStudents());
+        model.addAttribute("notRegisteredStudents", courseService.getNotRegisteredStudents(course));
         return "courseStudents";
     }
 
@@ -71,8 +94,8 @@ public class CourseController {
     }
 
     @ModelAttribute("newCourse")
-    public Course newCourse() {
-        return new Course();
+    public CourseDTO newCourseDTO() {
+        return new CourseDTO();
     }
 
     @ModelAttribute("professors")

@@ -107,4 +107,7 @@ public class Course {
                 '}';
     }
 
+    public void removeStudent(Student student) {
+        registeredStudents.remove(student);
+    }
 }

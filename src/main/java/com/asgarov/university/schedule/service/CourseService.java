@@ -1,9 +1,11 @@
 package com.asgarov.university.schedule.service;
 
-import com.asgarov.university.schedule.dao.CourseDao;
+import com.asgarov.university.schedule.dao.AbstractDao;
 import com.asgarov.university.schedule.dao.CourseLectureDao;
 import com.asgarov.university.schedule.dao.CourseStudentDao;
+import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.*;
+import com.asgarov.university.schedule.domain.dto.CourseDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,13 +16,15 @@ public class CourseService extends AbstractDaoService<Long, Course> {
 
     private CourseLectureDao courseLectureDao;
     private CourseStudentDao courseStudentDao;
+    private ProfessorService professorService;
+    private StudentService studentService;
 
-    public CourseService(
-            final CourseLectureDao courseLectureDao,
-            final CourseStudentDao courseStudentDao, final CourseDao courseDao) {
-        super(courseDao);
+    public CourseService(AbstractDao<Long, Course> abstractDao, CourseLectureDao courseLectureDao, CourseStudentDao courseStudentDao, ProfessorService professorService, StudentService studentService) {
+        super(abstractDao);
         this.courseLectureDao = courseLectureDao;
         this.courseStudentDao = courseStudentDao;
+        this.professorService = professorService;
+        this.studentService = studentService;
     }
 
     public void registerStudents(Course course, List<Student> students) {
@@ -28,6 +32,10 @@ public class CourseService extends AbstractDaoService<Long, Course> {
             courseStudentDao.create(new CourseStudent(course.getId(), student.getId()));
             course.addStudent(student);
         });
+    }
+
+    public void registerStudent(Long courseId, Long studentId) {
+        courseStudentDao.create(new CourseStudent(courseId, studentId));
     }
 
     public void scheduleLectures(Course course, List<Lecture> lectures) {
@@ -64,5 +72,21 @@ public class CourseService extends AbstractDaoService<Long, Course> {
 
     public Course findCourseByLectureId(Integer lectureId) {
         return findCourseByLectureId((long) lectureId);
+    }
+
+    public void update(Course course, CourseDTO courseDTO) throws DaoException {
+        course.setName(courseDTO.getName());
+        course.setProfessor(professorService.findById(courseDTO.getProfessorId()));
+        update(course);
+    }
+
+    public void unregisterStudent(Course course, Long studentId) {
+        courseStudentDao.deleteByStudentId(studentId);
+    }
+
+    public List<Student> getNotRegisteredStudents(Course course) {
+        List<Student> notRegisteredStudents = studentService.findAll();
+        notRegisteredStudents.removeAll(course.getRegisteredStudents());
+        return notRegisteredStudents;
     }
 }

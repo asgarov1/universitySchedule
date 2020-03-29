@@ -14,16 +14,16 @@
         <!--        Second Row         -->
         <div class="form-row">
             <form method="post" th:action="@{/course/searchCoursesById/}">
-                <div class="form-group input-group sm-10">
-                    <input type="text" name="id" class="form-control" placeholder="enter the id to search" required>
+                <div class="form-group input-group col-sm-10">
+                    <input type="text" name="id" class="form-control" placeholder="enter the id" required>
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="submit">Search By Id</button>
                     </div>
                 </div>
             </form>
             <div class="form-group col-sm-2">
-                <a th:href="@{/course/searchAll/}">
-                    <button class="btn btn-outline-secondary btn-block" type="submit">Search All</button>
+                <a th:href="@{/course/searchAll/}" class="text-decoration-none">
+                    <button class="btn btn-outline-secondary btn-block" type="submit">Show All</button>
                 </a>
             </div>
         </div>
