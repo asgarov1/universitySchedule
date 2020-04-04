@@ -8,7 +8,7 @@ public class HomeController {
 
     @GetMapping({"/", "", "/index"})
     public String home() {
-        return "redirect:/course";
+        return "redirect:/schedule";
     }
 
 }
