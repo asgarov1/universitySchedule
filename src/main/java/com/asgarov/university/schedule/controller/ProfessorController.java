@@ -34,19 +34,13 @@ public class ProfessorController {
         return "professor";
     }
 
-    @GetMapping("/searchAll")
-    public String searchAll(Model model) {
-        model.addAttribute("professors", professorService.findAll());
-        return "professor";
-    }
-
-    @PostMapping("/addNew")
+    @PostMapping
     public String addNew(Professor professor) {
         professorService.create(professor);
-        return "redirect:/professor/searchAll";
+        return "redirect:/professor";
     }
 
-    @GetMapping("deleteProfessor/{id}")
+    @DeleteMapping("/{id}")
     public String deleteProfessor(@PathVariable Long id, Model model) {
         try {
             professorService.deleteById(id);
@@ -55,14 +49,14 @@ public class ProfessorController {
             model.addAttribute("professors", professorService.findAll());
             return "professor";
         }
-        return "redirect:/professor/searchAll";
+        return "redirect:/professor";
     }
 
-    @PostMapping("/{id}/update")
+    @PutMapping("/{id}")
     public String updateProfessor(@PathVariable Long id, Professor professor) throws DaoException {
         professor.setId(id);
         professorService.update(professor);
-        return "redirect:/professor/searchAll";
+        return "redirect:/professor";
     }
 
     @ModelAttribute("newProfessor")

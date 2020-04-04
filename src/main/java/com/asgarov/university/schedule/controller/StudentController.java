@@ -32,31 +32,25 @@ public class StudentController {
         return "student";
     }
 
-    @GetMapping("/searchAll")
-    public String searchAll(Model model) {
-        model.addAttribute("students", studentService.findAll());
-        return "student";
-    }
-
-    @PostMapping("/addNew")
+    @PostMapping
     public String addNew(Student student, @RequestParam String degree) {
         student.setDegree(Degree.valueOf(degree));
         studentService.create(student);
-        return "redirect:/student/searchAll";
+        return "redirect:/student";
     }
 
-    @GetMapping("deleteStudent/{id}")
+    @DeleteMapping("/{id}")
     public String deleteStudent(@PathVariable Long id, Model model) throws DaoException {
         studentService.deleteById(id);
-        return "redirect:/student/searchAll";
+        return "redirect:/student";
     }
 
-    @PostMapping("/{id}/update")
+    @PutMapping("/{id}")
     public String updateStudent(@PathVariable Long id, Student student, @RequestParam String degree) throws DaoException {
         student.setId(id);
         student.setDegree(Degree.valueOf(degree));
         studentService.update(student);
-        return "redirect:/student/searchAll";
+        return "redirect:/student";
     }
 
     @ModelAttribute("newStudent")

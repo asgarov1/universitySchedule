@@ -57,7 +57,7 @@ public class CourseController {
         return "redirect:/course/" + id + "/lectures";
     }
 
-    @PostMapping("/addNew")
+    @PostMapping()
     public String addNew(@RequestParam String name, @RequestParam Long professorId) {
         Course course = new Course();
         course.setName(name);
@@ -66,39 +66,14 @@ public class CourseController {
         return "redirect:/course";
     }
 
-    @GetMapping("/searchAll")
-    public String searchAll(Model model) {
-        model.addAttribute("courses", courseService.findAll());
-        return "course";
-    }
-
-    @GetMapping("/{id}/delete")
-    public String deleteCourse(@PathVariable Long id, Model model) throws DaoException {
-        courseService.deleteById(id);
-        model.addAttribute("courses", courseService.findAll());
-        return "course";
-    }
-
-    @GetMapping("/{id}/removeStudent/{studentId}")
-    public String removeStudentFromCourse(@PathVariable Long id, @PathVariable Long studentId) {
-        Course course = courseService.findById(id);
-        courseService.unregisterStudent(course, studentId);
-        return "redirect:/course/" + id + "/students";
-    }
-
-    @GetMapping("{id}/removeLecture/{lectureId}")
-    public String removeLectureFromCourse(@PathVariable Long id, @PathVariable Long lectureId) {
-        courseService.removeLecture(lectureId);
-        return "redirect:/course/" + id + "/lectures";
-    }
-
-    @RequestMapping("/{id}/update")
-    public String updateCourse(@PathVariable Long id, @RequestParam String courseName, @RequestParam Long professorId) throws DaoException {
+    @PutMapping(value = "/{id}")
+    public String updateCourse(@PathVariable Long id, @RequestParam String courseName, @RequestParam Long professorId)
+            throws DaoException {
         Course course = courseService.findById(id);
         course.setName(courseName);
         course.setProfessor(professorService.findById(professorId));
         courseService.update(course);
-        return "redirect:/course/searchAll";
+        return "redirect:/course";
     }
 
 
@@ -119,6 +94,25 @@ public class CourseController {
         model.addAttribute("students", course.getRegisteredStudents());
         model.addAttribute("notRegisteredStudents", courseService.getNotRegisteredStudents(course));
         return "courseStudents";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteCourse(@PathVariable Long id, Model model) throws DaoException {
+        courseService.deleteById(id);
+        return "redirect:/course";
+    }
+
+    @DeleteMapping("/{id}/removeStudent/{studentId}")
+    public String removeStudentFromCourse(@PathVariable Long id, @PathVariable Long studentId) {
+        Course course = courseService.findById(id);
+        courseService.unregisterStudent(course, studentId);
+        return "redirect:/course/" + id + "/students";
+    }
+
+    @DeleteMapping("{id}/removeLecture/{lectureId}")
+    public String removeLectureFromCourse(@PathVariable Long id, @PathVariable Long lectureId) {
+        courseService.removeLecture(lectureId);
+        return "redirect:/course/" + id + "/lectures";
     }
 
     @ModelAttribute("courseService")

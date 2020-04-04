@@ -1,7 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:include="layouts/standardLayout :: page(title='StudentCRUD')">
 <div class="container" th:fragment="main">
     <div class="jumbotron">
-        <h1>StudentCRUD Operations:</h1>
+        <h1>Student Operations:</h1>
         <hr/>
 
         <div class="form-row">
@@ -13,11 +13,6 @@
                     </div>
                 </div>
             </form>
-            <div class="form-group col-sm-2">
-                <a th:href="@{/student/searchAll/}" class="text-decoration-none">
-                    <button class="btn btn-outline-secondary btn-block" type="submit">Show All</button>
-                </a>
-            </div>
         </div>
 
         <div th:replace="fragments/studentsTable :: students"></div>

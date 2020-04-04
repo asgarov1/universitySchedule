@@ -14,14 +14,12 @@ public class CourseService extends AbstractDaoService<Long, Course> {
 
     private CourseLectureDao courseLectureDao;
     private CourseStudentDao courseStudentDao;
-    private ProfessorService professorService;
     private StudentService studentService;
 
-    public CourseService(AbstractDao<Long, Course> abstractDao, CourseLectureDao courseLectureDao, CourseStudentDao courseStudentDao, ProfessorService professorService, StudentService studentService) {
+    public CourseService(AbstractDao<Long, Course> abstractDao, CourseLectureDao courseLectureDao, CourseStudentDao courseStudentDao, StudentService studentService) {
         super(abstractDao);
         this.courseLectureDao = courseLectureDao;
         this.courseStudentDao = courseStudentDao;
-        this.professorService = professorService;
         this.studentService = studentService;
     }
 
@@ -74,6 +72,10 @@ public class CourseService extends AbstractDaoService<Long, Course> {
 
     public Course findCourseByLectureId(Integer lectureId) {
         return findCourseByLectureId((long) lectureId);
+    }
+
+    public Course findCourseByLectureId(String lectureId) {
+        return findCourseByLectureId(Long.valueOf(lectureId));
     }
 
     public void unregisterStudent(Course course, Long studentId) {

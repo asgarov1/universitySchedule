@@ -35,7 +35,7 @@
 
     <div class="container border border-dark rounded text-center">
         <h4 th:class="mt-3">Create new Student</h4>
-        <form th:action="@{/student/addNew/}" method="POST" th:object="${newStudent}">
+        <form th:action="@{/student}" method="POST" th:object="${newStudent}">
             <div class="row form-inline d-flex justify-content-center">
                 <div class='input-group m-3'>
                     <input type='text' class="form-control" name="firstName" th:field="*{firstName}"

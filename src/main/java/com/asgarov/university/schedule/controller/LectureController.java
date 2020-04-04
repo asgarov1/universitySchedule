@@ -8,6 +8,8 @@ import com.asgarov.university.schedule.service.CourseService;
 import com.asgarov.university.schedule.service.LectureService;
 import com.asgarov.university.schedule.service.RoomService;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("lecture")
@@ -24,9 +28,7 @@ public class LectureController {
     private LectureService lectureService;
     private RoomService roomService;
     private CourseService courseService;
-    private final static int INITIAL_AMOUNT_OF_RESULTS = 10;
-    private final static String INITIAL_MESSAGE = "For performance reasons only the first " + INITIAL_AMOUNT_OF_RESULTS + " entries are displayed. Press 'showAll' to see all results";
-    private final static String CANT_FIND_BY_ID_MESSAGE = "Nothing found under this id";
+    private final static String AMOUNT_PER_PAGE = "10";
 
     public LectureController(LectureService lectureService, RoomService roomService, CourseService courseService) {
         this.lectureService = lectureService;
@@ -35,9 +37,21 @@ public class LectureController {
     }
 
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("lectures", lectureService.findAmount(INITIAL_AMOUNT_OF_RESULTS));
-        model.addAttribute("message", INITIAL_MESSAGE);
+    public String index(Model model,
+                        @RequestParam (defaultValue = "1") Integer currentPage,
+                        @RequestParam (defaultValue = AMOUNT_PER_PAGE) Integer pageSize) {
+
+        Page<Lecture> lecturePage = lectureService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+        model.addAttribute("lecturePage", lecturePage);
+
+        int totalPages = lecturePage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
         return "lecture";
     }
 
@@ -46,28 +60,22 @@ public class LectureController {
         try {
             model.addAttribute("lectures", Collections.singletonList(lectureService.findById(id)));
         } catch (EmptyResultDataAccessException e) {
-            model.addAttribute("message", CANT_FIND_BY_ID_MESSAGE);
+            model.addAttribute("message", "Can't find by id!");
             return "lecture";
         }
 
         return "lecture";
     }
 
-    @GetMapping("/searchAll")
-    public String searchAll(Model model) {
-        model.addAttribute("lectures", lectureService.findAll());
-        return "lecture";
-    }
-
-    @PostMapping("/addNew")
+    @PostMapping
     public String addNew(@RequestParam String dateTime, @RequestParam Long roomId, @RequestParam Long courseId) {
         LocalDateTime localDateTime = LocalDateTime.parse(dateTime);
         Long lectureId = lectureService.create(new Lecture(localDateTime, roomService.findById(roomId)));
         courseService.scheduleLecture(courseId, lectureId);
-        return "redirect:/lecture/searchAll";
+        return "redirect:/lecture";
     }
 
-    @GetMapping("deleteLecture/{id}")
+    @DeleteMapping("/{id}")
     public String deleteLecture(@PathVariable Long id) throws DaoException {
         lectureService.deleteById(id);
         return "redirect:/lecture";

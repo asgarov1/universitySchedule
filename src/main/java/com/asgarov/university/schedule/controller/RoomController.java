@@ -33,19 +33,13 @@ public class RoomController {
         return "room";
     }
 
-    @GetMapping("/searchAll")
-    public String searchAll(Model model) {
-        model.addAttribute("rooms", roomService.findAll());
-        return "room";
-    }
-
-    @PostMapping("/addNew")
+    @PostMapping
     public String addNew(Room room) {
         roomService.create(room);
-        return "redirect:/room/searchAll";
+        return "redirect:/room";
     }
 
-    @GetMapping("deleteRoom/{id}")
+    @DeleteMapping("/{id}")
     public String deleteRoom(@PathVariable Long id, Model model) {
         try {
             roomService.deleteById(id);
@@ -54,14 +48,14 @@ public class RoomController {
             model.addAttribute("rooms", roomService.findAll());
             return "room";
         }
-        return "redirect:/room/searchAll";
+        return "redirect:/room";
     }
 
-    @PostMapping("/{id}/update")
+    @PutMapping("/{id}")
     public String updateRoom(@PathVariable Long id, Room room) throws DaoException {
         room.setId(id);
         roomService.update(room);
-        return "redirect:/room/searchAll";
+        return "redirect:/room";
     }
 
     @ModelAttribute("newRoom")
