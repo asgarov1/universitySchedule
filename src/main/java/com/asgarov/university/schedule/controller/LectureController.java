@@ -4,6 +4,7 @@ import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Course;
 import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Room;
+import com.asgarov.university.schedule.domain.dto.LectureDTO;
 import com.asgarov.university.schedule.service.CourseService;
 import com.asgarov.university.schedule.service.LectureService;
 import com.asgarov.university.schedule.service.RoomService;
@@ -15,7 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +31,7 @@ public class LectureController {
     private LectureService lectureService;
     private RoomService roomService;
     private CourseService courseService;
-    private final static String AMOUNT_PER_PAGE = "10";
+    private final static Integer AMOUNT_PER_PAGE = 10;
 
     public LectureController(LectureService lectureService, RoomService roomService, CourseService courseService) {
         this.lectureService = lectureService;
@@ -38,8 +41,18 @@ public class LectureController {
 
     @GetMapping
     public String index(Model model,
-                        @RequestParam (defaultValue = "1") Integer currentPage,
-                        @RequestParam (defaultValue = AMOUNT_PER_PAGE) Integer pageSize) {
+                        @RequestParam (required = false) Integer page,
+                        @RequestParam (required = false) Integer size) {
+
+        int currentPage = 1;
+        int pageSize = AMOUNT_PER_PAGE;
+
+        if (page != null ) {
+            currentPage = page;
+        }
+        if (size != null) {
+            pageSize = size;
+        }
 
         Page<Lecture> lecturePage = lectureService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
         model.addAttribute("lecturePage", lecturePage);
@@ -55,7 +68,7 @@ public class LectureController {
         return "lecture";
     }
 
-    @PostMapping("/searchLecturesById")
+    @GetMapping("/searchLecturesById")
     public String searchLecturesById(@RequestParam Long id, HttpServletRequest request, Model model) {
         try {
             model.addAttribute("lectures", Collections.singletonList(lectureService.findById(id)));
@@ -68,10 +81,13 @@ public class LectureController {
     }
 
     @PostMapping
-    public String addNew(@RequestParam String dateTime, @RequestParam Long roomId, @RequestParam Long courseId) {
-        LocalDateTime localDateTime = LocalDateTime.parse(dateTime);
-        Long lectureId = lectureService.create(new Lecture(localDateTime, roomService.findById(roomId)));
-        courseService.scheduleLecture(courseId, lectureId);
+    public String addNew(LectureDTO lectureDTO) {
+        System.out.println(lectureDTO);
+        LocalDate localDate = LocalDate.parse(lectureDTO.getDate());
+        LocalTime localTime = LocalTime.parse(lectureDTO.getTime());
+        LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
+        Long lectureId = lectureService.create(new Lecture(localDateTime, roomService.findById(lectureDTO.getRoomId())));
+        courseService.scheduleLecture(lectureDTO.getCourseId(), lectureId);
         return "redirect:/lecture";
     }
 
@@ -103,5 +119,10 @@ public class LectureController {
     @ModelAttribute("courses")
     public List<Course> courses() {
         return courseService.findAll();
+    }
+
+    @ModelAttribute("lectureDTO")
+    public LectureDTO lectureDTO() {
+        return new LectureDTO();
     }
 }

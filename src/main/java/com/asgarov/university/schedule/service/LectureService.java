@@ -14,15 +14,12 @@ import java.util.List;
 @Service
 public class LectureService extends AbstractDaoService<Long, Lecture> {
 
-    private LectureDao lectureDao;
-    private List<Lecture> lectures = findAll();
-
     public LectureService(final LectureDao lectureDao) {
         super(lectureDao);
-        this.lectureDao = lectureDao;
     }
 
     public Page<Lecture> findPaginated(Pageable pageable) {
+        List<Lecture> lectures = findAll();
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
