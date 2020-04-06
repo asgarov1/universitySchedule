@@ -22,7 +22,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
 
-         FilterRegistration.Dynamic multipartFilter = servletContext.addFilter("multipartFilter", new MultipartFilter());
+        FilterRegistration.Dynamic multipartFilter = servletContext.addFilter("multipartFilter", new MultipartFilter());
         multipartFilter.addMappingForUrlPatterns(null, true, "/*");
     }
 
@@ -31,6 +31,5 @@ public class WebAppInitializer implements WebApplicationInitializer {
         context.register(annotatedClasses);
         return context;
     }
-
 
 }

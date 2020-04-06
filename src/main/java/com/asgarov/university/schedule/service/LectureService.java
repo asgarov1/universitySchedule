@@ -34,6 +34,4 @@ public class LectureService extends AbstractDaoService<Long, Lecture> {
 
         return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), lectures.size());
     }
-
-
 }

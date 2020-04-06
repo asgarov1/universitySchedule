@@ -44,7 +44,6 @@ public class WebConfig implements WebMvcConfigurer {
         resolver.setCharacterEncoding("UTF-8");
         resolver.setCacheable(false);
         return resolver;
-
     }
 
     @Bean

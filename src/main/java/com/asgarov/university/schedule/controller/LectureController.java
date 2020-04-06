@@ -41,13 +41,13 @@ public class LectureController {
 
     @GetMapping
     public String index(Model model,
-                        @RequestParam (required = false) Integer page,
-                        @RequestParam (required = false) Integer size) {
+                        @RequestParam(required = false) Integer page,
+                        @RequestParam(required = false) Integer size) {
 
         int currentPage = 1;
         int pageSize = AMOUNT_PER_PAGE;
 
-        if (page != null ) {
+        if (page != null) {
             currentPage = page;
         }
         if (size != null) {

@@ -29,7 +29,8 @@
             <div class="row form-group">
                 <div class='col-sm-4 input-group date'>
                     <input type='date' class="form-control" name="lectureDate" required th:field="*{date}"/>
-                    <input type='time' value="13:00" class="form-control" name="lectureTime" required th:field="*{time}"/>
+                    <input type='time' value="13:00" class="form-control" name="lectureTime" required
+                           th:field="*{time}"/>
                 </div>
                 <div class="col-sm-4">
                     <select required class="form-control" name="roomId" th:field="*{roomId}">
@@ -44,6 +45,4 @@
             </div>
         </form>
     </div>
-
-
 </div>
