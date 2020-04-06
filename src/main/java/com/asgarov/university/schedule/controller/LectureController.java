@@ -97,11 +97,12 @@ public class LectureController {
         return "redirect:/lecture";
     }
 
-    @PostMapping("/{id}/update")
-    public String updateLecture(@PathVariable Long id, @RequestParam String dateTime, @RequestParam Long roomId) throws DaoException {
+    @PutMapping("/{id}")
+    public String updateLecture(@PathVariable Long id, LectureDTO lectureDTO) throws DaoException {
         Lecture lecture = lectureService.findById(id);
-        lecture.setDateTime(LocalDateTime.parse(dateTime));
-        lecture.setRoom(roomService.findById(roomId));
+        LocalDateTime dateTime = LocalDateTime.of(LocalDate.parse(lectureDTO.getDate()), LocalTime.parse(lectureDTO.getTime()));
+        lecture.setDateTime(dateTime);
+        lecture.setRoom(roomService.findById(lectureDTO.getRoomId()));
         lectureService.update(lecture);
         return "redirect:/lecture";
     }

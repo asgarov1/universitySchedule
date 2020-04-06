@@ -26,17 +26,18 @@ public class StudentController {
         return "student";
     }
 
-    @PostMapping("/searchProfessorsById")
+    @GetMapping("/searchStudentsById")
     public String searchStudentsById(@RequestParam Long id, Model model) {
         model.addAttribute("students", Collections.singletonList(studentService.findById(id)));
         return "student";
     }
 
     @PostMapping
-    public String addNew(Student student, @RequestParam String degree) {
+    public String addNew(Student student, @RequestParam String degree, Model model) {
         student.setDegree(Degree.valueOf(degree));
         studentService.create(student);
-        return "redirect:/student";
+        model.addAttribute("students", studentService.findAll());
+        return "student";
     }
 
     @DeleteMapping("/{id}")

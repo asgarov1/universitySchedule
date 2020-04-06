@@ -1,14 +1,13 @@
 package com.asgarov.university.schedule.dao;
 
+import com.asgarov.university.schedule.domain.Professor;
+import com.asgarov.university.schedule.domain.Role;
+import org.springframework.stereotype.Repository;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.asgarov.university.schedule.domain.Professor;
-import com.asgarov.university.schedule.domain.Role;
-
-import org.springframework.stereotype.Repository;
 
 @Repository
 public class ProfessorDao extends AbstractDao<Long, Professor> {

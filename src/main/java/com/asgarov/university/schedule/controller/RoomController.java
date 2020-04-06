@@ -52,9 +52,14 @@ public class RoomController {
     }
 
     @PutMapping("/{id}")
-    public String updateRoom(@PathVariable Long id, Room room) throws DaoException {
-        room.setId(id);
-        roomService.update(room);
+    public String updateRoom(@PathVariable Long id, @RequestParam String roomName) {
+        Room room = roomService.findById(id);
+        room.setName(roomName);
+        try {
+            roomService.update(room);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
         return "redirect:/room";
     }
 

@@ -25,42 +25,25 @@
             </tr>
         </table>
 
-        <form th:action="@{/course/__${course.id}__/addLecture/}" method="POST">
-            <div class="row form-inline d-flex justify-content-center">
-                <div class="input-group">
-                    <div class='input-group date'>
-                        <input type='text' class="form-control" name="dateTime" id="dateTime"
-                               placeholder="dddd-mm-ddThh:mm:ss" onchange="checkDate()"/>
-                    </div>
+        <form th:action="@{/course/__${course.id}__/addLecture/}" method="POST" th:object="${lectureDTO}">
+            <div class="row form-group">
+                <div class='col-sm-4 input-group date'>
+                    <input type='date' class="form-control" name="lectureDate" required th:field="*{date}"/>
+                    <input type='time' value="13:00" class="form-control" name="lectureTime" required th:field="*{time}"/>
                 </div>
-                <div class="input-group m-3">
-                    <select required class="form-control" name="roomId" id="roomSelect" onchange="checkDate()">
-                        <option selected>Available Rooms</option>
+                <div class="col-sm-4">
+                    <select required class="form-control" name="roomId" th:field="*{roomId}">
                         <option th:each="room: ${rooms}" th:text="${room}"
                                 th:value="${room.id}">
                         </option>
                     </select>
                 </div>
-                <div class="input-group m-3">
-                    <button id="addLectureBtn" type="submit" disabled class="btn btn-success btn-ok"
-                            data-toggle="tooltip" data-placement="top" title="Enter date and time in the correct format
-                            and select a room">Add Lecture
-                    </button>
+                <div class="col-sm-4">
+                    <button type="submit" class="btn btn-success btn-ok">Add Lecture</button>
                 </div>
             </div>
         </form>
     </div>
 
-    <script>
-        function checkDate() {
-            let input = document.getElementById("dateTime").value;
-            let select = document.getElementById('roomSelect');
-            let regex = new RegExp("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$");
-            if(regex.test(input) && select.value !== "Available Rooms") {
-                document.getElementById("addLectureBtn").disabled = false;
-            } else {
-                document.getElementById("addLectureBtn").disabled = true;
-            }
-        }
-    </script>
+
 </div>

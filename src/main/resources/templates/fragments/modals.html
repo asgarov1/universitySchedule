@@ -32,7 +32,7 @@
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <form th:action="@{/course/__${course.id}__/}" th:method="put">
+            <form th:action="@{/course/__${course.id}__}" th:method="put">
                 <div class="modal-header">
                     <h4 class="modal-title">Edit</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -53,7 +53,6 @@
                         </div>
                         <div class="input-group">
                             <select class="form-control" style="width: 70%;" name="professorId">
-                                <option th:value="${course.professor}" th:selected>Professor</option>
                                 <option th:each="professorFromList: ${professors}" th:text="${professorFromList}"
                                         th:value="${professorFromList.id}">
                                 </option>
@@ -159,30 +158,30 @@
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <form th:action="@{/lecture/__${lecture.id}__}" th:method="put">
+            <form th:action="@{/lecture/__${lecture.id}__}" th:method="put" th:object="${lectureDTO}">
                 <div class="modal-header">
                     <h4 class="modal-title">Edit</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
-                    <div class="row form-inline d-flex justify-content-center">
-                        <div class="input-group ml-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="id-addon" th:text="${lecture.id}">id</span>
-                            </div>
-                            <input type='text' class="form-control" name="dateTime"
-                                   th:value="${lecture.dateTime}" aria-describedby="id-addon"
-                                   onchange="checkDate()"/>
+                    <div class="row form-group">
+                        <div class="col-sm-1">
+                            <span class="input-group-text" id="id-addon" th:text="${lecture.id}">id</span>
                         </div>
-                        <div class="input-group m-3">
-                            <select required class="form-control" name="roomId" onchange="checkDate()">
-                                <option th:value="${lecture.room}" selected>Available Rooms</option>
+                        <div class="col-sm-3">
+                            <input class="form-control" type="date" th:field="*{date}" required>
+                        </div>
+                        <div class="col-sm-2">
+                            <input class="form-control" type="time" th:field="*{time}" required>
+                        </div>
+                        <div class="col-sm-3">
+                            <select required class="form-control" name="roomId" th:field="*{roomId}">
                                 <option th:each="room: ${rooms}" th:text="${room}"
                                         th:value="${room.id}">
                                 </option>
                             </select>
                         </div>
-                        <div class="input-group m-3">
+                        <div class="col-sm-3">
                             <input type="text" class="form-control" readonly
                                    th:value="${courseService.findCourseByLectureId(__${lecture.id}__).name}"/>
                         </div>
@@ -190,9 +189,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button id="saveChangesBtn" type="submit" class="btn btn-success btn-ok"
-                            data-toggle="tooltip" data-placement="top" title="Enter date and time in the correct format
-                            and select a room">Save Changes
+                    <button id="saveChangesBtn" type="submit" class="btn btn-success btn-ok">Save Changes
                     </button>
                 </div>
             </form>
@@ -246,20 +243,20 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="id-addon" th:text="${professor.id}">id</span>
                             </div>
-                            <input type='text' class="form-control" name="firstName" th:field="*{firstName}"
-                                   th:placeholder="${professor.firstName}" aria-describedby="id-addon" required/>
+                            <input type='text' class="form-control" name="firstName" th:attr="field=${firstName}"
+                                   th:value="${professor.firstName}" aria-describedby="id-addon" required/>
                         </div>
                         <div class='input-group m-3'>
-                            <input type='text' class="form-control" name="lastName" th:field="*{lastName}"
-                                   th:placeholder="${professor.lastName}" required/>
+                            <input type='text' class="form-control" name="lastName" th:attr="field=${lastName}"
+                                   th:value="${professor.lastName}" required/>
                         </div>
                         <div class='input-group m-3'>
-                            <input type='text' class="form-control" name="email" th:field="*{email}"
-                                   th:placeholder="${professor.email}" required/>
+                            <input type='text' class="form-control" name="email" th:attr="field=${email}"
+                                   th:value="${professor.email}" required/>
                         </div>
                         <div class="input-group m-3">
-                            <input type='text' class="form-control" name="password" th:field="*{password}"
-                                   th:placeholder="${professor.password}" required/>
+                            <input type='text' class="form-control" name="password" th:attr="field=${password}"
+                                   th:value="${professor.password}" required/>
                         </div>
                     </div>
                 </div>
@@ -299,11 +296,10 @@
 </div>
 
 <div th:fragment="roomEditModal" class="modal" style="overflow-y: auto;" th:id="'edit-'+${room.id}" tabindex="-1"
-     role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
+     role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <form th:action="@{/room/__${room.id}__}" th:method="put" th:object="${newRoom}">
+            <form th:action="@{/room/__${room.id}__}" th:method="put">
                 <div class="modal-header">
                     <h4 class="modal-title">Edit</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -314,8 +310,8 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="id-addon" th:text="${room.id}">id</span>
                             </div>
-                            <input type='text' class="form-control" name="firstName" th:field="*{name}"
-                                   th:placeholder="${room.name}" aria-describedby="id-addon" required/>
+                            <input type='text' class="form-control" name="roomName"
+                                   th:value="${room.name}" aria-describedby="id-addon" required/>
                         </div>
                     </div>
                 </div>
@@ -370,24 +366,23 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="id-addon" th:text="${student.id}">id</span>
                             </div>
-                            <input type='text' class="form-control" name="firstName" th:field="*{firstName}"
-                                   th:placeholder="${student.firstName}" aria-describedby="id-addon" required/>
+                            <input type='text' class="form-control" name="firstName" th:attr="field=${firstName}"
+                                   th:value="${student.firstName}" aria-describedby="id-addon" required/>
                         </div>
                         <div class='input-group m-3'>
-                            <input type='text' class="form-control" name="lastName" th:field="*{lastName}"
-                                   th:placeholder="${student.lastName}" required/>
+                            <input type='text' class="form-control" name="lastName" th:attr="field=${lastName}"
+                                   th:value="${student.lastName}" required/>
                         </div>
                         <div class='input-group m-3'>
-                            <input type='text' class="form-control" name="email" th:field="*{email}"
-                                   th:placeholder="${student.email}" required/>
+                            <input type='text' class="form-control" name="email" th:attr="field=${email}"
+                                   th:value="${student.email}" required/>
                         </div>
                         <div class="input-group m-3">
-                            <input type='text' class="form-control" name="password" th:field="*{password}"
-                                   th:placeholder="${student.password}" required/>
+                            <input type='text' class="form-control" name="password" th:attr="field=${password}"
+                                   th:value="${student.password}" required/>
                         </div>
                         <div class="input-group m-3">
                             <select class="form-control" name="degree" required>
-                                <option selected>Choose degree</option>
                                 <option th:each="degree: ${degrees}" th:text="${degree}"
                                         th:value="${degree}">
                                 </option>

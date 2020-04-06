@@ -4,6 +4,7 @@ import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Course;
 import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Professor;
+import com.asgarov.university.schedule.domain.dto.LectureDTO;
 import com.asgarov.university.schedule.service.CourseService;
 import com.asgarov.university.schedule.service.LectureService;
 import com.asgarov.university.schedule.service.ProfessorService;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,14 +53,14 @@ public class CourseController {
     }
 
     @PostMapping("/{id}/addLecture")
-    public String addLecture(@PathVariable Long id, @RequestParam String dateTime, @RequestParam Long roomId) {
-        LocalDateTime localDateTime = LocalDateTime.parse(dateTime);
-        Long lectureId = lectureService.create(new Lecture(localDateTime, roomService.findById(roomId)));
+    public String addLecture(@PathVariable Long id, LectureDTO lectureDTO) {
+        LocalDateTime localDateTime = LocalDateTime.of(LocalDate.parse(lectureDTO.getDate()), LocalTime.parse(lectureDTO.getTime()));
+        Long lectureId = lectureService.create(new Lecture(localDateTime, roomService.findById(lectureDTO.getRoomId())));
         courseService.scheduleLecture(id, lectureId);
         return "redirect:/course/" + id + "/lectures";
     }
 
-    @PostMapping()
+    @PostMapping
     public String addNew(@RequestParam String name, @RequestParam Long professorId) {
         Course course = new Course();
         course.setName(name);
@@ -66,7 +69,7 @@ public class CourseController {
         return "redirect:/course";
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping("/{id}")
     public String updateCourse(@PathVariable Long id, @RequestParam String courseName, @RequestParam Long professorId)
             throws DaoException {
         Course course = courseService.findById(id);
@@ -83,7 +86,7 @@ public class CourseController {
         model.addAttribute("course", course);
         model.addAttribute("lectures", course.getLectures());
         model.addAttribute("rooms", roomService.findAll());
-        model.addAttribute("newLecture", new Lecture());
+        model.addAttribute("lectureDTO", new LectureDTO());
         return "courseLectures";
     }
 

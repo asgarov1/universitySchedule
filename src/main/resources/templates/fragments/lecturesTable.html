@@ -59,7 +59,6 @@
     <div class="container border border-dark rounded text-center">
         <h4 th:class="mt-3">Create new lecture</h4>
         <form th:action="@{/lecture}" method="POST" th:object="${lectureDTO}">
-            <!--            <div class="row form-inline d-flex justify-content-center">-->
             <div class="row form-group">
                 <div class='col-sm-4 input-group date'>
                     <input type='date' class="form-control" name="lectureDate" th:field="*{date}"/>
@@ -74,17 +73,15 @@
                     </select>
                 </div>
                 <div class="col-sm-3">
-                    <select required class="form-control" name="courseId" id="courseSelect"
-                            th:field="*{courseId}">
+                    <select required class="form-control" name="courseId" th:field="*{courseId}">
                         <option th:each="course: ${courses}" th:text="${course.name}"
                                 th:value="${course.id}">
                         </option>
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <button id="addLectureBtn" type="submit" class="btn btn-success btn-ok"
-                            data-toggle="tooltip" data-placement="top" title="Enter date and time in the correct format
-                            and select a room">Add Lecture
+                    <button type="submit" class="btn btn-success btn-ok">
+                        Add Lecture
                     </button>
                 </div>
             </div>

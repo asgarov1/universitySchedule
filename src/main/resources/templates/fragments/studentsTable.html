@@ -55,7 +55,6 @@
                 </div>
                 <div class="input-group">
                     <select class="form-control" name="degree" required>
-                        <option selected>Choose degree</option>
                         <option th:each="degree: ${degrees}" th:text="${degree}"
                                 th:value="${degree}">
                         </option>
