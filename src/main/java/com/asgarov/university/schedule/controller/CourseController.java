@@ -110,14 +110,14 @@ public class CourseController {
         return "redirect:/course";
     }
 
-    @DeleteMapping("/{id}/removeStudent/{studentId}")
+    @DeleteMapping("/{id}/students/{studentId}")
     public String removeStudentFromCourse(@PathVariable Long id, @PathVariable Long studentId) {
         Course course = courseService.findById(id);
         courseService.unregisterStudent(course, studentId);
         return "redirect:/course/" + id + "/students";
     }
 
-    @DeleteMapping("{id}/removeLecture/{lectureId}")
+    @DeleteMapping("{id}/lectures/{lectureId}")
     public String removeLectureFromCourse(@PathVariable Long id, @PathVariable Long lectureId) {
         courseService.removeLecture(lectureId);
         return "redirect:/course/" + id + "/lectures";
