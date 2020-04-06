@@ -73,8 +73,7 @@ public class LectureController {
         try {
             model.addAttribute("lectures", Collections.singletonList(lectureService.findById(id)));
         } catch (EmptyResultDataAccessException e) {
-            model.addAttribute("message", "Can't find by id!");
-            return "lecture";
+            // Nothing found under the id - nothing to handle
         }
 
         return "lecture";

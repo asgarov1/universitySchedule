@@ -4,6 +4,7 @@ import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Professor;
 import com.asgarov.university.schedule.service.ProfessorService;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,11 @@ public class ProfessorController {
 
     @PostMapping("/searchProfessorsById")
     public String searchProfessorsById(@RequestParam Long id, Model model) {
-        model.addAttribute("professors", Collections.singletonList(professorService.findById(id)));
+        try {
+            model.addAttribute("professors", Collections.singletonList(professorService.findById(id)));
+        } catch (EmptyResultDataAccessException e) {
+            // Nothing found under the id - nothing to handle
+        }
         return "professor";
     }
 

@@ -4,6 +4,7 @@ import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Room;
 import com.asgarov.university.schedule.service.RoomService;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,12 @@ public class RoomController {
 
     @PostMapping("/searchRoomsById")
     public String searchRoomsById(@RequestParam Long id, Model model) {
-        model.addAttribute("rooms", Collections.singletonList(roomService.findById(id)));
+        try {
+            model.addAttribute("rooms", Collections.singletonList(roomService.findById(id)));
+        } catch (EmptyResultDataAccessException e) {
+            // Nothing found under the id - nothing to handle
+        }
+
         return "room";
     }
 
