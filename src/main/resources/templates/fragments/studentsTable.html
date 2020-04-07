@@ -54,7 +54,7 @@
                            placeholder="password" required/>
                 </div>
                 <div class="input-group">
-                    <select class="form-control" name="degree" required>
+                    <select class="form-control" name="degree" th:field="*{degree}" required>
                         <option th:each="degree: ${degrees}" th:text="${degree}"
                                 th:value="${degree}">
                         </option>

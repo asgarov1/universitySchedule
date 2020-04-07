@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -56,6 +55,7 @@ public class LectureController {
 
         Page<Lecture> lecturePage = lectureService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
         model.addAttribute("lecturePage", lecturePage);
+        model.addAttribute("lectureDTO", new LectureDTO());
 
         int totalPages = lecturePage.getTotalPages();
         if (totalPages > 0) {
@@ -69,19 +69,18 @@ public class LectureController {
     }
 
     @GetMapping("/searchLecturesById")
-    public String searchLecturesById(@RequestParam Long id, HttpServletRequest request, Model model) {
+    public String searchLecturesById(@RequestParam Long id, Model model) {
         try {
             model.addAttribute("lectures", Collections.singletonList(lectureService.findById(id)));
+            model.addAttribute("lectureDTO", new LectureDTO());
         } catch (EmptyResultDataAccessException e) {
             // Nothing found under the id - nothing to handle
         }
-
         return "lecture";
     }
 
     @PostMapping
-    public String addNew(LectureDTO lectureDTO) {
-        System.out.println(lectureDTO);
+    public String addNewLecture(LectureDTO lectureDTO) {
         LocalDate localDate = LocalDate.parse(lectureDTO.getDate());
         LocalTime localTime = LocalTime.parse(lectureDTO.getTime());
         LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
@@ -119,10 +118,5 @@ public class LectureController {
     @ModelAttribute("courses")
     public List<Course> courses() {
         return courseService.findAll();
-    }
-
-    @ModelAttribute("lectureDTO")
-    public LectureDTO lectureDTO() {
-        return new LectureDTO();
     }
 }

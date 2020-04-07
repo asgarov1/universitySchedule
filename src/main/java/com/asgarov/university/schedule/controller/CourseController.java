@@ -41,7 +41,7 @@ public class CourseController {
         return "course";
     }
 
-    @PostMapping("/searchCoursesById")
+    @GetMapping("/searchCoursesById")
     public String searchCoursesById(@RequestParam Long id, Model model) {
         try {
             model.addAttribute("courses", Collections.singletonList(courseService.findById(id)));
@@ -66,7 +66,7 @@ public class CourseController {
     }
 
     @PostMapping
-    public String addNew(@RequestParam String name, @RequestParam Long professorId) {
+    public String addNewCourse(@RequestParam String name, @RequestParam Long professorId) {
         Course course = new Course();
         course.setName(name);
         course.setProfessor(professorService.findById(professorId));

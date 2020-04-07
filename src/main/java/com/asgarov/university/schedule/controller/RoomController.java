@@ -28,19 +28,18 @@ public class RoomController {
         return "room";
     }
 
-    @PostMapping("/searchRoomsById")
+    @GetMapping("/searchRoomsById")
     public String searchRoomsById(@RequestParam Long id, Model model) {
         try {
             model.addAttribute("rooms", Collections.singletonList(roomService.findById(id)));
         } catch (EmptyResultDataAccessException e) {
             // Nothing found under the id - nothing to handle
         }
-
         return "room";
     }
 
     @PostMapping
-    public String addNew(Room room) {
+    public String addNewRoom(Room room) {
         roomService.create(room);
         return "redirect:/room";
     }

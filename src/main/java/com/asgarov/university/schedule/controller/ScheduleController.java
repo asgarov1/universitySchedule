@@ -35,7 +35,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/showSchedule")
-    public String showSchedule(Model model, ScheduleRequestDTO scheduleRequestDTO) {
+    public String showSchedule(ScheduleRequestDTO scheduleRequestDTO, Model model) {
         model.addAttribute("schedule", scheduleService.getSchedule(scheduleRequestDTO));
         return "schedule";
     }

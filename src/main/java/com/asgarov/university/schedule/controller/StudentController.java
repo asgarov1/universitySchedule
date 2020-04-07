@@ -38,8 +38,8 @@ public class StudentController {
     }
 
     @PostMapping
-    public String addNew(Student student, @RequestParam String degree, Model model) {
-        student.setDegree(Degree.valueOf(degree));
+    public String addNewStudent(Student student, Model model) {
+//        student.setDegree(Degree.valueOf(degree));
         studentService.create(student);
         model.addAttribute("students", studentService.findAll());
         return "student";
@@ -52,9 +52,8 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public String updateStudent(@PathVariable Long id, Student student, @RequestParam String degree) throws DaoException {
+    public String updateStudent(@PathVariable Long id, Student student) throws DaoException {
         student.setId(id);
-        student.setDegree(Degree.valueOf(degree));
         studentService.update(student);
         return "redirect:/student";
     }

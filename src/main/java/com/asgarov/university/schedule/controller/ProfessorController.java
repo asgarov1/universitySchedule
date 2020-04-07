@@ -16,6 +16,7 @@ import java.util.Collections;
 public class ProfessorController {
 
     private ProfessorService professorService;
+
     private final static String CANT_DELETE_MESSAGE = "Can't delete, as this Professor is still registered for course(s)!";
 
 
@@ -29,7 +30,7 @@ public class ProfessorController {
         return "professor";
     }
 
-    @PostMapping("/searchProfessorsById")
+    @GetMapping("/searchProfessorsById")
     public String searchProfessorsById(@RequestParam Long id, Model model) {
         try {
             model.addAttribute("professors", Collections.singletonList(professorService.findById(id)));
@@ -40,7 +41,7 @@ public class ProfessorController {
     }
 
     @PostMapping
-    public String addNew(Professor professor) {
+    public String addNewProfessor(Professor professor) {
         professorService.create(professor);
         return "redirect:/professor";
     }
