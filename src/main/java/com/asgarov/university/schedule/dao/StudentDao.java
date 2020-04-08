@@ -1,5 +1,11 @@
 package com.asgarov.university.schedule.dao;
 
+import com.asgarov.university.schedule.dao.exception.DaoException;
+import com.asgarov.university.schedule.domain.CourseStudent;
+import com.asgarov.university.schedule.domain.Role;
+import com.asgarov.university.schedule.domain.Student;
+import org.springframework.stereotype.Repository;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,17 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.asgarov.university.schedule.dao.exception.DaoException;
-import com.asgarov.university.schedule.domain.CourseStudent;
-import com.asgarov.university.schedule.domain.Role;
-import com.asgarov.university.schedule.domain.Student;
-
-import org.springframework.stereotype.Repository;
-
 @Repository
 public class StudentDao extends AbstractDao<Long, Student> {
 
-    private CourseStudentDao courseStudentDao;
+    private final CourseStudentDao courseStudentDao;
 
     public StudentDao(final CourseStudentDao courseStudentDao) {
         this.courseStudentDao = courseStudentDao;

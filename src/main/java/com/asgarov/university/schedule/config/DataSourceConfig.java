@@ -1,31 +1,17 @@
 package com.asgarov.university.schedule.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
+import org.springframework.jndi.JndiTemplate;
 
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 @Configuration
-@PropertySource("classpath:db.properties")
 public class DataSourceConfig {
-
-    @Value("${driverClassName}")
-    private String driverClassName;
-
-    @Value("${url}")
-    private String url;
-
-    @Value("${username}")
-    private String username;
-
-    @Value("${password}")
-    private String password;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
@@ -33,15 +19,9 @@ public class DataSourceConfig {
     }
 
     @Bean
-    public DataSource myDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-
-        dataSource.setDriverClassName(driverClassName);
-        dataSource.setUrl(url);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-
-        return dataSource;
+    public DataSource myDataSource() throws NamingException {
+        JndiTemplate jndiTemplate = new JndiTemplate();
+        return (DataSource) jndiTemplate.lookup("java:comp/env/jdbc/universityDB");
     }
 
     @Bean
@@ -50,7 +30,7 @@ public class DataSourceConfig {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate() {
+    public JdbcTemplate jdbcTemplate() throws NamingException {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
         jdbcTemplate.setDataSource(myDataSource());
         jdbcTemplate.setExceptionTranslator(SQLExceptionTranslator());

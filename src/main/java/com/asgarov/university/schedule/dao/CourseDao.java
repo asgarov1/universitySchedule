@@ -1,23 +1,22 @@
 package com.asgarov.university.schedule.dao;
 
+import com.asgarov.university.schedule.dao.exception.DaoException;
+import com.asgarov.university.schedule.domain.Course;
+import org.springframework.stereotype.Repository;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.asgarov.university.schedule.dao.exception.DaoException;
-import com.asgarov.university.schedule.domain.Course;
-
-import org.springframework.stereotype.Repository;
-
 @Repository
 public class CourseDao extends AbstractDao<Long, Course> {
 
-    private LectureDao lectureDao;
-    private CourseStudentDao courseStudentDao;
-    private CourseLectureDao courseLectureDao;
-    private ProfessorDao professorDao;
-    private StudentDao studentDao;
+    private final LectureDao lectureDao;
+    private final CourseStudentDao courseStudentDao;
+    private final CourseLectureDao courseLectureDao;
+    private final ProfessorDao professorDao;
+    private final StudentDao studentDao;
 
     public CourseDao(
             final LectureDao lectureDao,

@@ -25,6 +25,9 @@
         <aspectj.version>1.9.5</aspectj.version>
         <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
         <java.servlet-api.version>4.0.1</java.servlet-api.version>
+        <spring-data-commons.version>2.2.5.RELEASE</spring-data-commons.version>
+        <hamcrest-library.version>2.2</hamcrest-library.version>
+        <bootstrap.version>4.4.1</bootstrap.version>
     </properties>
 
     <dependencies>
@@ -53,11 +56,11 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${spring-framework.version}</version>
         </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>${mysql.version}</version>
+                </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
@@ -111,18 +114,17 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
-            <version>2.2.5.RELEASE</version>
+            <version>${spring-data-commons.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
-            <version>2.2</version>
+            <version>${hamcrest-library.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
-            <version>4.4.1</version>
+            <version>${bootstrap.version}</version>
         </dependency>
     </dependencies>
 
@@ -138,6 +140,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -186,6 +191,7 @@
                 <configuration>
                     <port>8080</port>
                     <path>/</path>
+                    <contextFile>${basedir}/src/main/resources/context.xml</contextFile>
                 </configuration>
             </plugin>
         </plugins>
