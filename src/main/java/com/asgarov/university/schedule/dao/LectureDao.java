@@ -73,4 +73,13 @@ public class LectureDao extends AbstractDao<Long, Lecture> {
         courseLectureList.forEach(cl -> requestedLectures.add(findById(cl.getLectureId())));
         return requestedLectures;
     }
+
+    public List<Lecture> findAmount(int amount) {
+        return getJdbcTemplate().query(getFindAmountQuery(amount), this::rowMapper);
+    }
+
+    private String getFindAmountQuery(int amount) {
+        return "select * from " + tableName() + " limit " + amount + ";";
+    }
+
 }

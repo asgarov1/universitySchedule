@@ -11,9 +11,14 @@
 
         <!--            Collapsing Content-->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto list-unstyled">
-                <li class="nav-item"></li>
-            </ul>
+            <div class="navbar-nav mr-auto">
+                <a class="nav-item nav-link" th:href="@{/schedule}">Schedule</a>
+                <a class="nav-item nav-link" th:href="@{/course}">Course</a>
+                <a class="nav-item nav-link" th:href="@{/lecture}">Lecture</a>
+                <a class="nav-item nav-link" th:href="@{/professor}">Professor</a>
+                <a class="nav-item nav-link" th:href="@{/room}">Room</a>
+                <a class="nav-item nav-link" th:href="@{/student}">Student</a>
+            </div>
         </div>
     </nav>
 </div>

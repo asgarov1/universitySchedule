@@ -1,6 +1,6 @@
 package com.asgarov.university.schedule.service;
 
-import com.asgarov.university.schedule.dao.CourseDao;
+import com.asgarov.university.schedule.dao.AbstractDao;
 import com.asgarov.university.schedule.dao.CourseLectureDao;
 import com.asgarov.university.schedule.dao.CourseStudentDao;
 import com.asgarov.university.schedule.domain.*;
@@ -14,13 +14,13 @@ public class CourseService extends AbstractDaoService<Long, Course> {
 
     private CourseLectureDao courseLectureDao;
     private CourseStudentDao courseStudentDao;
+    private StudentService studentService;
 
-    public CourseService(
-            final CourseLectureDao courseLectureDao,
-            final CourseStudentDao courseStudentDao, final CourseDao courseDao) {
-        super(courseDao);
+    public CourseService(AbstractDao<Long, Course> abstractDao, CourseLectureDao courseLectureDao, CourseStudentDao courseStudentDao, StudentService studentService) {
+        super(abstractDao);
         this.courseLectureDao = courseLectureDao;
         this.courseStudentDao = courseStudentDao;
+        this.studentService = studentService;
     }
 
     public void registerStudents(Course course, List<Student> students) {
@@ -30,11 +30,19 @@ public class CourseService extends AbstractDaoService<Long, Course> {
         });
     }
 
+    public void registerStudent(Long courseId, Long studentId) {
+        courseStudentDao.create(new CourseStudent(courseId, studentId));
+    }
+
     public void scheduleLectures(Course course, List<Lecture> lectures) {
         lectures.forEach(lecture -> {
             courseLectureDao.create(new CourseLecture(course.getId(), lecture.getId()));
             course.addLecture(lecture);
         });
+    }
+
+    public void scheduleLecture(Long courseId, Long lectureId) {
+        courseLectureDao.create(new CourseLecture(courseId, lectureId));
     }
 
     public List<Course> findStudentsCourses(final Student student) {
@@ -64,5 +72,23 @@ public class CourseService extends AbstractDaoService<Long, Course> {
 
     public Course findCourseByLectureId(Integer lectureId) {
         return findCourseByLectureId((long) lectureId);
+    }
+
+    public Course findCourseByLectureId(String lectureId) {
+        return findCourseByLectureId(Long.valueOf(lectureId));
+    }
+
+    public void unregisterStudent(Course course, Long studentId) {
+        courseStudentDao.deleteByStudentId(studentId);
+    }
+
+    public List<Student> getNotRegisteredStudents(Course course) {
+        List<Student> notRegisteredStudents = studentService.findAll();
+        notRegisteredStudents.removeAll(course.getRegisteredStudents());
+        return notRegisteredStudents;
+    }
+
+    public void removeLecture(Long lectureId) {
+        courseLectureDao.deleteByLectureId(lectureId);
     }
 }

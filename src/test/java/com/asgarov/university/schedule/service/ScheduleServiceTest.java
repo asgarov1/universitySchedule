@@ -44,8 +44,8 @@ class ScheduleServiceTest {
         Student student = studentService.findAll().get(0);
         Professor professor = professorService.findAll().get(0);
 
-        assertNotNull(scheduleService.getAMonthScheduleForPerson(student));
-        assertNotNull(scheduleService.getAMonthScheduleForPerson(professor));
+        assertNotNull(scheduleService.getPersonsSchedule(student));
+        assertNotNull(scheduleService.getPersonsSchedule(professor));
     }
 
     @Test

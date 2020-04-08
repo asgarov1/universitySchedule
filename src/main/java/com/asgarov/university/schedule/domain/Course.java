@@ -8,11 +8,13 @@ public class Course {
 
     private Long id;
     private String name;
-    private List<Student> registeredStudents = new ArrayList<>();;
+    private List<Student> registeredStudents = new ArrayList<>();
+    ;
     private Professor professor;
     private List<Lecture> lectures = new ArrayList<>();
 
-    public Course() {}
+    public Course() {
+    }
 
     public Course(final String name) {
         this.name = name;
@@ -107,4 +109,7 @@ public class Course {
                 '}';
     }
 
+    public void removeStudent(Student student) {
+        registeredStudents.remove(student);
+    }
 }
