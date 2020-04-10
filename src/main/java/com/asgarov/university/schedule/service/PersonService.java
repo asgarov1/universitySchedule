@@ -8,8 +8,8 @@ import java.util.List;
 
 @Service
 public class PersonService {
-    private StudentService studentService;
-    private ProfessorService professorService;
+    private final StudentService studentService;
+    private final ProfessorService professorService;
 
     public PersonService(StudentService studentService, ProfessorService professorService) {
         this.studentService = studentService;

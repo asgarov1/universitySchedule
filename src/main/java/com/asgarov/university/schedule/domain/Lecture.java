@@ -1,12 +1,21 @@
 package com.asgarov.university.schedule.domain;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity
+@Table(name="lecture")
 public class Lecture {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Basic
     private LocalDateTime dateTime;
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JoinColumn(name = "room_id")
     private Room room;
 
     public Lecture() {
@@ -42,18 +51,14 @@ public class Lecture {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        final Lecture lecture = (Lecture) o;
+        Lecture lecture = (Lecture) o;
 
-        if (!Objects.equals(id, lecture.id))
-            return false;
-        if (!Objects.equals(dateTime, lecture.dateTime))
-            return false;
+        if (!Objects.equals(id, lecture.id)) return false;
+        if (!Objects.equals(dateTime, lecture.dateTime)) return false;
         return Objects.equals(room, lecture.room);
     }
 

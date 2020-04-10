@@ -27,6 +27,7 @@
         <java.servlet-api.version>4.0.1</java.servlet-api.version>
         <spring-data-commons.version>2.2.5.RELEASE</spring-data-commons.version>
         <hamcrest-library.version>2.2</hamcrest-library.version>
+        <hibernate.version>5.4.14.Final</hibernate.version>
         <bootstrap.version>4.4.1</bootstrap.version>
     </properties>
 
@@ -120,6 +121,11 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
             <version>${hamcrest-library.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>

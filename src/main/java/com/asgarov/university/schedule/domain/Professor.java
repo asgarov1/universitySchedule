@@ -1,5 +1,10 @@
 package com.asgarov.university.schedule.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="professor")
 public class Professor extends Person {
 
     {

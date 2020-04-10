@@ -1,16 +1,39 @@
 package com.asgarov.university.schedule.domain;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
+import static javax.persistence.CascadeType.ALL;
+
+@Entity
+@Table(name = "course")
 public class Course {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private String name;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JoinTable(name="courses_students",
+                joinColumns=@JoinColumn(name = "course_id"),
+                inverseJoinColumns = @JoinColumn(name = "student_id"))
     private List<Student> registeredStudents = new ArrayList<>();
-    ;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JoinColumn(name = "professor_id")
     private Professor professor;
+
+    @OneToMany(cascade = ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinTable(name="course_lectures",
+            joinColumns=@JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "lecture_id"))
     private List<Lecture> lectures = new ArrayList<>();
 
     public Course() {
@@ -68,24 +91,32 @@ public class Course {
         lectures.add(lecture);
     }
 
+    public void removeLecture(Lecture lectureId) {
+        lectures.remove(lectureId);
+    }
+
+    public void removeStudent(Student student) {
+        registeredStudents.remove(student);
+    }
+
+    public void registerStudent(Student student) {
+        registeredStudents.add(student);
+    }
+
     @Override
-    public boolean equals(final Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+    public boolean equals(Object o) {
 
-        final Course course = (Course) o;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        if (!Objects.equals(id, course.id))
+        Course course = (Course) o;
+
+        if (id != null ? !id.equals(course.id) : course.id == null) return false;
+        if (name != null ? !name.equals(course.name) : course.name == null) return false;
+        if (registeredStudents != null ? !(registeredStudents.size() == course.registeredStudents.size() && registeredStudents.containsAll(course.registeredStudents)): course.registeredStudents == null)
             return false;
-        if (!Objects.equals(name, course.name))
-            return false;
-        if (!Objects.equals(registeredStudents, course.registeredStudents))
-            return false;
-        if (!Objects.equals(professor, course.professor))
-            return false;
-        return Objects.equals(lectures, course.lectures);
+        if (professor != null ? !professor.equals(course.professor) : course.professor != null) return false;
+        return lectures != null ? !lectures.equals(course.lectures) : course.lectures == null;
     }
 
     @Override
@@ -107,9 +138,5 @@ public class Course {
                 ", professor=" + professor +
                 ", lectures=" + lectures +
                 '}';
-    }
-
-    public void removeStudent(Student student) {
-        registeredStudents.remove(student);
     }
 }

@@ -1,6 +1,5 @@
 package com.asgarov.university.schedule.controller;
 
-import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Course;
 import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Professor;
@@ -23,10 +22,10 @@ import java.util.List;
 @Controller
 @RequestMapping("course")
 public class CourseController {
-    private CourseService courseService;
-    private ProfessorService professorService;
-    private RoomService roomService;
-    private LectureService lectureService;
+    private final CourseService courseService;
+    private final ProfessorService professorService;
+    private final RoomService roomService;
+    private final LectureService lectureService;
 
     public CourseController(CourseService courseService, ProfessorService professorService, RoomService roomService, LectureService lectureService) {
         this.courseService = courseService;
@@ -75,8 +74,7 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
-    public String updateCourse(@PathVariable Long id, @RequestParam String courseName, @RequestParam Long professorId)
-            throws DaoException {
+    public String updateCourse(@PathVariable Long id, @RequestParam String courseName, @RequestParam Long professorId) {
         Course course = courseService.findById(id);
         course.setName(courseName);
         course.setProfessor(professorService.findById(professorId));
@@ -105,21 +103,20 @@ public class CourseController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteCourse(@PathVariable Long id, Model model) throws DaoException {
+    public String deleteCourse(@PathVariable Long id, Model model) {
         courseService.deleteById(id);
         return "redirect:/course";
     }
 
     @DeleteMapping("/{id}/students/{studentId}")
     public String removeStudentFromCourse(@PathVariable Long id, @PathVariable Long studentId) {
-        Course course = courseService.findById(id);
-        courseService.unregisterStudent(course, studentId);
+        courseService.unregisterStudent(id, studentId);
         return "redirect:/course/" + id + "/students";
     }
 
     @DeleteMapping("{id}/lectures/{lectureId}")
     public String removeLectureFromCourse(@PathVariable Long id, @PathVariable Long lectureId) {
-        courseService.removeLecture(lectureId);
+        courseService.removeLecture(id, lectureId);
         return "redirect:/course/" + id + "/lectures";
     }
 

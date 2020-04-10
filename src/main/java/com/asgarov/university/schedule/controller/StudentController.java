@@ -1,6 +1,5 @@
 package com.asgarov.university.schedule.controller;
 
-import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Student;
 import com.asgarov.university.schedule.domain.Student.Degree;
 import com.asgarov.university.schedule.service.StudentService;
@@ -15,7 +14,7 @@ import java.util.Collections;
 @RequestMapping("student")
 public class StudentController {
 
-    private StudentService studentService;
+    private final StudentService studentService;
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
@@ -39,20 +38,19 @@ public class StudentController {
 
     @PostMapping
     public String addNewStudent(Student student, Model model) {
-//        student.setDegree(Degree.valueOf(degree));
         studentService.create(student);
         model.addAttribute("students", studentService.findAll());
         return "student";
     }
 
     @DeleteMapping("/{id}")
-    public String deleteStudent(@PathVariable Long id, Model model) throws DaoException {
+    public String deleteStudent(@PathVariable Long id) {
         studentService.deleteById(id);
         return "redirect:/student";
     }
 
     @PutMapping("/{id}")
-    public String updateStudent(@PathVariable Long id, Student student) throws DaoException {
+    public String updateStudent(@PathVariable Long id, Student student) {
         student.setId(id);
         studentService.update(student);
         return "redirect:/student";

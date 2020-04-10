@@ -1,6 +1,5 @@
 package com.asgarov.university.schedule.service;
 
-import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Student;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -31,7 +30,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    void updateShouldWork() throws DaoException {
+    void updateShouldWork() {
         Student mockStudent = new Student("Mark", "Zukerberg", Student.Degree.DOCTORATE);
         mockStudent.setId(1L);
         when(studentService.findById(anyLong())).thenReturn(mockStudent);
@@ -72,7 +71,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    void deleteByIdShouldWork() throws DaoException {
+    void deleteByIdShouldWork() {
         Student student = new Student("John", "Maximilianov", Student.Degree.MASTER);
         List<Student> students = new ArrayList<>();
 

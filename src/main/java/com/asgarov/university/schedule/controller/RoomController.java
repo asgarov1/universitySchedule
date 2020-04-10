@@ -1,6 +1,5 @@
 package com.asgarov.university.schedule.controller;
 
-import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Room;
 import com.asgarov.university.schedule.service.RoomService;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,7 +14,7 @@ import java.util.Collections;
 @RequestMapping("room")
 public class RoomController {
 
-    private RoomService roomService;
+    private final RoomService roomService;
     private final static String CANT_DELETE_MESSAGE = "Can't delete, as this room is being used for lecture(s)!";
 
     public RoomController(RoomService roomService) {
@@ -48,7 +47,7 @@ public class RoomController {
     public String deleteRoom(@PathVariable Long id, Model model) {
         try {
             roomService.deleteById(id);
-        } catch (DataIntegrityViolationException | DaoException e) {
+        } catch (DataIntegrityViolationException e) {
             model.addAttribute("error", CANT_DELETE_MESSAGE);
             model.addAttribute("rooms", roomService.findAll());
             return "room";
@@ -60,11 +59,7 @@ public class RoomController {
     public String updateRoom(@PathVariable Long id, @RequestParam String roomName) {
         Room room = roomService.findById(id);
         room.setName(roomName);
-        try {
-            roomService.update(room);
-        } catch (DaoException e) {
-            e.printStackTrace();
-        }
+        roomService.update(room);
         return "redirect:/room";
     }
 

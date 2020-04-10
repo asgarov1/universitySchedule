@@ -1,7 +1,6 @@
 package com.asgarov.university.schedule.service;
 
 import com.asgarov.university.schedule.config.WebConfig;
-import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Lecture;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { WebConfig.class })
+@ContextConfiguration(classes = {WebConfig.class})
 public class LectureServiceTest {
 
     @Autowired
@@ -36,7 +35,7 @@ public class LectureServiceTest {
     }
 
     @Test
-    void updateShouldWork() throws DaoException {
+    void updateShouldWork() {
         List<Lecture> lectures = lectureService.findAll();
         Lecture lecture = lectures.get(0);
         lecture.setDateTime(LocalDateTime.now().plusDays(1));
@@ -62,7 +61,7 @@ public class LectureServiceTest {
     }
 
     @Test
-    void deleteByIdShouldWork() throws DaoException {
+    void deleteByIdShouldWork() {
         List<Lecture> lectures = lectureService.findAll();
 
         Long lectureId = lectures.get(0).getId();

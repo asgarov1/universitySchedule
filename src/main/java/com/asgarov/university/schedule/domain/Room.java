@@ -1,10 +1,17 @@
 package com.asgarov.university.schedule.domain;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name="room")
 public class Room {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private String name;
 
     public Room() {
@@ -36,16 +43,13 @@ public class Room {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        final Room room = (Room) o;
+        Room room = (Room) o;
 
-        if (!Objects.equals(id, room.id))
-            return false;
+        if (!Objects.equals(id, room.id)) return false;
         return Objects.equals(name, room.name);
     }
 

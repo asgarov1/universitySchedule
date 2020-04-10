@@ -1,6 +1,5 @@
 package com.asgarov.university.schedule.controller;
 
-import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Professor;
 import com.asgarov.university.schedule.service.ProfessorService;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,7 +14,7 @@ import java.util.Collections;
 @RequestMapping("professor")
 public class ProfessorController {
 
-    private ProfessorService professorService;
+    private final ProfessorService professorService;
 
     private final static String CANT_DELETE_MESSAGE = "Can't delete, as this Professor is still registered for course(s)!";
 
@@ -50,7 +49,7 @@ public class ProfessorController {
     public String deleteProfessor(@PathVariable Long id, Model model) {
         try {
             professorService.deleteById(id);
-        } catch (DataIntegrityViolationException | DaoException e) {
+        } catch (DataIntegrityViolationException e) {
             model.addAttribute("error", CANT_DELETE_MESSAGE);
             model.addAttribute("professors", professorService.findAll());
             return "professor";
@@ -59,7 +58,7 @@ public class ProfessorController {
     }
 
     @PutMapping("/{id}")
-    public String updateProfessor(@PathVariable Long id, Professor professor) throws DaoException {
+    public String updateProfessor(@PathVariable Long id, Professor professor) {
         professor.setId(id);
         professorService.update(professor);
         return "redirect:/professor";

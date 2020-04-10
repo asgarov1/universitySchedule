@@ -13,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static com.asgarov.university.schedule.controller.LectureControllerTest.*;
+import static com.asgarov.university.schedule.controller.LectureControllerTest.StringToLectureDTOConverter;
 import static com.asgarov.university.schedule.util.Resolver.viewResolver;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

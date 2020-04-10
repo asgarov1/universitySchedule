@@ -1,12 +1,18 @@
 package com.asgarov.university.schedule.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="student")
 public class Student extends Person {
 
+    @Enumerated(EnumType.STRING)
     private Degree degree;
 
-    {
-        role = Role.STUDENT;
-    }
+    { role = Role.STUDENT; }
 
     public Student() {
     }

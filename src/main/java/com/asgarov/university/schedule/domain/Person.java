@@ -1,14 +1,28 @@
 package com.asgarov.university.schedule.domain;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@MappedSuperclass
 public abstract class Person {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    @Enumerated(EnumType.STRING)
     Role role;
+
+    @Column
     String firstName;
+
+    @Column
     String lastName;
+
+    @Column
     String email;
+
+    @Column
     String password;
 
     public Person() {
