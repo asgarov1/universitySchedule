@@ -11,6 +11,14 @@
         <!-- Set the current session context -->
         <property name="current_session_context_class">thread</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <mapping class="com.asgarov.university.schedule.domain.Professor" />
+        <mapping class="com.asgarov.university.schedule.domain.Lecture" />
+        <mapping class="com.asgarov.university.schedule.domain.Course" />
+        <mapping class="com.asgarov.university.schedule.domain.Person" />
+        <mapping class="com.asgarov.university.schedule.domain.Room" />
+        <mapping class="com.asgarov.university.schedule.domain.Student" />
+
     </session-factory>
 </hibernate-configuration>
 

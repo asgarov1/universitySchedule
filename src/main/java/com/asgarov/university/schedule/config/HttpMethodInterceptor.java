@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 public class HttpMethodInterceptor implements HandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String theMethod = request.getMethod();
         return HttpMethod.GET.matches(theMethod) || HttpMethod.POST.matches(theMethod) ||
                 HttpMethod.PUT.matches(theMethod) || HttpMethod.DELETE.matches(theMethod);

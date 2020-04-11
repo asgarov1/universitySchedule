@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.*;
 
 @Entity
 @Table(name = "course")
@@ -19,21 +19,15 @@ public class Course {
     @Column
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JoinTable(name="courses_students",
-                joinColumns=@JoinColumn(name = "course_id"),
-                inverseJoinColumns = @JoinColumn(name = "student_id"))
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {MERGE, REFRESH, PERSIST})
     private List<Student> registeredStudents = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "professor_id")
     private Professor professor;
 
-    @OneToMany(cascade = ALL)
+    @OneToMany(cascade = ALL, mappedBy = "course")
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(name="course_lectures",
-            joinColumns=@JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "lecture_id"))
     private List<Lecture> lectures = new ArrayList<>();
 
     public Course() {
@@ -91,8 +85,8 @@ public class Course {
         lectures.add(lecture);
     }
 
-    public void removeLecture(Lecture lectureId) {
-        lectures.remove(lectureId);
+    public void removeLecture(Lecture lecture) {
+        lectures.remove(lecture);
     }
 
     public void removeStudent(Student student) {
@@ -113,7 +107,7 @@ public class Course {
 
         if (id != null ? !id.equals(course.id) : course.id == null) return false;
         if (name != null ? !name.equals(course.name) : course.name == null) return false;
-        if (registeredStudents != null ? !(registeredStudents.size() == course.registeredStudents.size() && registeredStudents.containsAll(course.registeredStudents)): course.registeredStudents == null)
+        if (registeredStudents != null ? !(registeredStudents.size() == course.registeredStudents.size() && registeredStudents.containsAll(course.registeredStudents)) : course.registeredStudents == null)
             return false;
         if (professor != null ? !professor.equals(course.professor) : course.professor != null) return false;
         return lectures != null ? !lectures.equals(course.lectures) : course.lectures == null;

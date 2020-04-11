@@ -120,14 +120,8 @@ public class CourseController {
         return "redirect:/course/" + id + "/lectures";
     }
 
-    @ModelAttribute("courseService")
-    public CourseService courseService() {
-        return courseService;
-    }
-
     @ModelAttribute("professors")
     public List<Professor> professors() {
         return professorService.findAll();
     }
-
 }

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name="lecture")
+@Table(name = "lecture")
 public class Lecture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,9 +14,11 @@ public class Lecture {
     @Basic
     private LocalDateTime dateTime;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JoinColumn(name = "room_id")
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private Room room;
+
+    @ManyToOne
+    private Course course;
 
     public Lecture() {
     }
@@ -24,6 +26,12 @@ public class Lecture {
     public Lecture(LocalDateTime dateTime, Room room) {
         this.dateTime = dateTime;
         this.room = room;
+    }
+
+    public Lecture(LocalDateTime dateTime, Room room, Course course) {
+        this.dateTime = dateTime;
+        this.room = room;
+        this.course = course;
     }
 
     public Long getId() {
@@ -48,6 +56,14 @@ public class Lecture {
 
     public void setRoom(Room room) {
         this.room = room;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     @Override

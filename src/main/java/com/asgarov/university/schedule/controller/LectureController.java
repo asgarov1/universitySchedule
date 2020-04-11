@@ -104,11 +104,6 @@ public class LectureController {
         return "redirect:/lecture";
     }
 
-    @ModelAttribute("courseService")
-    public CourseService courseService() {
-        return courseService;
-    }
-
     @ModelAttribute("rooms")
     public List<Room> rooms() {
         return roomService.findAll();

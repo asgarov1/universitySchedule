@@ -90,10 +90,13 @@ public class CourseService extends AbstractDaoService<Long, Course> {
     public void unregisterStudent(Long courseId, Long studentId) {
         Course course = findById(courseId);
         course.removeStudent(studentService.findById(studentId));
+        update(course);
     }
 
     public void removeLecture(Long courseId, Long lectureId) {
         Course course = findById(courseId);
         course.removeLecture(lectureService.findById(lectureId));
+        lectureService.deleteById(lectureId);
+        update(course);
     }
 }
