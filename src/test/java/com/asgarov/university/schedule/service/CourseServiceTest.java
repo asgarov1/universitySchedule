@@ -2,7 +2,6 @@ package com.asgarov.university.schedule.service;
 
 import com.asgarov.university.schedule.config.WebConfig;
 import com.asgarov.university.schedule.domain.Course;
-import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Student;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,19 +52,6 @@ class CourseServiceTest {
         List<Student> registeredStudents = courseService.findById(course.getId()).getRegisteredStudents();
         deppAndJolie.forEach(
                 student -> assertTrue(registeredStudents.contains(student)));
-    }
-
-    @Test
-    void scheduleLectures() {
-        Lecture lecture = new Lecture(LocalDateTime.now(), roomService.findAll().get(0));
-        lectureService.create(lecture);
-
-        Course course = courseService.findAll().get(0);
-        course.addLecture(lecture);
-        courseService.update(course);
-
-        List<Lecture> lecturesForTheCourse = courseService.findById(course.getId()).getLectures();
-        assertTrue(lecturesForTheCourse.contains(lecture));
     }
 
     @Test

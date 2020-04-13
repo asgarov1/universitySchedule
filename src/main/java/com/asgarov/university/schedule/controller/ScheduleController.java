@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
 @RequestMapping("schedule")
 public class ScheduleController {
 
-    private ScheduleService scheduleService;
-    private CourseService courseService;
-    private PersonService personService;
+    private final ScheduleService scheduleService;
+    private final CourseService courseService;
+    private final PersonService personService;
 
     public ScheduleController(ScheduleService scheduleService, CourseService courseService, PersonService personService) {
         this.scheduleService = scheduleService;
         this.courseService = courseService;
         this.personService = personService;
     }
-
 
     @GetMapping
     public String index(Model model) {
@@ -36,7 +36,12 @@ public class ScheduleController {
 
     @GetMapping("/showSchedule")
     public String showSchedule(ScheduleRequestDTO scheduleRequestDTO, Model model) {
-        model.addAttribute("schedule", scheduleService.getSchedule(scheduleRequestDTO));
+        LocalDate from = LocalDate.parse(scheduleRequestDTO.getDateFrom());
+        LocalDate to = LocalDate.parse(scheduleRequestDTO.getDateTo());
+        Person person = personService.findPerson(scheduleRequestDTO);
+
+        model.addAttribute("schedule", scheduleService.getSchedule(person, from, to));
+        model.addAttribute("searchedPerson", person);
         return "schedule";
     }
 

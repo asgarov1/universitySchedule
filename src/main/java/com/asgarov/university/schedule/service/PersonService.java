@@ -1,6 +1,8 @@
 package com.asgarov.university.schedule.service;
 
 import com.asgarov.university.schedule.domain.Person;
+import com.asgarov.university.schedule.domain.Role;
+import com.asgarov.university.schedule.domain.dto.ScheduleRequestDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,4 +24,11 @@ public class PersonService {
         return persons;
     }
 
+    public Person findPerson(ScheduleRequestDTO scheduleRequestDTO) {
+        if (scheduleRequestDTO.getRole().equals(Role.STUDENT.toString())) {
+            return studentService.findById(scheduleRequestDTO.getId());
+        } else {
+            return professorService.findById(scheduleRequestDTO.getId());
+        }
+    }
 }

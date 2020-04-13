@@ -1,7 +1,6 @@
 package com.asgarov.university.schedule.service;
 
 import com.asgarov.university.schedule.domain.*;
-import com.asgarov.university.schedule.domain.dto.ScheduleRequestDTO;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -61,19 +60,6 @@ public class ScheduleService {
                 .filter(daySchedule -> daySchedule.getLocalDate().isAfter(dateFrom))
                 .filter(daySchedule -> daySchedule.getLocalDate().isBefore(dateTo))
                 .collect(Collectors.toList());
-    }
-
-    public List<DaySchedule> getSchedule(ScheduleRequestDTO scheduleRequest) {
-        LocalDate from = LocalDate.parse(scheduleRequest.getDateFrom());
-        LocalDate to = LocalDate.parse(scheduleRequest.getDateTo());
-
-        if (scheduleRequest.getRole().equals(Role.STUDENT.toString())) {
-            Student student = studentService.findById(scheduleRequest.getId());
-            return getSchedule(student, from, to);
-        } else {
-            Professor professor = professorService.findById(scheduleRequest.getId());
-            return getSchedule(professor, from, to);
-        }
     }
 
 }

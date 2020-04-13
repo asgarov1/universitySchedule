@@ -2,7 +2,6 @@ package com.asgarov.university.schedule.service;
 
 import com.asgarov.university.schedule.dao.AbstractDao;
 import com.asgarov.university.schedule.domain.Course;
-import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Professor;
 import com.asgarov.university.schedule.domain.Student;
 import org.springframework.stereotype.Service;
@@ -45,35 +44,10 @@ public class CourseService extends AbstractDaoService<Long, Course> {
         return course.getRegisteredStudents().contains(student);
     }
 
-    public Course findCourseByLectureId(Long lectureId) {
-        Lecture lecture = lectureService.findById(lectureId);
-
-        return findAll()
-                .stream()
-                .filter(course -> course.getLectures().contains(lecture))
-                .findFirst()
-                .orElseThrow(RuntimeException::new);
-    }
-
-    public Course findCourseByLectureId(Integer lectureId) {
-        return findCourseByLectureId((long) lectureId);
-    }
-
-    public Course findCourseByLectureId(String lectureId) {
-        return findCourseByLectureId(Long.valueOf(lectureId));
-    }
-
     public List<Student> getNotRegisteredStudents(Course course) {
         List<Student> notRegisteredStudents = studentService.findAll();
         notRegisteredStudents.removeAll(course.getRegisteredStudents());
         return notRegisteredStudents;
-    }
-
-    public void scheduleLectures(Course course, List<Lecture> lectures) {
-        for (Lecture lecture : lectures) {
-            course.addLecture(lecture);
-        }
-        update(course);
     }
 
     public void registerStudent(Long courseId, Long studentId) {

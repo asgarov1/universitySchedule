@@ -2,6 +2,7 @@ package com.asgarov.university.schedule.controller;
 
 import com.asgarov.university.schedule.config.WebConfig;
 import com.asgarov.university.schedule.domain.Room;
+import com.asgarov.university.schedule.service.RoomService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -31,6 +32,9 @@ class RoomControllerTest {
 
     @Autowired
     private RoomController roomController;
+
+    @Autowired
+    private RoomService roomService;
 
     @BeforeAll
     void setup() {
@@ -72,11 +76,13 @@ class RoomControllerTest {
 
     @Test
     public void deleteRoomShouldWork() throws Exception {
-        String roomId = "1";
-        this.mockMvc.perform(delete(ROOM_PATH + "/" + roomId))
+        Room room = new Room("TestRoom");
+        roomService.create(room);
+
+        this.mockMvc.perform(delete(ROOM_PATH + "/" + room.getId()))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(view().name("room"));
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/room"));
     }
 
     @Test

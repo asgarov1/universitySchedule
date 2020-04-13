@@ -197,7 +197,6 @@
                 <configuration>
                     <port>8080</port>
                     <path>/</path>
-                    <contextFile>${basedir}/src/main/resources/context.xml</contextFile>
                 </configuration>
             </plugin>
         </plugins>
