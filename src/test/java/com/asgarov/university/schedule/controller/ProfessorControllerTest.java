@@ -2,6 +2,7 @@ package com.asgarov.university.schedule.controller;
 
 import com.asgarov.university.schedule.config.WebConfig;
 import com.asgarov.university.schedule.domain.Professor;
+import com.asgarov.university.schedule.service.ProfessorService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -31,6 +32,9 @@ class ProfessorControllerTest {
 
     @Autowired
     private ProfessorController professorController;
+
+    @Autowired
+    private ProfessorService professorService;
 
     @BeforeAll
     void setup() {
@@ -72,12 +76,13 @@ class ProfessorControllerTest {
 
     @Test
     public void deleteProfessorShouldWork() throws Exception {
-        String professorId = "1";
+        Professor professor = new Professor("Dummy", "Damidson");
+        professorService.create(professor);
 
-        this.mockMvc.perform(delete(PROFESSOR_PATH + "/" + professorId))
+        this.mockMvc.perform(delete(PROFESSOR_PATH + "/" + professor.getId()))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(view().name("professor"));
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/professor"));
     }
 
     @Test

@@ -1,67 +1,70 @@
-USE `universityDB`;
-DROP TABLE IF EXISTS `courses_students`, `student`, `course_lectures`, `lecture`, `room`, `course`, `professor`;
+create schema if not exists universityDB collate utf8mb4_0900_ai_ci;
 
-CREATE TABLE `professor` (
-                             `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                             `email` varchar(255) DEFAULT NULL,
-                             `firstName` varchar(255) DEFAULT NULL,
-                             `lastName` varchar(255) DEFAULT NULL,
-                             `password` varchar(255) DEFAULT NULL,
-                             `role` varchar(255) DEFAULT NULL,
-                             PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `course_student`, `student`, `lecture`, `room`, `course`, `professor`;
 
-CREATE TABLE `course` (
-                          `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                          `name` varchar(255) DEFAULT NULL,
-                          `professor_id` bigint(20) DEFAULT NULL,
-                          PRIMARY KEY (`id`),
-                          KEY `FK20bm3pmkdf360qlu26qtinakn` (`professor_id`),
-                          CONSTRAINT `FK20bm3pmkdf360qlu26qtinakn` FOREIGN KEY (`professor_id`) REFERENCES `professor` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+create table professor
+(
+    id bigint auto_increment
+        primary key,
+    email varchar(255) null,
+    firstName varchar(255) null,
+    lastName varchar(255) null,
+    password varchar(255) null,
+    role varchar(255) null
+);
 
-CREATE TABLE `room` (
-                        `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                        `name` varchar(255) DEFAULT NULL,
-                        PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+create table course
+(
+    id bigint auto_increment
+        primary key,
+    name varchar(255) null,
+    professor_id bigint null,
+    constraint FKqctak3o6xmul2nu2561al3pb5
+        foreign key (professor_id) references professor (id)
+);
 
-CREATE TABLE `lecture` (
-                           `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                           `dateTime` datetime(6) DEFAULT NULL,
-                           `room_id` bigint(20) DEFAULT NULL,
-                           PRIMARY KEY (`id`),
-                           KEY `FKafvwiqfiveub6cfhouykw9qjp` (`room_id`),
-                           CONSTRAINT `FKafvwiqfiveub6cfhouykw9qjp` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=latin1;
+create table room
+(
+    id bigint auto_increment
+        primary key,
+    name varchar(255) null
+);
 
-CREATE TABLE `course_lectures` (
-                                  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                                  `course_id` bigint(20) NOT NULL,
-                                  `lecture_id` bigint(20) NOT NULL,
-                                  PRIMARY KEY (`id`),
-                                  UNIQUE KEY `UK_lgrpaui8p3o56gempa4e28yi5` (`lecture_id`),
-                                  KEY `FKagc53awx2ih1i7gfktwec4jth` (`course_id`),
-                                  CONSTRAINT `FK8xx5fjdkf9b52yar3gujno9wb` FOREIGN KEY (`lecture_id`) REFERENCES `lecture` (`id`),
-                                  CONSTRAINT `FKagc53awx2ih1i7gfktwec4jth` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+create table lecture
+(
+    id bigint auto_increment
+        primary key,
+    dateTime datetime(6) null,
+    course_id bigint null,
+    room_id bigint null,
+    constraint FKjoc9yetfohpygdvx5wv385vwb
+        foreign key (course_id) references course (id)
+    on DELETE cascade,
+    constraint FKljp95a81uvc6kdkdr7lfvnx94
+        foreign key (room_id) references room (id)
+);
 
-CREATE TABLE `student` (
-                           `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                           `email` varchar(255) DEFAULT NULL,
-                           `firstName` varchar(255) DEFAULT NULL,
-                           `lastName` varchar(255) DEFAULT NULL,
-                           `password` varchar(255) DEFAULT NULL,
-                           `role` varchar(255) DEFAULT NULL,
-                           `degree` varchar(255) DEFAULT NULL,
-                           PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+create table student
+(
+    id bigint auto_increment
+        primary key,
+    email varchar(255) null,
+    firstName varchar(255) null,
+    lastName varchar(255) null,
+    password varchar(255) null,
+    role varchar(255) null,
+    degree varchar(255) null
+);
 
-CREATE TABLE `courses_students` (
-                                  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                                  `course_id` bigint(20) NOT NULL,
-                                  `student_id` bigint(20) NOT NULL,
-                                  PRIMARY KEY (`id`),
-                                  CONSTRAINT `FK8burkcp7uhtoeart4nrr9oxcp` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`),
-                                  CONSTRAINT `FKb1k0d26mobqx4gv3u2128k7my` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+create table course_student
+(
+    Course_id bigint not null,
+    registeredStudents_id bigint not null,
+    constraint FKg8y6buks2g8ivbtadod9o5rcy
+        foreign key (Course_id) references course (id)
+            ON DELETE CASCADE,
+        constraint FKq4m02g8ovgdy67659x5qprk8o
+        foreign key (registeredStudents_id) references student (id)
+            ON DELETE CASCADE
+);
+

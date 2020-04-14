@@ -12,13 +12,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { WebConfig.class })
+@ContextConfiguration(classes = {WebConfig.class})
 class ScheduleServiceTest {
 
     @Autowired
@@ -39,26 +38,25 @@ class ScheduleServiceTest {
     @Autowired
     RoomService roomService;
 
+
     @Test
     void getAMonthScheduleForPerson() {
         Student student = studentService.findAll().get(0);
-        Professor professor = professorService.findAll().get(0);
-
         assertNotNull(scheduleService.getPersonsSchedule(student));
+
+        Professor professor = professorService.findAll().get(0);
         assertNotNull(scheduleService.getPersonsSchedule(professor));
     }
 
     @Test
     void getTodayScheduleForPerson() {
         Student student = studentService.findAll().get(0);
+        List<Course> studentsCourses = courseService.findStudentsCourses(student);
+        Course course = studentsCourses.get(0);
+        Professor professor = course.getProfessor();
 
-        List<Course> courses = courseService.findStudentsCourses(student);
-        Course course = courses.get(0);
-        Professor professor = professorService.findById(course.getProfessor().getId());
-
-        Lecture lecture = new Lecture(LocalDateTime.now(), roomService.findAll().get(0));
-        lecture.setId(lectureService.create(lecture));
-        courseService.scheduleLectures(course, Collections.singletonList(lecture));
+        Lecture lecture = new Lecture(LocalDateTime.now(), roomService.findAll().get(0), course);
+        lectureService.create(lecture);
 
         assertNotNull(scheduleService.getTodayScheduleForPerson(student));
         assertNotNull(scheduleService.getTodayScheduleForPerson(professor));

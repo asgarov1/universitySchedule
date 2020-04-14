@@ -1,10 +1,7 @@
 package com.asgarov.university.schedule.service;
 
 import com.asgarov.university.schedule.config.WebConfig;
-import com.asgarov.university.schedule.dao.LectureDao;
-import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Course;
-import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Student;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,20 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static com.asgarov.university.schedule.domain.Student.Degree.DOCTORATE;
 import static com.asgarov.university.schedule.domain.Student.Degree.MASTER;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ContextConfiguration(classes = { WebConfig.class})
+@ContextConfiguration(classes = { WebConfig.class })
 @ExtendWith(SpringExtension.class)
 class CourseServiceTest {
-
+    
     @Autowired
     CourseService courseService;
 
@@ -33,7 +27,7 @@ class CourseServiceTest {
     StudentService studentService;
 
     @Autowired
-    LectureDao lectureDao;
+    LectureService lectureService;
 
     @Autowired
     RoomService roomService;
@@ -44,54 +38,37 @@ class CourseServiceTest {
     @Test
     void registerStudents() {
         Student depp = new Student("Johnny", "Depp", DOCTORATE);
-        depp.setId(studentService.create(depp));
+        studentService.create(depp);
 
         Student jolie = new Student("Angelina", "Jolie", MASTER);
-        jolie.setId(studentService.create(new Student("Angelina", "Jolie", MASTER)));
+        studentService.create(jolie);
 
-        Course course = courseService.findAll().get(0);
+        Course course = new Course("Acting Classes for over 50");
+        courseService.create(course);
+
         courseService.registerStudents(course, Arrays.asList(depp, jolie));
 
         List<Student> deppAndJolie = Arrays.asList(depp, jolie);
-        List<Student> allStudentsInTheCourse = studentService.findAllStudentsByCourseId(course.getId());
+        List<Student> registeredStudents = courseService.findById(course.getId()).getRegisteredStudents();
         deppAndJolie.forEach(
-                student -> assertTrue(allStudentsInTheCourse.contains(student)));
-    }
-
-    @Test
-    void scheduleLectures() {
-        Lecture lecture = new Lecture(LocalDateTime.now(), roomService.findAll().get(0));
-        lecture.setId(lectureDao.create(lecture));
-
-        Course course = courseService.findAll().get(0);
-
-        courseService.scheduleLectures(course, Collections.singletonList(lecture));
-        assertTrue(lectureDao.findAllByCourseId(course.getId()).contains(lecture));
+                student -> assertTrue(registeredStudents.contains(student)));
     }
 
     @Test
     void createShouldWork() {
         Course course = new Course("Biology");
-        course.setProfessor(professorService.findAll().get(0));
-        Long courseId = courseService.create(course);
-        course.setId(courseId);
 
-        courseService.registerStudents(course, studentService.findAll().subList(0, 3));
-        Long lectureId = lectureDao.create(new Lecture(LocalDateTime.now(), roomService.findAll().get(0)));
-        List<Lecture> lectures = new ArrayList<>();
-        lectures.add(lectureDao.findById(lectureId));
+        courseService.create(course);
+        Course actual = courseService.findById(course.getId());
 
-        courseService.scheduleLectures(course, lectures);
-        Course actual = courseService.findById(courseId);
-        Course expected = course;
-        assertEquals(expected, actual);
+        assertEquals(course, actual);
     }
 
     @Test
-    void updateShouldWork() throws DaoException {
+    void updateShouldWork() {
         Course course = courseService.findAll().get(0);
-        course.setName("Docker 101");
 
+        course.setName("Docker 101");
         courseService.update(course);
 
         Course actualCourse = courseService.findById(course.getId());
@@ -117,7 +94,7 @@ class CourseServiceTest {
     }
 
     @Test
-    void deleteByIdShouldWork() throws DaoException {
+    void deleteByIdShouldWork() {
         List<Course> courses = courseService.findAll();
 
         Long courseId = courses.get(0).getId();

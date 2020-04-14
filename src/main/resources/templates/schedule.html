@@ -1,9 +1,9 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:include="layouts/standardLayout :: page(title='Course')">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:include="layouts/standardLayout :: page(title='Schedule')">
 
 <div class="container" th:fragment="main">
 
     <div class="jumbotron">
-        <h1>Schedule</h1>
+        <h1 th:text="${searchedPerson} ? |Schedule for ${searchedPerson}| : |Schedule|">Schedule</h1>
         <hr/>
         <form method="get" th:action="@{/schedule/showSchedule}" th:object="${scheduleRequestDTO}">
 
@@ -55,7 +55,7 @@
                         <td th:unless="${lectureStat.index} == 0" th:text="| |">Date</td>
                         <td th:text="|${lecture.dateTime.getHour()}:${lecture.dateTime.getMinute()}|">Time</td>
                         <td th:text="${lecture.room}">Room</td>
-                        <td th:text="${courseService.findCourseByLectureId(__${lecture.id}__).name}">Name</td>
+                        <td th:text="${lecture.course.name}">Name</td>
                     </tr>
                     </tbody>
                 </table>

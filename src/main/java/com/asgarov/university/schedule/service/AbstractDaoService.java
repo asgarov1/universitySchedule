@@ -2,13 +2,12 @@ package com.asgarov.university.schedule.service;
 
 import com.asgarov.university.schedule.annotations.Loggable;
 import com.asgarov.university.schedule.dao.AbstractDao;
-import com.asgarov.university.schedule.dao.exception.DaoException;
 
 import java.util.List;
 
 public abstract class AbstractDaoService<K, T> {
 
-    private AbstractDao<K, T> abstractDao;
+    private final AbstractDao<K, T> abstractDao;
 
     public AbstractDaoService(final AbstractDao<K, T> abstractDao) {
         this.abstractDao = abstractDao;
@@ -30,12 +29,12 @@ public abstract class AbstractDaoService<K, T> {
     }
 
     @Loggable
-    public void update(T object) throws DaoException {
+    public void update(T object)  {
         abstractDao.update(object);
     }
 
     @Loggable
-    public void deleteById(K id) throws DaoException {
+    public void deleteById(K id) {
         abstractDao.deleteById(id);
     }
 }

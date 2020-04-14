@@ -1,7 +1,6 @@
 package com.asgarov.university.schedule.service;
 
 import com.asgarov.university.schedule.config.WebConfig;
-import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Room;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { WebConfig.class })
+@ContextConfiguration(classes = {WebConfig.class})
 public class RoomServiceTest {
 
     @Autowired
@@ -38,7 +37,7 @@ public class RoomServiceTest {
     }
 
     @Test
-    void updateShouldWork() throws DaoException {
+    void updateShouldWork() {
         Room room = roomService.findAll().get(0);
         room.setName("B999");
 
@@ -63,7 +62,7 @@ public class RoomServiceTest {
     }
 
     @Test
-    void deleteByIdShouldWork() throws DaoException {
+    void deleteByIdShouldWork() {
         Room room = new Room("C333");
         Long professorId = roomService.create(room);
 

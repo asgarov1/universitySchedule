@@ -1,6 +1,5 @@
 package com.asgarov.university.schedule.controller;
 
-import com.asgarov.university.schedule.dao.exception.DaoException;
 import com.asgarov.university.schedule.domain.Course;
 import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Room;
@@ -27,9 +26,9 @@ import java.util.stream.IntStream;
 @RequestMapping("lecture")
 public class LectureController {
 
-    private LectureService lectureService;
-    private RoomService roomService;
-    private CourseService courseService;
+    private final LectureService lectureService;
+    private final RoomService roomService;
+    private final CourseService courseService;
     private final static Integer AMOUNT_PER_PAGE = 10;
 
     public LectureController(LectureService lectureService, RoomService roomService, CourseService courseService) {
@@ -90,24 +89,19 @@ public class LectureController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteLecture(@PathVariable Long id) throws DaoException {
+    public String deleteLecture(@PathVariable Long id) {
         lectureService.deleteById(id);
         return "redirect:/lecture";
     }
 
     @PutMapping("/{id}")
-    public String updateLecture(@PathVariable Long id, LectureDTO lectureDTO) throws DaoException {
+    public String updateLecture(@PathVariable Long id, LectureDTO lectureDTO) {
         Lecture lecture = lectureService.findById(id);
         LocalDateTime dateTime = LocalDateTime.of(LocalDate.parse(lectureDTO.getDate()), LocalTime.parse(lectureDTO.getTime()));
         lecture.setDateTime(dateTime);
         lecture.setRoom(roomService.findById(lectureDTO.getRoomId()));
         lectureService.update(lecture);
         return "redirect:/lecture";
-    }
-
-    @ModelAttribute("courseService")
-    public CourseService courseService() {
-        return courseService;
     }
 
     @ModelAttribute("rooms")
