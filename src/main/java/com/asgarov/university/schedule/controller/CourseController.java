@@ -8,7 +8,6 @@ import com.asgarov.university.schedule.service.CourseService;
 import com.asgarov.university.schedule.service.LectureService;
 import com.asgarov.university.schedule.service.ProfessorService;
 import com.asgarov.university.schedule.service.RoomService;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,11 +41,7 @@ public class CourseController {
 
     @GetMapping("/searchCoursesById")
     public String searchCoursesById(@RequestParam Long id, Model model) {
-        try {
-            model.addAttribute("courses", Collections.singletonList(courseService.findById(id)));
-        } catch (EmptyResultDataAccessException e) {
-            // Nothing found under the id - nothing to handle
-        }
+        model.addAttribute("courses", Collections.singletonList(courseService.findById(id)));
         return "course";
     }
 

@@ -31,6 +31,7 @@ public class ScheduleController {
     @GetMapping
     public String index(Model model) {
         model.addAttribute("scheduleRequestDTO", new ScheduleRequestDTO());
+        model.addAttribute("persons", personService.findAll());
         return "schedule";
     }
 
@@ -42,17 +43,18 @@ public class ScheduleController {
 
         model.addAttribute("schedule", scheduleService.getSchedule(person, from, to));
         model.addAttribute("searchedPerson", person);
+
+
+        List<Person> persons = personService.findAll();
+        persons.remove(person);
+        persons.add(0, person);
+        model.addAttribute("persons", persons);
         return "schedule";
     }
 
     @ModelAttribute("courseService")
     public CourseService courseService() {
         return courseService;
-    }
-
-    @ModelAttribute("persons")
-    public List<Person> persons() {
-        return personService.findAll();
     }
 
 }

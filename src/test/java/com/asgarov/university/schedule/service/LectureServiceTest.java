@@ -1,6 +1,6 @@
 package com.asgarov.university.schedule.service;
 
-import com.asgarov.university.schedule.config.WebConfig;
+import com.asgarov.university.schedule.Runner;
 import com.asgarov.university.schedule.domain.Lecture;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {WebConfig.class})
+@ContextConfiguration(classes = {Runner.class})
 public class LectureServiceTest {
 
     @Autowired

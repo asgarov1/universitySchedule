@@ -33,19 +33,22 @@ public class Course {
     public Course() {
     }
 
-    public Course(final String name) {
+    public Course(String name) {
         this.name = name;
     }
 
-    public void addStudent(Student student) {
-        registeredStudents.add(student);
+    public Course(String name, List<Student> registeredStudents, Professor professor, List<Lecture> lectures) {
+        this.name = name;
+        this.registeredStudents = registeredStudents;
+        this.professor = professor;
+        this.lectures = lectures;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(final Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -81,20 +84,20 @@ public class Course {
         this.lectures = lectures;
     }
 
-    public void addLecture(final Lecture lecture) {
-        lectures.add(lecture);
+    public void addStudent(Student student) {
+        registeredStudents.add(student);
     }
 
-    public void removeLecture(Lecture lecture) {
-        lectures.remove(lecture);
+    public void addLecture(Lecture lecture) {
+        lectures.add(lecture);
     }
 
     public void removeStudent(Student student) {
         registeredStudents.remove(student);
     }
 
-    public void registerStudent(Student student) {
-        registeredStudents.add(student);
+    public void removeLecture(Lecture lecture) {
+        lectures.remove(lecture);
     }
 
     @Override
@@ -121,16 +124,5 @@ public class Course {
         result = 31 * result + (professor != null ? professor.hashCode() : 0);
         result = 31 * result + (lectures != null ? lectures.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", registeredStudents=" + registeredStudents +
-                ", professor=" + professor +
-                ", lectures=" + lectures +
-                '}';
     }
 }
