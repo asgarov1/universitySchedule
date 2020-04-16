@@ -1,7 +1,6 @@
 package com.asgarov.university.schedule.domain;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "room")
@@ -30,7 +29,7 @@ public class Room {
         return id;
     }
 
-    public void setId(final Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -38,7 +37,7 @@ public class Room {
         return name;
     }
 
-    public void setName(final String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -49,8 +48,8 @@ public class Room {
 
         Room room = (Room) o;
 
-        if (!Objects.equals(id, room.id)) return false;
-        return Objects.equals(name, room.name);
+        if (id != null ? !id.equals(room.id) : room.id != null) return false;
+        return name != null ? name.equals(room.name) : room.name == null;
     }
 
     @Override

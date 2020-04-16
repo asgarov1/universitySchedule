@@ -1,6 +1,6 @@
 package com.asgarov.university.schedule.service;
 
-import com.asgarov.university.schedule.config.WebConfig;
+import com.asgarov.university.schedule.Runner;
 import com.asgarov.university.schedule.domain.Course;
 import com.asgarov.university.schedule.domain.Student;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import static com.asgarov.university.schedule.domain.Student.Degree.DOCTORATE;
 import static com.asgarov.university.schedule.domain.Student.Degree.MASTER;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ContextConfiguration(classes = { WebConfig.class })
+@ContextConfiguration(classes = {Runner.class})
 @ExtendWith(SpringExtension.class)
 class CourseServiceTest {
     

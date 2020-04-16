@@ -67,4 +67,3 @@ create table course_student
         foreign key (registeredStudents_id) references student (id)
             ON DELETE CASCADE
 );
-

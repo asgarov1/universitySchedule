@@ -1,6 +1,6 @@
 package com.asgarov.university.schedule.controller;
 
-import com.asgarov.university.schedule.config.WebConfig;
+import com.asgarov.university.schedule.Runner;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-@ContextConfiguration(classes = {WebConfig.class})
+@ContextConfiguration(classes = {Runner.class})
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

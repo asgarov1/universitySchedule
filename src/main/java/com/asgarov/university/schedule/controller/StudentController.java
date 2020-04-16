@@ -3,7 +3,6 @@ package com.asgarov.university.schedule.controller;
 import com.asgarov.university.schedule.domain.Student;
 import com.asgarov.university.schedule.domain.Student.Degree;
 import com.asgarov.university.schedule.service.StudentService;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +27,7 @@ public class StudentController {
 
     @GetMapping("/searchStudentsById")
     public String searchStudentsById(@RequestParam Long id, Model model) {
-        try {
-            model.addAttribute("students", Collections.singletonList(studentService.findById(id)));
-        } catch (EmptyResultDataAccessException e) {
-            // Nothing found under the id - nothing to handle
-        }
+        model.addAttribute("students", Collections.singletonList(studentService.findById(id)));
         return "student";
     }
 

@@ -7,7 +7,6 @@ import com.asgarov.university.schedule.domain.dto.LectureDTO;
 import com.asgarov.university.schedule.service.CourseService;
 import com.asgarov.university.schedule.service.LectureService;
 import com.asgarov.university.schedule.service.RoomService;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -69,12 +68,8 @@ public class LectureController {
 
     @GetMapping("/searchLecturesById")
     public String searchLecturesById(@RequestParam Long id, Model model) {
-        try {
-            model.addAttribute("lectures", Collections.singletonList(lectureService.findById(id)));
-            model.addAttribute("lectureDTO", new LectureDTO());
-        } catch (EmptyResultDataAccessException e) {
-            // Nothing found under the id - nothing to handle
-        }
+        model.addAttribute("lectures", Collections.singletonList(lectureService.findById(id)));
+        model.addAttribute("lectureDTO", new LectureDTO());
         return "lecture";
     }
 
