@@ -1,34 +1,26 @@
 package com.asgarov.university.schedule.domain;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.CascadeType.*;
-
 @Entity
-@Table(name = "course")
 public class Course {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {MERGE, REFRESH, PERSIST})
-    private List<Student> registeredStudents = new ArrayList<>();
+    @ManyToMany(cascade = {CascadeType.MERGE})
+    private List<Student> registeredStudents;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "professor_id")
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private Professor professor;
 
-    @OneToMany(cascade = ALL, mappedBy = "course")
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Lecture> lectures = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Lecture> lectures;
 
     public Course() {
     }
@@ -42,14 +34,6 @@ public class Course {
         this.registeredStudents = registeredStudents;
         this.professor = professor;
         this.lectures = lectures;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -85,6 +69,9 @@ public class Course {
     }
 
     public void addStudent(Student student) {
+        if (registeredStudents == null) {
+            registeredStudents = new ArrayList<>();
+        }
         registeredStudents.add(student);
     }
 
@@ -100,29 +87,48 @@ public class Course {
         lectures.remove(lecture);
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
-
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         Course course = (Course) o;
 
-        if (id != null ? !id.equals(course.id) : course.id == null) return false;
-        if (name != null ? !name.equals(course.name) : course.name == null) return false;
-        if (registeredStudents != null ? !(registeredStudents.size() == course.registeredStudents.size() && registeredStudents.containsAll(course.registeredStudents)) : course.registeredStudents == null)
+        if (getId() != null ? !getId().equals(course.getId()) : course.getId() != null) return false;
+        if (getName() != null ? !getName().equals(course.getName()) : course.getName() != null) return false;
+        if (getRegisteredStudents() != null ? !getRegisteredStudents().equals(course.getRegisteredStudents()) : course.getRegisteredStudents() != null)
             return false;
-        if (professor != null ? !professor.equals(course.professor) : course.professor != null) return false;
-        return lectures != null ? !lectures.equals(course.lectures) : course.lectures == null;
+        if (getProfessor() != null ? !getProfessor().equals(course.getProfessor()) : course.getProfessor() != null)
+            return false;
+        return getLectures() != null ? getLectures().equals(course.getLectures()) : course.getLectures() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (registeredStudents != null ? registeredStudents.hashCode() : 0);
-        result = 31 * result + (professor != null ? professor.hashCode() : 0);
-        result = 31 * result + (lectures != null ? lectures.hashCode() : 0);
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getRegisteredStudents() != null ? getRegisteredStudents().hashCode() : 0);
+        result = 31 * result + (getProfessor() != null ? getProfessor().hashCode() : 0);
+        result = 31 * result + (getLectures() != null ? getLectures().hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", registeredStudents=" + registeredStudents +
+                ", professor=" + professor +
+                ", lectures=" + lectures +
+                '}';
     }
 }

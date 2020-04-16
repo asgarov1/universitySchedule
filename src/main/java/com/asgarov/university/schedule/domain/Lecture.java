@@ -2,19 +2,17 @@ package com.asgarov.university.schedule.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
-@Table(name = "lecture")
 public class Lecture {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Basic
     private LocalDateTime dateTime;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @ManyToOne
     private Room room;
 
     @ManyToOne
@@ -32,14 +30,6 @@ public class Lecture {
         this.dateTime = dateTime;
         this.room = room;
         this.course = course;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
     }
 
     public LocalDateTime getDateTime() {
@@ -66,6 +56,14 @@ public class Lecture {
         this.course = course;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,16 +71,19 @@ public class Lecture {
 
         Lecture lecture = (Lecture) o;
 
-        if (!Objects.equals(id, lecture.id)) return false;
-        if (!Objects.equals(dateTime, lecture.dateTime)) return false;
-        return Objects.equals(room, lecture.room);
+        if (getId() != null ? !getId().equals(lecture.getId()) : lecture.getId() != null) return false;
+        if (getDateTime() != null ? !getDateTime().equals(lecture.getDateTime()) : lecture.getDateTime() != null)
+            return false;
+        if (getRoom() != null ? !getRoom().equals(lecture.getRoom()) : lecture.getRoom() != null) return false;
+        return getCourse() != null ? getCourse().equals(lecture.getCourse()) : lecture.getCourse() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (dateTime != null ? dateTime.hashCode() : 0);
-        result = 31 * result + (room != null ? room.hashCode() : 0);
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getDateTime() != null ? getDateTime().hashCode() : 0);
+        result = 31 * result + (getRoom() != null ? getRoom().hashCode() : 0);
+        result = 31 * result + (getCourse() != null ? getCourse().hashCode() : 0);
         return result;
     }
 

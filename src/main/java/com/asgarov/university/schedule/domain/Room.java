@@ -1,13 +1,12 @@
 package com.asgarov.university.schedule.domain;
 
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "room")
 public class Room {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
@@ -17,11 +16,6 @@ public class Room {
     }
 
     public Room(String name) {
-        this.name = name;
-    }
-
-    public Room(Long id, String name) {
-        this.id = id;
         this.name = name;
     }
 
@@ -48,14 +42,14 @@ public class Room {
 
         Room room = (Room) o;
 
-        if (id != null ? !id.equals(room.id) : room.id != null) return false;
-        return name != null ? name.equals(room.name) : room.name == null;
+        if (getId() != null ? !getId().equals(room.getId()) : room.getId() != null) return false;
+        return getName() != null ? getName().equals(room.getName()) : room.getName() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         return result;
     }
 

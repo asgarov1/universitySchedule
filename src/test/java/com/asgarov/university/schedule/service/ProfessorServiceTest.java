@@ -26,7 +26,7 @@ public class ProfessorServiceTest {
     @Test
     void createShouldWork() {
         Professor professor = new Professor("John", "Maximilianov");
-        Long professorId = professorService.create(professor);
+        Long professorId = professorService.create(professor).getId();
         professor.setId(professorId);
 
         Professor expected = professor;
@@ -63,7 +63,7 @@ public class ProfessorServiceTest {
     @Test
     void deleteByIdShouldWork() {
         Professor professor = new Professor("John", "Wick");
-        Long professorId = professorService.create(professor);
+        Long professorId = professorService.create(professor).getId();
 
         int sizeBeforeDelete = professorService.findAll().size();
 

@@ -27,7 +27,7 @@ public class LectureServiceTest {
     @Test
     void createShouldWork() {
         Lecture lecture = new Lecture(LocalDateTime.now().plusDays(2), roomService.findAll().get(0));
-        Long lectureId = lectureService.create(lecture);
+        Long lectureId = lectureService.create(lecture).getId();
         lecture.setId(lectureId);
 
         Lecture actual = lectureService.findById(lectureId);

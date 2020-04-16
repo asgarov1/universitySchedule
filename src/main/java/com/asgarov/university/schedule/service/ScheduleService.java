@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 @Service
 public class ScheduleService {
 
-    private CourseService courseService;
-    private StudentService studentService;
-    private ProfessorService professorService;
+    private final CourseService courseService;
+    private final StudentService studentService;
+    private final ProfessorService professorService;
 
     public ScheduleService(CourseService courseService, StudentService studentService, ProfessorService professorService) {
         this.courseService = courseService;

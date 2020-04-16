@@ -19,8 +19,8 @@ public class StudentServiceTest {
     @Test
     void createShouldWork() {
         Student student = new Student("John", "Maximilianov", Student.Degree.MASTER);
-        when(studentService.create(student)).thenReturn(1L);
-        Long studentId = studentService.create(student);
+        when(studentService.create(student)).thenReturn(student);
+        Long studentId = studentService.create(student).getId();
         student.setId(studentId);
 
         when(studentService.findById(anyLong())).thenReturn(student);
@@ -79,7 +79,7 @@ public class StudentServiceTest {
             students.add(student);
             return 1L;
         }).when(studentService).create(student);
-        Long studentId = studentService.create(student);
+        Long studentId = studentService.create(student).getId();
 
         when(studentService.findAll()).thenReturn(students);
         int sizeBeforeDelete = studentService.findAll().size();

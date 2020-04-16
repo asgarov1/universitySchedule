@@ -1,15 +1,19 @@
 package com.asgarov.university.schedule.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
-@Table(name = "professor")
 public class Professor extends Person {
 
     {
         role = Role.PROFESSOR;
     }
+
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    private List<Course> courses;
 
     public Professor() {
     }
@@ -26,7 +30,7 @@ public class Professor extends Person {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (getClass() != o.getClass())
             return false;
         return super.equals(o);
     }

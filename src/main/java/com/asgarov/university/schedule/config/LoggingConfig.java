@@ -16,7 +16,8 @@ public class LoggingConfig {
     final static Logger logger = LoggerFactory.getLogger(LoggingConfig.class.getSimpleName());
 
     @Pointcut("@annotation(com.asgarov.university.schedule.annotations.Loggable)")
-    public void anyServiceClassMethod(){}
+    public void anyServiceClassMethod() {
+    }
 
 
     @Before("anyServiceClassMethod()")

@@ -1,9 +1,9 @@
 package com.asgarov.university.schedule.service;
 
-import com.asgarov.university.schedule.dao.AbstractDao;
 import com.asgarov.university.schedule.domain.Course;
 import com.asgarov.university.schedule.domain.Professor;
 import com.asgarov.university.schedule.domain.Student;
+import com.asgarov.university.schedule.repository.CourseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,31 +11,33 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class CourseService extends AbstractDaoService<Long, Course> {
+public class CourseService extends AbstractService<Course, Long> {
 
     private final StudentService studentService;
     private final LectureService lectureService;
+    private final CourseRepository courseRepository;
 
-    public CourseService(AbstractDao<Long, Course> abstractDao, StudentService studentService, LectureService lectureService) {
-        super(abstractDao);
+    public CourseService(CourseRepository courseRepository, StudentService studentService, LectureService lectureService) {
+        super(courseRepository);
+        this.courseRepository = courseRepository;
         this.studentService = studentService;
         this.lectureService = lectureService;
     }
 
     public void registerStudents(Course course, List<Student> students) {
-       students.forEach(course::addStudent);
-       update(course);
+        students.forEach(course::addStudent);
+        update(course);
     }
 
     public List<Course> findStudentsCourses(final Student student) {
-        return findAll().stream()
+        return courseRepository.findAll().stream()
                 .filter(course -> studentHasCourse(student, course))
                 .collect(Collectors.toList());
     }
 
 
     public List<Course> findProfessorsCourses(final Professor professor) {
-        return findAll().stream()
+        return courseRepository.findAll().stream()
                 .filter(course -> Objects.equals(course.getProfessor(), professor))
                 .collect(Collectors.toList());
     }
@@ -72,5 +74,9 @@ public class CourseService extends AbstractDaoService<Long, Course> {
         course.removeLecture(lectureService.findById(lectureId));
         lectureService.deleteById(lectureId);
         update(course);
+    }
+
+    public List<Course> findAll() {
+        return courseRepository.findAll();
     }
 }

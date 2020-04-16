@@ -1,14 +1,12 @@
 package com.asgarov.university.schedule.domain;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @MappedSuperclass
 public abstract class Person {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     Role role;
@@ -33,14 +31,6 @@ public abstract class Person {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
     }
 
     public Role getRole() {
@@ -83,36 +73,39 @@ public abstract class Person {
         this.password = password;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
-    public boolean equals(final Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        final Person person = (Person) o;
+        Person person = (Person) o;
 
-        if (!Objects.equals(id, person.id))
+        if (getId() != null ? !getId().equals(person.getId()) : person.getId() != null) return false;
+        if (getRole() != person.getRole()) return false;
+        if (getFirstName() != null ? !getFirstName().equals(person.getFirstName()) : person.getFirstName() != null)
             return false;
-        if (role != person.role)
+        if (getLastName() != null ? !getLastName().equals(person.getLastName()) : person.getLastName() != null)
             return false;
-        if (!Objects.equals(firstName, person.firstName))
-            return false;
-        if (!Objects.equals(lastName, person.lastName))
-            return false;
-        if (!Objects.equals(email, person.email))
-            return false;
-        return Objects.equals(password, person.password);
+        if (getEmail() != null ? !getEmail().equals(person.getEmail()) : person.getEmail() != null) return false;
+        return getPassword() != null ? getPassword().equals(person.getPassword()) : person.getPassword() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (role != null ? role.hashCode() : 0);
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
+        result = 31 * result + (getFirstName() != null ? getFirstName().hashCode() : 0);
+        result = 31 * result + (getLastName() != null ? getLastName().hashCode() : 0);
+        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
+        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
         return result;
     }
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -68,7 +69,11 @@ public class LectureController {
 
     @GetMapping("/searchLecturesById")
     public String searchLecturesById(@RequestParam Long id, Model model) {
-        model.addAttribute("lectures", Collections.singletonList(lectureService.findById(id)));
+        try {
+            model.addAttribute("lectures", Collections.singletonList(lectureService.findById(id)));
+        } catch (EntityNotFoundException e) {
+            //nothing to handle
+        }
         model.addAttribute("lectureDTO", new LectureDTO());
         return "lecture";
     }
@@ -78,8 +83,9 @@ public class LectureController {
         LocalDate localDate = LocalDate.parse(lectureDTO.getDate());
         LocalTime localTime = LocalTime.parse(lectureDTO.getTime());
         LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
-        Long lectureId = lectureService.create(new Lecture(localDateTime, roomService.findById(lectureDTO.getRoomId())));
-        courseService.scheduleLecture(lectureDTO.getCourseId(), lectureId);
+        Lecture lecture = new Lecture(localDateTime, roomService.findById(lectureDTO.getRoomId()));
+        lectureService.create(lecture);
+        courseService.scheduleLecture(lectureDTO.getCourseId(), lecture.getId());
         return "redirect:/lecture";
     }
 

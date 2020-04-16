@@ -1,7 +1,7 @@
 package com.asgarov.university.schedule.service;
 
-import com.asgarov.university.schedule.dao.LectureDao;
 import com.asgarov.university.schedule.domain.Lecture;
+import com.asgarov.university.schedule.repository.LectureRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -12,14 +12,17 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class LectureService extends AbstractDaoService<Long, Lecture> {
+public class LectureService extends AbstractService<Lecture, Long> {
 
-    public LectureService(final LectureDao lectureDao) {
-        super(lectureDao);
+    private LectureRepository lectureRepository;
+
+    public LectureService(LectureRepository lectureRepository) {
+        super(lectureRepository);
+        this.lectureRepository = lectureRepository;
     }
 
     public Page<Lecture> findPaginated(Pageable pageable) {
-        List<Lecture> lectures = findAll();
+        List<Lecture> lectures = lectureRepository.findAll();
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
@@ -33,5 +36,9 @@ public class LectureService extends AbstractDaoService<Long, Lecture> {
         }
 
         return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), lectures.size());
+    }
+
+    public List<Lecture> findAll() {
+        return lectureRepository.findAll();
     }
 }

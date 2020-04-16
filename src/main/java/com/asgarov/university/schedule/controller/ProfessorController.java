@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collections;
 
 @Controller
@@ -26,7 +27,11 @@ public class ProfessorController {
 
     @GetMapping("/searchProfessorsById")
     public String searchProfessorsById(@RequestParam Long id, Model model) {
-        model.addAttribute("professors", Collections.singletonList(professorService.findById(id)));
+        try {
+            model.addAttribute("professors", Collections.singletonList(professorService.findById(id)));
+        } catch (EntityNotFoundException e) {
+            //nothing to handle
+        }
         return "professor";
     }
 

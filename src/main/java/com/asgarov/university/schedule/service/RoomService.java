@@ -1,21 +1,24 @@
 package com.asgarov.university.schedule.service;
 
-import com.asgarov.university.schedule.dao.RoomDao;
 import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Room;
+import com.asgarov.university.schedule.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
-public class RoomService extends AbstractDaoService<Long, Room> {
+public class RoomService extends AbstractService<Room, Long> {
 
-    public static final int LESSON_TIME_IN_MINUTES = 90;
-    LectureService lectureService;
+    private static final int LESSON_TIME_IN_MINUTES = 90;
+    private final LectureService lectureService;
+    private final RoomRepository roomRepository;
 
-    public RoomService(final RoomDao roomDao, final LectureService lectureService) {
-        super(roomDao);
+    public RoomService(final RoomRepository roomRepository, final LectureService lectureService) {
+        super(roomRepository);
+        this.roomRepository = roomRepository;
         this.lectureService = lectureService;
     }
 
@@ -31,5 +34,9 @@ public class RoomService extends AbstractDaoService<Long, Room> {
             return false;
         }
         return Duration.between(lecture.getDateTime(), dateTime).toMinutes() < LESSON_TIME_IN_MINUTES;
+    }
+
+    public List<Room> findAll() {
+        return roomRepository.findAll();
     }
 }

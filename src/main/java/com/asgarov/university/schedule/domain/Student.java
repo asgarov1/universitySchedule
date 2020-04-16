@@ -3,15 +3,18 @@ package com.asgarov.university.schedule.domain;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.ManyToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "student")
 public class Student extends Person {
 
     @Enumerated(EnumType.STRING)
     private Degree degree;
 
+    @ManyToMany
+    private List<Course> courses = new ArrayList<>();
 
     {
         role = Role.STUDENT;

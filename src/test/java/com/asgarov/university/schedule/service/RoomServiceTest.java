@@ -28,7 +28,7 @@ public class RoomServiceTest {
     @Test
     void createShouldWork() {
         Room room = new Room("A111");
-        Long roomId = roomService.create(room);
+        Long roomId = roomService.create(room).getId();
         room.setId(roomId);
 
         Room expected = room;
@@ -64,7 +64,7 @@ public class RoomServiceTest {
     @Test
     void deleteByIdShouldWork() {
         Room room = new Room("C333");
-        Long professorId = roomService.create(room);
+        Long professorId = roomService.create(room).getId();
 
         int sizeBeforeDelete = roomService.findAll().size();
 
