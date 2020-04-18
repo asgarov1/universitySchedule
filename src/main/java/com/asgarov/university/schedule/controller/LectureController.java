@@ -114,4 +114,9 @@ public class LectureController {
     public List<Course> courses() {
         return courseService.findAll();
     }
+
+    @ModelAttribute("courseService")
+    public CourseService courseService() {
+        return courseService;
+    }
 }

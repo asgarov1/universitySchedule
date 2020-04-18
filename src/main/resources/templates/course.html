@@ -26,7 +26,7 @@
                     </div>
                     <div class="input-group m-3">
                         <select class="form-control" name="professorId" id="professorSelect" required>
-                            <option th:each="professorFromList: ${professors}" th:text="${professorFromList}"
+                            <option th:each="professorFromList: ${professors}" th:text="${professorFromList.getFullName()}"
                                     th:value="${professorFromList.id}">
                             </option>
                         </select>

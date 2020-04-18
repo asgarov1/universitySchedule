@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Professor extends Person {
@@ -12,7 +13,7 @@ public class Professor extends Person {
         role = Role.PROFESSOR;
     }
 
-    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Course> courses;
 
     public Professor() {
@@ -28,11 +29,13 @@ public class Professor extends Person {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (getClass() != o.getClass())
-            return false;
-        return super.equals(o);
+        if (this == o) return true;
+        if (!(o instanceof Professor)) return false;
+        if (!super.equals(o)) return false;
+
+        Professor professor = (Professor) o;
+
+        return Objects.equals(courses, professor.courses);
     }
 
     @Override
@@ -42,6 +45,13 @@ public class Professor extends Person {
 
     @Override
     public String toString() {
-        return "Professor " + firstName + " " + lastName;
+        return "Professor{" +
+                "id=" + getId() +
+                ", role=" + role +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

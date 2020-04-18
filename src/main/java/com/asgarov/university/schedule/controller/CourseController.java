@@ -125,4 +125,9 @@ public class CourseController {
     public List<Professor> professors() {
         return professorService.findAll();
     }
+
+    @ModelAttribute("courseService")
+    public CourseService courseService() {
+        return courseService;
+    }
 }

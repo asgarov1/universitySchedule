@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface LectureRepository extends CrudRepository<Lecture, Long> {
     List<Lecture> findAll();
+    void deleteById(Long id);
 }

@@ -1,11 +1,13 @@
 package com.asgarov.university.schedule.service;
 
 import com.asgarov.university.schedule.domain.Course;
+import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Professor;
 import com.asgarov.university.schedule.domain.Student;
 import com.asgarov.university.schedule.repository.CourseRepository;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -61,6 +63,7 @@ public class CourseService extends AbstractService<Course, Long> {
     public void scheduleLecture(Long courseId, Long lectureId) {
         Course course = findById(courseId);
         course.addLecture(lectureService.findById(lectureId));
+        update(course);
     }
 
     public void unregisterStudent(Long courseId, Long studentId) {
@@ -78,5 +81,10 @@ public class CourseService extends AbstractService<Course, Long> {
 
     public List<Course> findAll() {
         return courseRepository.findAll();
+    }
+
+    public Course findByLectureId(Long lectureId){
+        Lecture lecture = lectureService.findById(lectureId);
+        return courseRepository.findByLecturesContaining(lecture).orElseThrow(EntityNotFoundException::new);
     }
 }

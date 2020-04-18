@@ -41,4 +41,11 @@ public class LectureService extends AbstractService<Lecture, Long> {
     public List<Lecture> findAll() {
         return lectureRepository.findAll();
     }
+
+    public void delete(Lecture lecture){
+        lectureRepository
+
+
+                .delete(lecture);
+    }
 }

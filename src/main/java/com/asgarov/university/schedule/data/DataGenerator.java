@@ -57,7 +57,7 @@ public class DataGenerator implements CommandLineRunner {
                 "Elon Musk", "Nikola Tesla"));
 
         professorService.saveAll(generateLecturers("Vasya Pupkin", "Petya Pushkin", "Sema Sirkin",
-                "Professor Xavier", "Linus Torvalds", "Albus Dumbledore"));
+                "Charles Xavier", "Linus Torvalds", "Albus Dumbledore"));
 
         courseService.saveAll(generatesCourses("Informatics 101", "Algorithmic Thinking", "JavaEE",
                 "C++ in Robotics", "Data Science", "Hacking with Python", "Architecture of Networks",
@@ -97,6 +97,7 @@ public class DataGenerator implements CommandLineRunner {
         for (int i = 0; i < amount; i++) {
             lectures.add(new Lecture(getRandomDateTime(), getRandomRoom(), course));
         }
+        lectureService.saveAll(lectures);
         return lectures;
     }
 

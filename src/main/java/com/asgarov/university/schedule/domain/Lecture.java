@@ -15,9 +15,6 @@ public class Lecture {
     @ManyToOne
     private Room room;
 
-    @ManyToOne
-    private Course course;
-
     public Lecture() {
     }
 
@@ -29,7 +26,7 @@ public class Lecture {
     public Lecture(LocalDateTime dateTime, Room room, Course course) {
         this.dateTime = dateTime;
         this.room = room;
-        this.course = course;
+//        this.course = course;
     }
 
     public LocalDateTime getDateTime() {
@@ -48,14 +45,6 @@ public class Lecture {
         this.room = room;
     }
 
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
     public Long getId() {
         return id;
     }
@@ -67,15 +56,14 @@ public class Lecture {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Lecture)) return false;
 
         Lecture lecture = (Lecture) o;
 
         if (getId() != null ? !getId().equals(lecture.getId()) : lecture.getId() != null) return false;
         if (getDateTime() != null ? !getDateTime().equals(lecture.getDateTime()) : lecture.getDateTime() != null)
             return false;
-        if (getRoom() != null ? !getRoom().equals(lecture.getRoom()) : lecture.getRoom() != null) return false;
-        return getCourse() != null ? getCourse().equals(lecture.getCourse()) : lecture.getCourse() == null;
+        return getRoom() != null ? getRoom().equals(lecture.getRoom()) : lecture.getRoom() == null;
     }
 
     @Override
@@ -83,12 +71,15 @@ public class Lecture {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getDateTime() != null ? getDateTime().hashCode() : 0);
         result = 31 * result + (getRoom() != null ? getRoom().hashCode() : 0);
-        result = 31 * result + (getCourse() != null ? getCourse().hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "Lecture " + "at " + dateTime + " in " + room + "\n";
+        return "Lecture{" +
+                "id=" + id +
+                ", dateTime=" + dateTime +
+                ", room=" + room +
+                '}';
     }
 }

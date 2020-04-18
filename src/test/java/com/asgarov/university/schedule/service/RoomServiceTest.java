@@ -1,12 +1,11 @@
 package com.asgarov.university.schedule.service;
 
-import com.asgarov.university.schedule.Runner;
 import com.asgarov.university.schedule.domain.Lecture;
 import com.asgarov.university.schedule.domain.Room;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
@@ -16,7 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {Runner.class})
+@SpringBootTest
 public class RoomServiceTest {
 
     @Autowired

@@ -1,5 +1,8 @@
 package com.asgarov.university.schedule.domain;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +16,18 @@ public class Course {
     @Column
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.MERGE})
-    private List<Student> registeredStudents;
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch=FetchType.EAGER)
+    @JoinTable(name = "course_student",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    private List<Student> registeredStudents = new ArrayList<>();
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch=FetchType.EAGER)
     private Professor professor;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Lecture> lectures;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany
+    private List<Lecture> lectures = new ArrayList<>();
 
     public Course() {
     }
@@ -69,9 +76,6 @@ public class Course {
     }
 
     public void addStudent(Student student) {
-        if (registeredStudents == null) {
-            registeredStudents = new ArrayList<>();
-        }
         registeredStudents.add(student);
     }
 
@@ -95,10 +99,11 @@ public class Course {
         this.id = id;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Course)) return false;
 
         Course course = (Course) o;
 

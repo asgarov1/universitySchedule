@@ -3,7 +3,7 @@
 <div class="container" th:fragment="main">
 
     <div class="jumbotron">
-        <h1 th:text="${searchedPerson} ? |Schedule for ${searchedPerson}| : |Schedule|">Schedule</h1>
+        <h1 th:text="${searchedPerson} ? |Schedule for ${searchedPerson.getFullName()}| : |Schedule|">Schedule</h1>
         <hr/>
         <form method="get" th:action="@{/schedule/showSchedule}" th:object="${scheduleRequestDTO}">
 
@@ -25,7 +25,7 @@
                 <div class="col-sm-3">
                     <select class="form-control" name="personIndex" id="personSelect"
                             onchange="setHiddenFields()">
-                        <option th:each="person: ${persons}" th:text="${person}"
+                        <option th:each="person: ${persons}" th:text="${person.getFullName()}"
                                 th:value="${person.role} + ' ' + ${person.id}">
                         </option>
                     </select>
@@ -55,7 +55,7 @@
                         <td th:unless="${lectureStat.index} == 0" th:text="| |">Date</td>
                         <td th:text="|${lecture.dateTime.getHour()}:${lecture.dateTime.getMinute()}|">Time</td>
                         <td th:text="${lecture.room}">Room</td>
-                        <td th:text="${lecture.course?.name}">Name</td>
+                        <td th:text="${courseService.findByLectureId(__${lecture.id}__).name}">Course Name</td>
                     </tr>
                     </tbody>
                 </table>
