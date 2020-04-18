@@ -50,7 +50,7 @@ public class ScheduleService {
         List<DaySchedule> daySchedules = getPersonsSchedule(person);
         return daySchedules.stream()
                 .filter(daySchedule -> daySchedule.getLocalDate().equals(LocalDate.now()))
-                .findFirst()
+                .findAny()
                 .orElseThrow(NoSuchElementException::new);
     }
 
@@ -61,5 +61,4 @@ public class ScheduleService {
                 .filter(daySchedule -> daySchedule.getLocalDate().isBefore(dateTo))
                 .collect(Collectors.toList());
     }
-
 }

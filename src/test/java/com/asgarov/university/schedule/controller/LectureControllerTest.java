@@ -2,16 +2,14 @@ package com.asgarov.university.schedule.controller;
 
 import com.asgarov.university.schedule.Runner;
 import com.asgarov.university.schedule.domain.dto.LectureDTO;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -21,9 +19,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-@ContextConfiguration(classes = {Runner.class})
-@ExtendWith(SpringExtension.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringJUnitWebConfig(classes = {Runner.class})
+@SpringBootTest
 class LectureControllerTest {
 
     private MockMvc mockMvc;
@@ -33,7 +30,7 @@ class LectureControllerTest {
     @Autowired
     private LectureController lectureController;
 
-    @BeforeAll
+    @BeforeEach
     void setup() {
         FormattingConversionService conversionService = new FormattingConversionService();
         conversionService.addConverter(new StringToLectureDTOConverter());
@@ -65,17 +62,15 @@ class LectureControllerTest {
     }
 
     @Test
-    @DirtiesContext
     public void addNewLectureShouldWork() throws Throwable {
-         mockMvc.perform(post(LECTURE_PATH)
-                    .param("lectureDTO", "2011-11-11,01:01,1,1"))
-                    .andDo(print())
-                    .andExpect(status().isFound())
-                    .andExpect(view().name("redirect:" + LECTURE_PATH));
+        mockMvc.perform(post(LECTURE_PATH)
+                .param("lectureDTO", "2011-11-11,01:01,1,1"))
+                .andDo(print())
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:" + LECTURE_PATH));
     }
 
     @Test
-    @DirtiesContext
     public void deleteLectureShouldWork() throws Exception {
         String lectureId = "1";
         this.mockMvc.perform(delete(LECTURE_PATH + "/" + lectureId))
@@ -87,7 +82,7 @@ class LectureControllerTest {
     @Test
     @DirtiesContext
     public void updateLectureShouldWork() throws Exception {
-        String lectureId = "1";
+        String lectureId = "2";
         this.mockMvc.perform(delete(LECTURE_PATH + "/" + lectureId)
                 .param("lectureDTO", "2011-11-11,01:01,1,1"))
                 .andDo(print())

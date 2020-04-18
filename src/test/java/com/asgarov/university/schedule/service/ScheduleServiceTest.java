@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -49,13 +48,15 @@ class ScheduleServiceTest {
 
     @Test
     void getTodayScheduleForPerson() {
-        Student student = studentService.findAll().get(0);
-        List<Course> studentsCourses = courseService.findStudentsCourses(student);
-        Course course = studentsCourses.get(0);
+        Student student = studentService.create(new Student("John", "Michaelson", Student.Degree.DOCTORATE));
+        Course course = courseService.findAll().get(0);
+        courseService.registerStudent(course.getId(), student.getId());
+
         Professor professor = course.getProfessor();
 
-        Lecture lecture = new Lecture(LocalDateTime.now(), roomService.findAll().get(0), course);
+        Lecture lecture = new Lecture(LocalDateTime.now(), roomService.findAll().get(0));
         lectureService.create(lecture);
+        courseService.scheduleLecture(course.getId(), lecture.getId());
 
         assertNotNull(scheduleService.getTodayScheduleForPerson(student));
         assertNotNull(scheduleService.getTodayScheduleForPerson(professor));

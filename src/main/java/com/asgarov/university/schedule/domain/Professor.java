@@ -1,5 +1,8 @@
 package com.asgarov.university.schedule.domain;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -13,6 +16,7 @@ public class Professor extends Person {
         role = Role.PROFESSOR;
     }
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Course> courses;
 
@@ -25,6 +29,14 @@ public class Professor extends Person {
 
     public Professor(final String firstName, final String lastName) {
         super(firstName, lastName, lastName.toLowerCase() + "@mail.ru", "pass");
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 
     @Override

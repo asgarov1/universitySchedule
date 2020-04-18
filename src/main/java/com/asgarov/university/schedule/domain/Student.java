@@ -1,9 +1,6 @@
 package com.asgarov.university.schedule.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +10,7 @@ public class Student extends Person {
     @Enumerated(EnumType.STRING)
     private Degree degree;
 
-    @ManyToMany(mappedBy = "registeredStudents")
+    @ManyToMany(mappedBy = "registeredStudents", fetch = FetchType.EAGER)
     private final List<Course> courses = new ArrayList<>();
 
     {
@@ -46,6 +43,10 @@ public class Student extends Person {
         this.degree = degree;
     }
 
+    public List<Course> getCourses() {
+        return courses;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,7 +63,7 @@ public class Student extends Person {
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (getDegree() != null ? getDegree().hashCode() : 0);
-        result = 31 * result + (courses != null ? courses.hashCode() : 0);
+        result = 31 * result + courses.hashCode();
         return result;
     }
 

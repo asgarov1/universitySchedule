@@ -1,16 +1,16 @@
 package com.asgarov.university.schedule.controller;
 
 import com.asgarov.university.schedule.Runner;
+import com.asgarov.university.schedule.domain.Student;
 import com.asgarov.university.schedule.domain.dto.ScheduleRequestDTO;
-import org.junit.jupiter.api.BeforeAll;
+import com.asgarov.university.schedule.service.StudentService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.support.FormattingConversionService;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -20,9 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-@ContextConfiguration(classes = {Runner.class})
-@ExtendWith(SpringExtension.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringJUnitWebConfig(classes = {Runner.class})
+@SpringBootTest
 class ScheduleControllerTest {
 
     private MockMvc mockMvc;
@@ -32,7 +31,10 @@ class ScheduleControllerTest {
     @Autowired
     private ScheduleController scheduleController;
 
-    @BeforeAll
+    @Autowired
+    StudentService studentService;
+
+    @BeforeEach
     void setup() {
         FormattingConversionService conversionService = new FormattingConversionService();
         conversionService.addConverter(new StringToScheduleRequestDTOConverter());
@@ -54,8 +56,10 @@ class ScheduleControllerTest {
 
     @Test
     public void showScheduleShouldWork() throws Exception {
+        Student student = studentService.findAll().get(0);
+
         this.mockMvc.perform(get(SCHEDULE_PATH + "/showSchedule")
-                .param("scheduleRequestDTO", "1,STUDENT,2020-04-01,2020-04-10"))
+                .param("scheduleRequestDTO", student.getId() + ",STUDENT,2020-04-01,2020-04-29"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("schedule"));

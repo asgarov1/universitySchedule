@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class ProfessorService extends AbstractService<Professor, Long> {
 
-    private ProfessorRepository professorRepository;
+    private final ProfessorRepository professorRepository;
 
     public ProfessorService(final ProfessorRepository professorRepository) {
         super(professorRepository);

@@ -13,24 +13,6 @@ import java.util.Random;
 @Component
 public class DataGenerator implements CommandLineRunner {
 
-//    private final ProfessorService professorService;
-//    private final LectureService lectureService;
-//    private final StudentService studentService;
-//    private final RoomService roomService;
-//    private final CourseService courseService;
-//
-//    public DataGenerator(
-//            final ProfessorService professorService,
-//            final LectureService lectureService,
-//            final StudentService studentService,
-//            final RoomService roomService, final CourseService courseService) {
-//        this.professorService = professorService;
-//        this.lectureService = lectureService;
-//        this.studentService = studentService;
-//        this.roomService = roomService;
-//        this.courseService = courseService;
-//    }
-
     private final ProfessorRepository professorService;
     private final LectureRepository lectureService;
     private final StudentRepository studentService;
@@ -80,7 +62,7 @@ public class DataGenerator implements CommandLineRunner {
             }
 
             int numberOfLecturesPerCourse = 12;
-            course.setLectures(generateLectures(numberOfLecturesPerCourse, course));
+            course.setLectures(generateLectures(numberOfLecturesPerCourse));
             course.setProfessor(getRandomProfessor());
             courses.add(course);
         }
@@ -92,10 +74,10 @@ public class DataGenerator implements CommandLineRunner {
         return professors.get(new Random().nextInt(professors.size() - 1));
     }
 
-    private List<Lecture> generateLectures(int amount, Course course) {
+    private List<Lecture> generateLectures(int amount) {
         List<Lecture> lectures = new ArrayList<>(amount);
         for (int i = 0; i < amount; i++) {
-            lectures.add(new Lecture(getRandomDateTime(), getRandomRoom(), course));
+            lectures.add(new Lecture(getRandomDateTime(), getRandomRoom()));
         }
         lectureService.saveAll(lectures);
         return lectures;

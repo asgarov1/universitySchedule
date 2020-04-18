@@ -19,12 +19,12 @@ public class StudentServiceTest {
     @Test
     void createShouldWork() {
         Student student = new Student("John", "Maximilianov", Student.Degree.MASTER);
+        student.setId(1L);
         when(studentService.create(student)).thenReturn(student);
-        Long studentId = studentService.create(student).getId();
-        student.setId(studentId);
+        studentService.create(student);
 
         when(studentService.findById(anyLong())).thenReturn(student);
-        Student actual = studentService.findById(studentId);
+        Student actual = studentService.findById(student.getId());
         assertEquals(student, actual);
         verify(studentService, times(1)).findById(anyLong());
     }
@@ -77,7 +77,8 @@ public class StudentServiceTest {
 
         doAnswer(iom -> {
             students.add(student);
-            return 1L;
+            student.setId(1L);
+            return student;
         }).when(studentService).create(student);
         Long studentId = studentService.create(student).getId();
 

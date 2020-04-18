@@ -1,15 +1,17 @@
 package com.asgarov.university.schedule.controller;
 
 import com.asgarov.university.schedule.Runner;
-import org.junit.jupiter.api.BeforeAll;
+import com.asgarov.university.schedule.domain.Course;
+import com.asgarov.university.schedule.domain.Student;
+import com.asgarov.university.schedule.service.CourseService;
+import com.asgarov.university.schedule.service.StudentService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -20,19 +22,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-@ContextConfiguration(classes = {Runner.class})
-@ExtendWith(SpringExtension.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringJUnitWebConfig(classes = {Runner.class})
+@SpringBootTest
 class CourseControllerTest {
 
     private static final String COURSE_PATH = "/course";
 
-    MockMvc mockMvc;
-
     @Autowired
     CourseController courseController;
 
-    @BeforeAll
+    @Autowired
+    StudentService studentService;
+
+    @Autowired
+    CourseService courseService;
+
+    MockMvc mockMvc;
+
+    @BeforeEach
     void setup() {
         FormattingConversionService conversionService = new FormattingConversionService();
         conversionService.addConverter(new StringToLectureDTOConverter());
@@ -62,10 +69,11 @@ class CourseControllerTest {
     @Test
     public void registerStudentShouldWork() throws Exception {
         String courseId = "1";
-        String studentId = "4";
+        Student student = new Student("John", "Michaelson", Student.Degree.DOCTORATE);
+        studentService.create(student);
 
         this.mockMvc.perform(post(COURSE_PATH + "/" + courseId + "/registerStudent")
-                .param("studentId", studentId))
+                .param("studentId", student.getId().toString()))
                 .andDo(print())
                 .andExpect(status().isFound())
                 .andExpect(view().name("redirect:/course/" + courseId + "/students"));
@@ -141,8 +149,9 @@ class CourseControllerTest {
 
     @Test
     public void removeStudentFromCourseShouldWork() throws Exception {
-        String courseId = "1";
-        String studentId = "1";
+        Course course = courseService.findAll().get(0);
+        String courseId = course.getId().toString();
+        String studentId = course.getRegisteredStudents().get(0).getId().toString();
 
         this.mockMvc.perform(delete(COURSE_PATH + "/" + courseId + "/students/" + studentId))
                 .andDo(print())

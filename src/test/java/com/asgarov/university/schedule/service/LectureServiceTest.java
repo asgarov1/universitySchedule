@@ -1,7 +1,6 @@
 package com.asgarov.university.schedule.service;
 
 import com.asgarov.university.schedule.domain.Lecture;
-import com.asgarov.university.schedule.repository.LectureRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,6 @@ public class LectureServiceTest {
 
     @Autowired
     LectureService lectureService;
-
-    @Autowired
-    LectureRepository lectureRepository;
 
     @Autowired
     RoomService roomService;

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public class StudentService extends AbstractService<Student, Long> {
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     public StudentService(final StudentRepository studentRepository) {
         super(studentRepository);

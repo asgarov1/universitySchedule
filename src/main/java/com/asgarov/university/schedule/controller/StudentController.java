@@ -65,5 +65,4 @@ public class StudentController {
     public Degree[] degree() {
         return Degree.values();
     }
-
 }

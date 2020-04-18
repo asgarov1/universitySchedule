@@ -43,9 +43,6 @@ public class LectureService extends AbstractService<Lecture, Long> {
     }
 
     public void delete(Lecture lecture){
-        lectureRepository
-
-
-                .delete(lecture);
+        lectureRepository.delete(lecture);
     }
 }

@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 @Entity
 public class Lecture {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Basic
@@ -21,12 +21,6 @@ public class Lecture {
     public Lecture(LocalDateTime dateTime, Room room) {
         this.dateTime = dateTime;
         this.room = room;
-    }
-
-    public Lecture(LocalDateTime dateTime, Room room, Course course) {
-        this.dateTime = dateTime;
-        this.room = room;
-//        this.course = course;
     }
 
     public LocalDateTime getDateTime() {

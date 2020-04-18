@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class CourseService extends AbstractService<Course, Long> {
@@ -31,21 +29,8 @@ public class CourseService extends AbstractService<Course, Long> {
         update(course);
     }
 
-    public List<Course> findStudentsCourses(final Student student) {
-        return courseRepository.findAll().stream()
-                .filter(course -> studentHasCourse(student, course))
-                .collect(Collectors.toList());
-    }
-
-
     public List<Course> findProfessorsCourses(final Professor professor) {
-        return courseRepository.findAll().stream()
-                .filter(course -> Objects.equals(course.getProfessor(), professor))
-                .collect(Collectors.toList());
-    }
-
-    public boolean studentHasCourse(Student student, Course course) {
-        return course.getRegisteredStudents().contains(student);
+        return courseRepository.findAllByProfessor(professor);
     }
 
     public List<Student> getNotRegisteredStudents(Course course) {
@@ -75,7 +60,6 @@ public class CourseService extends AbstractService<Course, Long> {
     public void removeLecture(Long courseId, Long lectureId) {
         Course course = findById(courseId);
         course.removeLecture(lectureService.findById(lectureId));
-        lectureService.deleteById(lectureId);
         update(course);
     }
 
@@ -83,8 +67,12 @@ public class CourseService extends AbstractService<Course, Long> {
         return courseRepository.findAll();
     }
 
-    public Course findByLectureId(Long lectureId){
+    public Course findByLectureId(Long lectureId) {
         Lecture lecture = lectureService.findById(lectureId);
         return courseRepository.findByLecturesContaining(lecture).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public List<Course> findStudentsCourses(Student student) {
+        return courseRepository.findByRegisteredStudentsContains(student);
     }
 }
